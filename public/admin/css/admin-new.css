@@ -1,0 +1,822 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+        } */
+
+@font-face {
+    font-family: 'stolzllight';
+    src: url('../fonts/stolzl_light-webfont.woff2') format('woff2'), url('../fonts/stolzl_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'stolzlbook';
+    src: url('../fonts/stolzl_book-webfont.woff2') format('woff2'), url('../fonts/stolzl_book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*-------12-05-2022-------------*/
+
+.dashboard-page .info-box {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .03) !important;
+    display: block;
+    text-align: center;
+    padding: 20px 0px;
+}
+
+.dashboard-page .info-box .info-box-icon {
+    border-radius: 50%;
+    font-size: 1.875rem;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    /* background: none !important; */
+    box-shadow: none !important;
+    border: #fff 2px solid;
+    line-height: 70px;
+}
+
+.dashboard-page .info-box .info-box-icon svg {
+    width: 40px;
+    height: auto;
+}
+
+.dashboard-page .info-box .info-box-icon svg path {
+    stroke: #fff;
+}
+
+.dashboard-page .info-box .info-box-number {
+    font-size: 28px;
+    color: #a8aeff;
+}
+
+.dashboard-page .info-box .info-box-text,
+.info-box .progress-description {
+    color: #a8aeff;
+}
+
+.content-wrapper>.content {
+    padding: 0px 20px;
+}
+
+.content-header {
+    padding: 15px 20px;
+}
+
+.layout-fixed .main-sidebar {
+    background: #a8aeff;
+}
+
+[class*=sidebar-dark-] .sidebar a {
+    color: #fff;
+    font-weight: 400;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background: rgba(255, 255, 255, .1);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .03) !important;
+    border-radius: 16px;
+}
+
+[class*=sidebar-dark-] .nav-sidebar>.nav-item.menu-open>.nav-link,
+[class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link,
+[class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus {
+    background: rgba(255, 255, 255, .1);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .03) !important;
+    border-radius: 16px;
+}
+
+.nav-sidebar .nav-item>.nav-link {
+    margin-bottom: .3rem;
+    padding: .5rem 1rem;
+}
+
+.user-panel img {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .03) !important;
+}
+
+[class*=sidebar-dark] .brand-link {
+    border-bottom: 1px solid rgba(255, 255, 255, .5);
+    text-align: center;
+}
+
+[class*=sidebar-dark] .user-panel {
+    border-bottom: 1px solid rgba(255, 255, 255, .5);
+}
+
+.brand-link .brand-image {
+    float: none !important;
+    width: auto !important;
+    opacity: 1 !important;
+    max-height: 73px;
+}
+
+.brand-link.smail {
+    display: none;
+}
+
+.brand-link.smail img {
+    width: 50px !important;
+    margin-left: 3px;
+}
+
+.sidebar-mini.sidebar-collapse .main-sidebar .brand-link.big {
+    display: none;
+}
+
+.sidebar-mini.sidebar-collapse .main-sidebar .brand-link.smail {
+    display: block;
+}
+
+.table:not(.table-dark) {
+    width: 100% !important;
+}
+
+.table:not(.table-dark) tr td {
+    min-width: 150px !important;
+    vertical-align: middle;
+}
+
+.table:not(.table-dark) tr td .btn-primary {
+    font-size: 15px;
+    width: 70px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 5px;
+}
+
+.table:not(.table-dark) tr td.sorting_1 {
+    min-width: 100px !important;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+    top: 36%;
+    left: 5px;
+    background-color: #a8aeff;
+}
+
+.input-group>.custom-file {
+    width: 100%;
+    flex: auto;
+}
+
+.input-group .profile-img {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin-top: 20px;
+    border-radius: 15px;
+}
+
+table.table-bordered.dataTable td .btn {
+    margin: 5px;
+}
+
+.btn-primary {
+    background: transparent linear-gradient(0deg, #17a2b8 0%, #a8aeff 100%) 0% 0% no-repeat padding-box;
+    border: #a8aeff 0px solid;
+    font-size: 16px;
+    padding: 0px;
+    font-weight: 400;
+    border-radius: 8px;
+    width: 120px;
+    text-align: center;
+    height: 48px;
+    line-height: 44px;
+}
+
+.btn-primary:hover {
+    background: transparent linear-gradient(0deg, #a8aeff 0%, #17a2b8 100%) 0% 0% no-repeat padding-box;
+    ;
+    border-color: #f54748;
+}
+
+.card-primary .form-group .btn-default {
+    font-size: 16px;
+    padding: 0px;
+    font-weight: 400;
+    border-radius: 8px;
+    width: 120px;
+    text-align: center;
+    height: 46px;
+    line-height: 44px;
+    margin-left: 10px;
+    border: 1.5px #000 solid;
+    color: #000;
+    background: none;
+}
+
+.card-primary .form-group .btn-default:hover {
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+}
+
+.card-primary .form-group .note-btn-group .btn-default {
+    font-size: 13px;
+    padding: .28rem .65rem;
+    font-weight: 400;
+    border-radius: 0px;
+    width: auto;
+    text-align: center;
+    height: auto;
+    line-height: normal;
+    margin-left: 0px
+}
+
+.content-header .bg-gradient-primary {
+    background: transparent linear-gradient(0deg, #17a2b8 0%, #a8aeff 100%) 0% 0% no-repeat padding-box !important;
+    border: #17a2b8 0px solid;
+}
+
+.content-header .bg-gradient-primary:hover {
+    background: transparent linear-gradient(0deg, #a8aeff 0%, #17a2b8 100%) 0% 0% no-repeat padding-box !important;
+    border-color: #a8aeff !important;
+}
+
+.invoice-col-img,
+.pro-img {
+    width: 50px;
+    margin-right: 25px;
+    float: left;
+}
+
+.pro-info-txt {
+    width: calc(100% - 130px);
+    display: inline-block;
+}
+
+.pro-info-txt b {
+    font-size: 21px;
+    padding-top: 6px;
+    display: inline-block;
+}
+
+.pro-img img,
+.invoice-col-img img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2) !important;
+    float: left;
+    border: rgba(0, 0, 0, .2) 1px solid;
+}
+
+.box-shadow {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .03) !important;
+}
+
+.pad20 {
+    padding: 20px;
+}
+
+.invoice-col {
+    margin-top: 20px;
+}
+
+.modal-main {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-main {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-main h4 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.modal-main p {
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.modal-main .close {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    font-size: 30px;
+}
+
+.modal-main .btn {
+    width: 80px;
+    margin: 0px 5px;
+    height: 40px;
+}
+
+.modal-main .btn.btn-danger {
+    background: transparent linear-gradient(0deg, #17a2b8 0%, #a8aeff 100%) 0% 0% no-repeat padding-box !important;
+    border: #a8aeff 0px solid;
+}
+
+.modal-main .btn.btn-danger:hover {
+    background: transparent linear-gradient(0deg, #a8aeff 0%, #17a2b8 100%) 0% 0% no-repeat padding-box !important;
+    border-color: #f54748 !important;
+}
+
+.modal-main .btn-default {
+    border: 1.5px #000 solid;
+    color: #000;
+    background: none;
+}
+
+.modal-main .btn-default:hover {
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+}
+
+.modal-main label {
+    text-align: left;
+    width: 100%;
+}
+
+.content-header .back-ic {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.orderdetail-cont h5 {
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.invoice-info td {
+    text-align: right;
+}
+
+.card .nav-tabs .nav-link {
+    color: #a8aeff;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #fff;
+    opacity: 1;
+}
+
+.excel-pdf-btn .dt-buttons {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.excel-pdf-btn .btn-secondary {
+    background: none !important;
+    border: none !important;
+}
+
+.excel-pdf-btn .dt-buttons .btn-primary,
+.excel-pdf-btn .dt-buttons .btn-success {
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
+    width: 120px;
+    border-radius: 8px;
+    background: transparent linear-gradient(0deg, #17a2b8 0%, #a8aeff 100%) 0% 0% no-repeat padding-box !important;
+    border: #a8aeff 0px solid;
+}
+
+.excel-pdf-btn .dt-buttons .btn-primary:hover,
+.excel-pdf-btn .dt-buttons .btn-success:hover {
+    background: transparent linear-gradient(0deg, #a8aeff 0%, #17a2b8 100%) 0% 0% no-repeat padding-box !important;
+    border-color: #f54748 !important;
+}
+
+.global-container input {
+    color: #1f272e !important;
+}
+
+.global-container input:focus {
+    color: #1f272e !important;
+}
+
+.global-container input:-internal-autofill-selected {
+    color: #1f272e !important;
+}
+
+.global-container input:-webkit-autofill,
+.global-container input:-webkit-autofill:hover,
+.global-container input:-webkit-autofill:focus {
+    background: none !important;
+    border: 1px solid #e4e4e4;
+    font-size: 17px !important;
+    color: #1f272e !important;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #a8aeff !important;
+    border-color: #a8aeff !important;
+}
+
+.error {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+label {
+    font-weight: normal !important;
+}
+
+.layout-fixed .main-sidebar nav {
+    padding-bottom: 50px;
+}
+
+.form-group label {
+    width: 100%;
+}
+
+.edit-file {
+    float: left;
+    width: calc(100% - 80px);
+    margin-right: 15px;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    float: left;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.plus-ic .form-control {
+    width: calc(100% - 50px);
+    float: left;
+    margin: 0px 0px 0px;
+}
+
+.plus-ic div {
+    margin: 0px 0px 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.plus-ic .add_button {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+    border: #a8aeff 2px solid;
+    background-color: #a8aeff;
+    border-radius: 5px;
+    float: right;
+    text-align: center;
+}
+
+.plus-ic .remove_button {
+    width: 36px;
+    height: 36px;
+    padding: 5px 4px 4px;
+    border: #a8aeff 2px solid;
+    background-color: #a8aeff;
+    float: right;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.plus-ic .add_button svg,
+.plus-ic .remove_button svg {
+    width: 20px !important;
+}
+
+.error {
+    width: 100%;
+    display: inline-block;
+}
+
+
+/*-------30-095-2022-------------*/
+
+#change_password_form .field-icon.password-eye {
+    top: 42px;
+    position: absolute;
+    right: 15px;
+}
+
+table.dataTable tbody tr td:first-child,
+table.dataTable tbody tr th:first-child {
+    min-width: 100% !important;
+    width: 30px !important;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
+    padding-left: 35px;
+}
+
+.pro-info-cont .invoice-colb {
+    font-size: 18px;
+}
+
+.pro-main-info .profile-img {
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.sport .profile-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 0px;
+}
+
+.page-link {
+    color: #a8aeff !important;
+}
+
+/*---------------02-11-22------------*/
+
+.db1 {
+    background: rgb(254, 236, 190);
+    background: linear-gradient(97deg, rgba(254, 236, 190, 1) 0%, rgba(238, 70, 103, 1) 100%);
+}
+
+.db2 {
+    background: rgb(208, 202, 92);
+    background: linear-gradient(97deg, rgba(208, 202, 92, 1) 0%, rgba(253, 84, 45, 1) 100%);
+}
+
+.db3 {
+    background: rgb(84, 127, 195);
+    background: linear-gradient(97deg, rgba(84, 127, 195, 1) 0%, rgba(86, 111, 230, 1) 100%);
+}
+
+.db4 {
+    background: rgb(234, 207, 66);
+    background: linear-gradient(97deg, rgba(234, 207, 66, 1) 0%, rgba(33, 162, 131, 1) 100%);
+}
+
+.db5 {
+    background: rgb(37, 195, 220);
+    background: linear-gradient(97deg, rgba(37, 195, 220, 1) 0%, rgba(81, 76, 158, 1) 100%);
+}
+
+.db6 {
+    background: rgb(58, 95, 114);
+    background: linear-gradient(97deg, rgba(58, 95, 114, 1) 0%, rgba(23, 36, 44, 1) 100%);
+}
+
+.db7 {
+    background: rgb(253, 181, 43);
+    background: linear-gradient(97deg, rgba(253, 181, 43, 1) 0%, rgba(220, 31, 53, 1) 100%);
+}
+
+
+
+
+/*------------------responsive css-------------------------*/
+
+@media only screen and (max-width: 2560px) {}
+
+@media only screen and (max-width: 1920px) {}
+
+@media only screen and (max-width: 1600px) {}
+
+@media only screen and (max-width: 1500px) {}
+
+@media only screen and (max-width: 1336px) {}
+
+@media only screen and (max-width: 1180px) {}
+
+@media only screen and (max-width: 991px) {
+    .main-header {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .main-header ul {
+        display: inline-block;
+    }
+}
+
+@media only screen and (max-width: 768px) {}
+
+@media only screen and (max-width: 767px) {}
+
+@media only screen and (max-width: 570px) {}
+
+@media only screen and (max-width: 425px) {
+    .pro-info-txt {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .pro-img img,
+    .invoice-col-img {
+        width: 100%;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .pro-img img,
+    .invoice-col-img img {
+        float: none;
+        display: inline-block;
+    }
+}
+
+@media only screen and (max-width: 420px) {}
+
+@media only screen and (max-width: 380px) {
+    .btn-primary {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .card-primary .form-group .btn-default {
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    .excel-pdf-btn .dt-buttons .btn-primary,
+    .excel-pdf-btn .dt-buttons .btn-success {
+        width: 80px;
+        font-size: 12px;
+        margin: 0px;
+    }
+}
+
+@media only screen and (max-width: 320px) {}
+
+.custom-file span.pip .icon-remove {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    background: #f00;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+.custom-file span.pip .icon-remove svg {
+    width: 9px;
+}
+
+span.pip {
+    position: relative;
+    border: #ddd 1px solid;
+    display: inline-block;
+    margin: 15px 10px 25px;
+    height: 80px;
+    width: 80px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+span.pip img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+table tr td p{
+    margin-bottom: 0px !important;
+ }
+
+div#imagePreviewModel .modal-dialog {
+    width: 90%;
+    margin:auto;
+    max-width: fit-content;
+}
+div#imagePreviewModel .modal-header {
+    position: relative;
+    padding: 0px;
+    border: 0px;
+}
+div#imagePreviewModel .modal-body {
+    padding: 0px;
+}
+div#imagePreviewModel .modal-header .close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 20px;
+    z-index: 99;
+    color: #0000009e;
+    background: #fff;
+    margin: 0;
+    padding: 0px 5px;
+    border-radius: 50%;
+}
+.imagepreviewdiv {
+    width: 100%;
+}
+.imagepreviewdiv img {
+    width: 100%;
+}
+
+span.pip .icon-image {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    background: #f00;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+span.pip .icon-image svg {
+    width: 9px;
+}
+
+
+span.pip {
+    position: relative;
+    margin: 20px 20px 0px 0px;
+    height: 60px;
+    width: 60px;
+    display: inline-block;
+}
+
+span.pip img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0px !important;
+}
+
+.custom-file span.pip .icon-remove {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    background: #f00;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+.custom-file span.pip .icon-remove svg {
+    width: 9px;
+}
+
+span.pip .icon {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    background: #f00;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+span.pip .icon svg {
+    width: 9px;
+}
+
+span.pip .icon-remove {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    background: #f00;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+span.pip .icon-remove svg {
+    width: 9px;
+}

@@ -92,7 +92,6 @@ return new class extends Migration
             $table->date('clearing_date')->nullable();
             $table->date('return_date')->nullable();
             $table->string('receiver_name')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

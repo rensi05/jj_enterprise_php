@@ -36,25 +36,12 @@ class ItemController extends Controller {
 
     public function Saveitem(Request $request) {
         $rules = array(
-            'customer_id' => 'nullable|integer',
+            'customer_id' => 'required',
             'item_name' => 'required|min:2|max:200',
-            'category_1' => 'nullable|string|max:200',
-            'category_2' => 'nullable|string|max:200',
-            'category_3' => 'nullable|string|max:200',
-            'quantity' => 'nullable|integer',
-            'unit' => 'nullable|string|max:50',
-            'remarks' => 'nullable|string',
-            'order_date' => 'nullable|date',
-            'delivery_date' => 'nullable|date',
-            'close_date' => 'nullable|date',
-            'location' => 'nullable|string|max:255',
-            'order_no' => 'nullable|string|max:100',
-            'vehicle_no' => 'nullable|string|max:100',
-            'bill_no' => 'nullable|string|max:100',
-            'order_type' => 'nullable|string|max:100',
         );
 
         $messages = array(
+            'customer_id.required' => 'Please select customer',
             'item_name.required' => 'Please enter item name',
             'item_name.min' => 'Item name should be minimum :min characters',
             'item_name.max' => 'Item name should be between 2 to 200 characters',
@@ -105,25 +92,12 @@ class ItemController extends Controller {
 
     public function UpdateItem(Request $request) {
         $rules = array(
-            'customer_id' => 'nullable|integer',
+            'customer_id' => 'required',
             'item_name' => 'required|min:2|max:200',
-            'category_1' => 'nullable|string|max:200',
-            'category_2' => 'nullable|string|max:200',
-            'category_3' => 'nullable|string|max:200',
-            'quantity' => 'nullable|integer',
-            'unit' => 'nullable|string|max:50',
-            'remarks' => 'nullable|string',
-            'order_date' => 'nullable|date',
-            'delivery_date' => 'nullable|date',
-            'close_date' => 'nullable|date',
-            'location' => 'nullable|string|max:255',
-            'order_no' => 'nullable|string|max:100',
-            'vehicle_no' => 'nullable|string|max:100',
-            'bill_no' => 'nullable|string|max:100',
-            'order_type' => 'nullable|string|max:100',
         );
 
         $messages = array(
+            'customer_id.required' => 'Please select customer',
             'item_name.required' => 'Please enter item name',
             'item_name.min' => 'Item name should be minimum :min characters',
             'item_name.max' => 'Item name should be between 2 to 200 characters',

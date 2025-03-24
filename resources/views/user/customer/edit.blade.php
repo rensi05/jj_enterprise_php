@@ -29,7 +29,7 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Customer Name *</label>
-                                        <input type="text" class="form-control" name="customer_name" value="{{ $customer_detail->customer_name }}" required>
+                                        <input type="text" class="form-control" name="customer_name" value="{{ $customer_detail->customer_name }}" placeholder="Enter Customer Name">
                                         @error('customer_name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -39,35 +39,35 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Location</label>
-                                        <input type="text" class="form-control" name="location" value="{{ $customer_detail->location }}">
+                                        <input type="text" class="form-control" name="location" value="{{ $customer_detail->location }}" placeholder="Enter Location">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Country</label>
-                                        <input type="text" class="form-control" name="country" value="{{ $customer_detail->country }}">
+                                        <input type="text" class="form-control" name="country" value="{{ $customer_detail->country }}" placeholder="Enter Country">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>State</label>
-                                        <input type="text" class="form-control" name="state" value="{{ $customer_detail->state }}">
+                                        <input type="text" class="form-control" name="state" value="{{ $customer_detail->state }}" placeholder="Enter State">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Type</label>
-                                        <input type="text" class="form-control" name="type" value="{{ $customer_detail->type }}">
+                                        <input type="text" class="form-control" name="type" value="{{ $customer_detail->type }}" placeholder="Enter Type">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>GST No</label>
-                                        <input type="text" class="form-control" name="gst_no" value="{{ $customer_detail->gst_no }}">
+                                        <input type="text" class="form-control" name="gst_no" value="{{ $customer_detail->gst_no }}" placeholder="Enter GST No">
                                     </div>
                                 </div>
 

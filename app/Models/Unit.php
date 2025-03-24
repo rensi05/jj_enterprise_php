@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
 class Unit extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table = 'unit_masters'; 
 
      public static function UnitModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
@@ -25,6 +26,7 @@ class Unit extends Model
                 }
             }
         }
+        $data->whereNull('deleted_at');
 
         if ($request['search']['value'] != '') {
             $data->where(function($query) use ($request, $datatable_fields) {

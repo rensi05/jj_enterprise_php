@@ -37,6 +37,23 @@ class OrderController extends Controller {
     }
 
     public function Saveorder(Request $request) {
+        $rules = array(
+            'customer_id' => 'required',
+            'item_id' => 'required',
+        );
+
+        $messages = array(
+            'customer_id.required' => 'Please select customer',
+            'item_id.required' => 'Please select item',
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
+        }
+        
         $timestamp = strtotime(date('Y-m-d H:i:s'));
         $six_digit_random_number = substr($timestamp, strlen($timestamp) - 6, strlen($timestamp));
         $order_no = 'ORD-' . $six_digit_random_number;
@@ -75,6 +92,23 @@ class OrderController extends Controller {
     }
 
     public function UpdateOrder(Request $request) {
+        $rules = array(
+            'customer_id' => 'required',
+            'item_id' => 'required',
+        );
+
+        $messages = array(
+            'customer_id.required' => 'Please select customer',
+            'item_id.required' => 'Please select item',
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
+        }
+        
         $edit_order = Order::find(base64_decode($request->order_id));
 
         if (!$edit_order) {

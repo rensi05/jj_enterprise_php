@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Customer Name *</label>
+                                        <label>Customer Name*</label>
                                         <input type="text" class="form-control" name="customer_name" placeholder="Enter Customer Name">
                                     </div>
                                 </div>

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
-class Item extends Model
+class CheckBook extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'items'; 
+    protected $table = 'cheque_books'; 
 
-     public static function ItemModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
+     public static function CheckBookModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
         DB::enableQueryLog();
         $output = array();
         $data = DB::table($table_name)

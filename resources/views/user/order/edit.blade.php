@@ -51,40 +51,64 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Order Type</label>
+                                        <input type="text" class="form-control" name="order_type" value="{{ $order_detail->order_type }}" placeholder="Enter Order Type" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input type="text" class="form-control" name="location" value="{{ $order_detail->location }}" placeholder="Enter Location" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Bill No</label>
+                                        <input type="text" class="form-control" name="bill_no" value="{{ $order_detail->bill_no }}" placeholder="Enter Bill No" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Vehicle No</label>
+                                        <input type="text" class="form-control" name="vehicle_no" value="{{ $order_detail->vehicle_no }}" placeholder="Enter Vehicle No" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" name="address" value="{{ $order_detail->address }}" placeholder="Enter Address" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="number" class="form-control" name="quantity" value="{{ $order_detail->quantity }}" placeholder="Enter Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>Unit</label>
+                                        <input type="text" class="form-control" name="unit" value="{{ $order_detail->unit }}" placeholder="Enter Unit" />
+                                    </div>
+                                </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 1</label>
-                                        <input type="text" class="form-control" name="category_1" value="{{ $order_detail->category_1 }}" />
+                                        <input type="text" class="form-control" name="category_1" value="{{ $order_detail->category_1 }}" placeholder="Enter Category 1" />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 2</label>
-                                        <input type="text" class="form-control" name="category_2" value="{{ $order_detail->category_2 }}" />
+                                        <input type="text" class="form-control" name="category_2" value="{{ $order_detail->category_2 }}" placeholder="Enter Category 2" />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 3</label>
-                                        <input type="text" class="form-control" name="category_3" value="{{ $order_detail->category_3 }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input type="number" class="form-control" name="quantity" value="{{ $order_detail->quantity }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label>Unit</label>
-                                        <input type="text" class="form-control" name="unit" value="{{ $order_detail->unit }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea class="form-control" name="remarks">{{ $order_detail->remarks }}</textarea>
+                                        <input type="text" class="form-control" name="category_3" value="{{ $order_detail->category_3 }}" placeholder="Enter Category 3" />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -105,28 +129,10 @@
                                         <input type="date" class="form-control" name="close_date" value="{{ $order_detail->close_date }}" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Location</label>
-                                        <input type="text" class="form-control" name="location" value="{{ $order_detail->location }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Vehicle No</label>
-                                        <input type="text" class="form-control" name="vehicle_no" value="{{ $order_detail->vehicle_no }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Bill No</label>
-                                        <input type="text" class="form-control" name="bill_no" value="{{ $order_detail->bill_no }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Order Type</label>
-                                        <input type="text" class="form-control" name="order_type" value="{{ $order_detail->order_type }}" />
+                                        <label>Remarks</label>
+                                        <textarea class="form-control" name="remarks" placeholder="Enter Remarks">{{ $order_detail->remarks }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -136,6 +142,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -146,6 +153,28 @@
 @endsection
 @section('javascript')
 <script>
-    
+    jQuery("#edit_order").validate({
+        ignore: [],
+        rules: {
+            customer_id: {
+                required: true,
+            },
+            item_id: {
+                required: true,
+            },
+        },
+        messages: {
+            customer_id: {
+                required: 'Please select customer',
+            },
+            item_id: {
+                required: 'Please enter name',
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent().last());
+        }
+    });
 </script>
 @endsection

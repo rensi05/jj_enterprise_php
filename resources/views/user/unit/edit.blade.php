@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Title *</label>
+                                        <label>Name*</label>
                                         <input type="text" class="form-control" id="name" name="name" maxlength="200" value="{{$unit_detail->name}}" placeholder="Please Enter Unit Name" />
                                         @error('name')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -54,7 +54,7 @@
 @endsection
 @section('javascript')
 <script>
-    jQuery("#add_unit").validate({
+    jQuery("#edit_unit").validate({
         ignore: [],
         rules: {
             name: {

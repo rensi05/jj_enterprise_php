@@ -24,9 +24,9 @@ Route::group(['middleware' => ['auth']], function () {
     
     //Unit
     Route::get('/unit', 'UnitController@index')->name('unit');
+    Route::get('/getunit', 'UnitController@getUnit')->name('getunit');
     Route::get('/addunit', 'UnitController@addUnit')->name('addunit');
     Route::post('/saveunit', 'UnitController@saveUnit')->name('saveunit');
-    Route::get('/getunit', 'UnitController@getUnit')->name('getunit');
     Route::get('/editunit/{id}', 'UnitController@editUnit')->name('editunit');
     Route::Post('/updateunit', 'UnitController@updateUnit')->name('updateunit');
     Route::get('/unitdeletemodal/{id}', 'UnitController@unitDeleteModal')->name('unitdeletemodal');
@@ -36,9 +36,9 @@ Route::group(['middleware' => ['auth']], function () {
     
     //Item
     Route::get('/item', 'ItemController@index')->name('item');
+    Route::get('/getitem', 'ItemController@getItem')->name('getitem');
     Route::get('/additem', 'ItemController@addItem')->name('additem');
     Route::post('/saveitem', 'ItemController@saveItem')->name('saveitem');
-    Route::get('/getitem', 'ItemController@getItem')->name('getitem');
     Route::get('/edititem/{id}', 'ItemController@editItem')->name('edititem');
     Route::Post('/updateitem', 'ItemController@updateItem')->name('updateitem');
     Route::get('/itemdeletemodal/{id}', 'ItemController@itemDeleteModal')->name('itemdeletemodal');
@@ -48,9 +48,9 @@ Route::group(['middleware' => ['auth']], function () {
     
     //Order
     Route::get('/order', 'OrderController@index')->name('order');
+    Route::get('/getorder', 'OrderController@getOrder')->name('getorder');
     Route::get('/addorder', 'OrderController@addOrder')->name('addorder');
     Route::post('/saveorder', 'OrderController@saveOrder')->name('saveorder');
-    Route::get('/getorder', 'OrderController@getOrder')->name('getorder');
     Route::get('/editorder/{id}', 'OrderController@editOrder')->name('editorder');
     Route::Post('/updateorder', 'OrderController@updateOrder')->name('updateorder');
     Route::get('/orderdeletemodal/{id}', 'OrderController@orderDeleteModal')->name('orderdeletemodal');
@@ -60,13 +60,25 @@ Route::group(['middleware' => ['auth']], function () {
     
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');
+    Route::get('/getcustomer', 'CustomerController@getCustomer')->name('getcustomer');
     Route::get('/addcustomer', 'CustomerController@addCustomer')->name('addcustomer');
     Route::post('/savecustomer', 'CustomerController@saveCustomer')->name('savecustomer');
-    Route::get('/getcustomer', 'CustomerController@getCustomer')->name('getcustomer');
     Route::get('/editcustomer/{id}', 'CustomerController@editCustomer')->name('editcustomer');
     Route::Post('/updatecustomer', 'CustomerController@updateCustomer')->name('updatecustomer');
     Route::get('/customerdeletemodal/{id}', 'CustomerController@customerDeleteModal')->name('customerdeletemodal');
     Route::post('/deletecustomer', 'CustomerController@deleteCustomer')->name('deletecustomer');
     Route::get('/changecustomerstatus/{id}', 'CustomerController@changeCustomerStatus')->name('changecustomerstatus');
     Route::post('/updatecustomerstatus', 'CustomerController@updateCustomerStatus')->name('updatecustomerstatus');
+    
+    //CheckBook
+    Route::get('/checkbook', 'CheckBookController@index')->name('checkbook');
+    Route::get('/getcheckbook', 'CheckBookController@getCheckBook')->name('getcheckbook');
+    Route::get('/addcheckbook', 'CheckBookController@addCheckBook')->name('addcheckbook');
+    Route::post('/savecheckbook', 'CheckBookController@saveCheckBook')->name('savecheckbook');
+    Route::get('/editcheckbook/{id}', 'CheckBookController@editCheckBook')->name('editcheckbook');
+    Route::Post('/updatecheckbook', 'CheckBookController@updateCheckBook')->name('updatecheckbook');
+    Route::get('/checkbookdeletemodal/{id}', 'CheckBookController@checkbookDeleteModal')->name('checkbookdeletemodal');
+    Route::post('/deletecheckbook', 'CheckBookController@deleteCheckBook')->name('deletecheckbook');
+    Route::get('/changecheckbookstatus/{id}', 'CheckBookController@changeCheckBookStatus')->name('changecheckbookstatus');
+    Route::post('/updatecheckbookstatus', 'CheckBookController@updateCheckBookStatus')->name('updatecheckbookstatus');
 });

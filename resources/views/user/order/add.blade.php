@@ -32,8 +32,8 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Customer *</label>
-                                        <select class="form-control" name="customer_id" required>
+                                        <label>Customer*</label>
+                                        <select class="form-control" name="customer_id">
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
@@ -43,8 +43,8 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Item *</label>
-                                        <select class="form-control" name="item_id" required>
+                                        <label>Item*</label>
+                                        <select class="form-control" name="item_id">
                                             <option value="">Select Item</option>
                                             @foreach($items as $item)
                                                 <option value="{{ $item->id }}">{{ $item->item_name }}</option>
@@ -54,14 +54,44 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
+                                        <label>Order Type</label>
+                                        <input type="text" class="form-control" name="order_type" placeholder="Enter Order Type" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input type="text" class="form-control" name="location" placeholder="Enter Location" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Bill No</label>
+                                        <input type="text" class="form-control" name="bill_no" placeholder="Enter Bill No" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Vehicle No</label>
+                                        <input type="text" class="form-control" name="vehicle_no" placeholder="Enter Vehicle No" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
                                         <label>Address</label>
                                         <input type="text" class="form-control" name="address" placeholder="Enter Address" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-6">
+                                <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
-                                        <label>Order Type</label>
-                                        <input type="text" class="form-control" name="order_type" placeholder="Enter Order Type" />
+                                        <label>Quantity</label>
+                                        <input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>Unit</label>
+                                        <input type="text" class="form-control" name="unit" placeholder="Enter Unit" />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -82,18 +112,6 @@
                                         <input type="text" class="form-control" name="category_3" placeholder="Enter Category 3" />
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <div class="form-group">
-                                        <label>Unit</label>
-                                        <input type="text" class="form-control" name="unit" placeholder="Enter Unit" />
-                                    </div>
-                                </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Order Date</label>
@@ -112,28 +130,10 @@
                                         <input type="date" class="form-control" name="close_date" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Location</label>
-                                        <input type="text" class="form-control" name="location" placeholder="Enter Location" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Remarks</label>
                                         <textarea class="form-control" name="remarks" placeholder="Enter Remarks"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Bill No</label>
-                                        <input type="text" class="form-control" name="bill_no" placeholder="Enter Bill No" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Vehicle No</label>
-                                        <input type="text" class="form-control" name="vehicle_no" placeholder="Enter Vehicle No" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -154,6 +154,28 @@
 
 @section('javascript')
 <script>
-    
+    jQuery("#add_order").validate({
+        ignore: [],
+        rules: {
+            customer_id: {
+                required: true,
+            },
+            item_id: {
+                required: true,
+            },
+        },
+        messages: {
+            customer_id: {
+                required: 'Please select customer',
+            },
+            item_id: {
+                required: 'Please enter name',
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent().last());
+        }
+    });
 </script>
 @endsection

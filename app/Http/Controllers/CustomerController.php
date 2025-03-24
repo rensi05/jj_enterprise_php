@@ -35,11 +35,6 @@ class CustomerController extends Controller {
     public function Savecustomer(Request $request) {
         $rules = [
             'customer_name' => 'required|min:2|max:200',
-            'location' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
-            'type' => 'nullable|string|max:100',
-            'gst_no' => 'nullable|string|max:50',
         ];
 
         $messages = [
@@ -82,11 +77,6 @@ class CustomerController extends Controller {
     public function UpdateCustomer(Request $request) {
         $rules = [
             'customer_name' => 'required|min:2|max:200',
-            'location' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
-            'type' => 'nullable|string|max:100',
-            'gst_no' => 'nullable|string|max:50',
         ];
 
         $messages = [

@@ -133,54 +133,77 @@
                             </li>
                             <?php
                             $unit = '';
-                            if ($current_route == 'unit' || $current_route == 'addunit'
+                            if ($current_route == 'unit' || 
+                                    $current_route == 'addunit' || 
+                                    $current_route == 'editunit'
                             ) {
                                 $unit = 'active';
                             }
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('unit')}}" class="nav-link {{$unit}} ">
-                                    <i class="far fas fa-baseball-ball nav-icon"></i>
+                                    <i class="fa fa-balance-scale nav-icon"></i>
                                     <p>Unit Management</p>
                                 </a>
                             </li>
                             <?php
                             $customer = '';
-                            if ($current_route == 'customer' || $current_route == 'addcustomer'
+                            if ($current_route == 'customer' || 
+                                    $current_route == 'addcustomer' || 
+                                    $current_route == 'editcustomer'
                             ) {
                                 $customer = 'active';
                             }
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('customer')}}" class="nav-link {{$customer}} ">
-                                    <i class="far fas fa-baseball-ball nav-icon"></i>
+                                    <i class="fa fa-user nav-icon"></i>
                                     <p>Customer Management</p>
                                 </a>
                             </li>
                             <?php
                             $item = '';
-                            if ($current_route == 'item' || $current_route == 'additem'
+                            if ($current_route == 'item' || 
+                                    $current_route == 'additem' || 
+                                    $current_route == 'edititem'
                             ) {
                                 $item = 'active';
                             }
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('item')}}" class="nav-link {{$item}} ">
-                                    <i class="far fas fa-baseball-ball nav-icon"></i>
+                                    <i class="fa fa-box nav-icon"></i>
                                     <p>Item Management</p>
                                 </a>
                             </li>
                             <?php
                             $order = '';
-                            if ($current_route == 'order' || $current_route == 'addorder'
+                            if ($current_route == 'order' || 
+                                    $current_route == 'addorder' || 
+                                    $current_route == 'editorder'
                             ) {
                                 $order = 'active';
                             }
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('order')}}" class="nav-link {{$order}} ">
-                                    <i class="far fas fa-baseball-ball nav-icon"></i>
+                                    <i class="fa fa-shopping-basket nav-icon"></i>
                                     <p>Order Management</p>
+                                </a>
+                            </li>
+                            <?php
+                            $checkbook = '';
+                            if ($current_route == 'checkbook' || 
+                                    $current_route == 'addcheckbook' || 
+                                    $current_route == 'editcheckbook'
+                            ) {
+                                $checkbook = 'active';
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a href="{{route('checkbook')}}" class="nav-link {{$checkbook}} ">
+                                    <i class="fa fa-book nav-icon"></i>
+                                    <p>CheckBook Management</p>
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="{{ asset('public/plugins/daterangepicker/daterangepicker.css') }}">
         <!-- summernote -->
         <link rel="stylesheet" href="{{ asset('public/plugins/summernote/summernote-bs4.min.css') }}">
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('public/plugins/select2/css/select2.min.css') }}">
         <!-- Alertify -->
         <link rel="stylesheet" href="{{ asset('public/admin/css/alertify.min.css')}}">
         {{--<link rel="stylesheet" href="{{ admin/css/summernote-bs4.min.css')}}">--}}
@@ -192,6 +192,21 @@
                                 </a>
                             </li>
                             <?php
+                            $stock = '';
+                            if ($current_route == 'stock' || 
+                                    $current_route == 'addstock' || 
+                                    $current_route == 'editstock'
+                            ) {
+                                $stock = 'active';
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a href="{{route('stock')}}" class="nav-link {{$stock}} ">
+                                    <i class="fa fa-box nav-icon"></i>
+                                    <p>Stock Management</p>
+                                </a>
+                            </li>
+                            <?php
                             $checkbook = '';
                             if ($current_route == 'checkbook' || 
                                     $current_route == 'addcheckbook' || 
@@ -319,6 +334,7 @@ $.widget.bridge('uibutton', $.ui.button)
         <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <!--<script src="{{ asset('public/user/js/lightbox.js') }}"></script>-->
+        <link rel="stylesheet" href="{{ asset('public/plugins/select2/js/select2.min.js') }}">
 
 
         <!-- Image priview script -->

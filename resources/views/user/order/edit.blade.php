@@ -28,7 +28,7 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Customer</label>
-                                        <select class="form-control" name="customer_id">
+                                        <select class="form-control select2" id="customer_id" name="customer_id">
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
                                             <option value="{{ $customer->id }}" {{ $customer->id == $order_detail->customer_id ? 'selected' : '' }}>
@@ -41,10 +41,14 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Item</label>
-                                        <select class="form-control" name="item_id">
+                                        <select class="form-control select2" id="item_id" name="item_id">
                                             <option value="">Select Item</option>
                                             @foreach($items as $item)
-                                            <option value="{{ $item->id }}" {{ $item->id == $order_detail->item_id ? 'selected' : '' }}>
+                                            <option value="{{ $item->id }}"
+                                                data-category1="{{ $item->category_1 }}" 
+                                                data-category2="{{ $item->category_2 }}" 
+                                                data-category3="{{ $item->category_3 }}"
+                                                {{ $item->id == $order_detail->item_id ? 'selected' : '' }}>
                                                 {{ $item->item_name }}
                                             </option>
                                             @endforeach
@@ -152,6 +156,64 @@
 </section>
 @endsection
 @section('javascript')
+<script>
+    $(document).ready(function () {
+        $("#item_id").select2({
+            placeholder: "Select an item",
+            allowClear: true,
+            minimumResultsForSearch: 0,
+            language: {
+                noResults: function () {
+                    return "No results found";
+                }
+            }
+        });
+        $("#item_id").on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) {
+                input[0].focus();
+            }
+        });
+                
+        $("#customer_id").select2({
+            placeholder: "Select an item",
+            allowClear: true,
+            minimumResultsForSearch: 0,
+            language: {
+                noResults: function () {
+                    return "No results found";
+                }
+            }
+        });
+        $("#customer_id").on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) {
+                input[0].focus();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        function updateCategoryFields() {
+            var selectedItem = $("#item_id").find(":selected");
+
+            var category1 = selectedItem.data("category1") || "";
+            var category2 = selectedItem.data("category2") || "";
+            var category3 = selectedItem.data("category3") || "";
+
+            $("input[name='category_1']").val(category1);
+            $("input[name='category_2']").val(category2);
+            $("input[name='category_3']").val(category3);
+        }
+
+        updateCategoryFields();
+
+        $("#item_id").change(function () {
+            updateCategoryFields();
+        });
+    });
+</script>
 <script>
     jQuery("#edit_order").validate({
         ignore: [],

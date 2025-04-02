@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deletecustomer', 'CustomerController@deleteCustomer')->name('deletecustomer');
     Route::get('/changecustomerstatus/{id}', 'CustomerController@changeCustomerStatus')->name('changecustomerstatus');
     Route::post('/updatecustomerstatus', 'CustomerController@updateCustomerStatus')->name('updatecustomerstatus');
+    Route::post('importcustomer', 'CustomerController@importCustomer')->name('importcustomer');
     
     //CheckBook
     Route::get('/checkbook', 'CheckBookController@index')->name('checkbook');
@@ -81,4 +82,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deletecheckbook', 'CheckBookController@deleteCheckBook')->name('deletecheckbook');
     Route::get('/changecheckbookstatus/{id}', 'CheckBookController@changeCheckBookStatus')->name('changecheckbookstatus');
     Route::post('/updatecheckbookstatus', 'CheckBookController@updateCheckBookStatus')->name('updatecheckbookstatus');
+    
+    //Stock
+    Route::get('/stock', 'StockController@index')->name('stock');
+    Route::get('/getstock', 'StockController@getStock')->name('getstock');
+    Route::get('/addstock', 'StockController@addStock')->name('addstock');
+    Route::post('/savestock', 'StockController@saveStock')->name('savestock');
+    Route::get('/editstock/{id}', 'StockController@editStock')->name('editstock');
+    Route::Post('/updatestock', 'StockController@updateStock')->name('updatestock');
+    Route::get('/stockdeletemodal/{id}', 'StockController@stockDeleteModal')->name('stockdeletemodal');
+    Route::post('/deletestock', 'StockController@deleteStock')->name('deletestock');
+    Route::get('/changestockstatus/{id}', 'StockController@changeStockStatus')->name('changestockstatus');
+    Route::post('/updatestockstatus', 'StockController@updateStockStatus')->name('updatestockstatus');
 });

@@ -30,7 +30,7 @@ class ItemController extends Controller {
     }
 
     public function AddItem() {
-        $this->data['customers'] = Customer::where('status', 'active')->get();
+        $this->data['customers'] = Customer::where('status', 'active')->where('customer_type', 'purchase')->get();
         return view('user.item.add', $this->data);
     }
 
@@ -67,15 +67,10 @@ class ItemController extends Controller {
         $saveitems->category_3 = $request->category_3;
         $saveitems->quantity = $request->quantity;
         $saveitems->unit = $request->unit;
+        $saveitems->quantity_1 = $request->quantity_1;
+        $saveitems->unit_1 = $request->unit_1;
         $saveitems->remarks = $request->remarks;
-        $saveitems->order_date = $request->order_date;
-        $saveitems->delivery_date = $request->delivery_date;
-        $saveitems->close_date = $request->close_date;
         $saveitems->location = $request->location;
-        $saveitems->order_no = $request->order_no;
-        $saveitems->vehicle_no = $request->vehicle_no;
-        $saveitems->bill_no = $request->bill_no;
-        $saveitems->order_type = $request->order_type;
         $saveitems->save();
         return redirect()->route('item')->with('success', 'Item added successfully');
     }
@@ -86,7 +81,7 @@ class ItemController extends Controller {
             return redirect()->back()->with('error', 'Information not found');
         }
         $this->data['item_detail'] = $item_detail;
-        $this->data['customers'] = Customer::where('status', 'active')->get();
+        $this->data['customers'] = Customer::where('status', 'active')->where('customer_type', 'purchase')->get();
         return view('user.item.edit', $this->data);
     }
 
@@ -127,15 +122,10 @@ class ItemController extends Controller {
         $edit_item->category_3 = $request->category_3;
         $edit_item->quantity = $request->quantity;
         $edit_item->unit = $request->unit;
+        $edit_item->quantity_1 = $request->quantity_1;
+        $edit_item->unit_1 = $request->unit_1;
         $edit_item->remarks = $request->remarks;
-        $edit_item->order_date = $request->order_date;
-        $edit_item->delivery_date = $request->delivery_date;
-        $edit_item->close_date = $request->close_date;
         $edit_item->location = $request->location;
-        $edit_item->order_no = $request->order_no;
-        $edit_item->vehicle_no = $request->vehicle_no;
-        $edit_item->bill_no = $request->bill_no;
-        $edit_item->order_type = $request->order_type;
         $edit_item->save();
 
         return redirect()->route('item')->with('success', 'Item updated successfully');

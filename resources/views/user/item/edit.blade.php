@@ -30,7 +30,7 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Customer*</label>
-                                        <select class="form-control" name="customer_id">
+                                        <select class="form-control select2" id="customer_id" name="customer_id">
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
                                                 <option value="{{ $customer->id }}" 
@@ -49,80 +49,50 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Quantity</label>
+                                        <label>Quantity 1</label>
                                         <input type="number" class="form-control" name="quantity" value="{{ $item_detail->quantity }}" placeholder="Enter Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Unit</label>
+                                        <label>Unit 1</label>
                                         <input type="text" class="form-control" name="unit" value="{{ $item_detail->unit }}" placeholder="Enter Unit" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Order Type</label>
-                                        <input type="text" class="form-control" name="order_type" value="{{ $item_detail->order_type }}" placeholder="Enter Order Type" />
+                                        <label>Quantity 2</label>
+                                        <input type="number" class="form-control" name="quantity_1" value="{{ $item_detail->quantity_1 }}" placeholder="Enter Quantity" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Unit 2</label>
+                                        <input type="text" class="form-control" name="unit_1" value="{{ $item_detail->unit_1 }}" placeholder="Enter Unit" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Location</label>
                                         <input type="text" class="form-control" name="location" value="{{ $item_detail->location }}" placeholder="Enter Location" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Order No</label>
-                                        <input type="text" class="form-control" name="order_no" value="{{ $item_detail->order_no }}" placeholder="Enter Order No" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Vehicle No</label>
-                                        <input type="text" class="form-control" name="vehicle_no" value="{{ $item_detail->vehicle_no }}" placeholder="Enter Vehicle No" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Bill No</label>
-                                        <input type="text" class="form-control" name="bill_no" value="{{ $item_detail->bill_no }}" placeholder="Enter Bill No" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
+                                <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Category 1</label>
                                         <input type="text" class="form-control" name="category_1" value="{{ $item_detail->category_1 }}" placeholder="Enter Category 1" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-4">
+                                <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Category 2</label>
                                         <input type="text" class="form-control" name="category_2" value="{{ $item_detail->category_2 }}" placeholder="Enter Category 2" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-4">
+                                <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Category 3</label>
                                         <input type="text" class="form-control" name="category_3" value="{{ $item_detail->category_3 }}" placeholder="Enter Category 3" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Order Date</label>
-                                        <input type="date" class="form-control" name="order_date" value="{{ $item_detail->order_date }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Delivery Date</label>
-                                        <input type="date" class="form-control" name="delivery_date" value="{{ $item_detail->delivery_date }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Close Date</label>
-                                        <input type="date" class="form-control" name="close_date" value="{{ $item_detail->close_date }}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -148,6 +118,26 @@
 @endsection
 
 @section('javascript')
+<script>
+    $(document).ready(function () {                
+        $("#customer_id").select2({
+            placeholder: "Select an item",
+            allowClear: true,
+            minimumResultsForSearch: 0,
+            language: {
+                noResults: function () {
+                    return "No results found";
+                }
+            }
+        });
+        $("#customer_id").on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) {
+                input[0].focus();
+            }
+        });
+    });
+</script>
 <script>
     jQuery("#edit_item").validate({
         ignore: [],

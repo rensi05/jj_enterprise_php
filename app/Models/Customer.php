@@ -10,6 +10,18 @@ use DB;
 class Customer extends Model
 {
     use HasFactory,SoftDeletes;
+    
+    protected $fillable = [
+        'customer_type',
+        'customer_name',
+        'location',
+        'state',
+        'country',
+        'type',
+        'gst_no',
+        'status',
+    ];
+    
     protected $table = 'customers'; 
 
      public static function CustomerModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {

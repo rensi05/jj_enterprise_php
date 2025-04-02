@@ -9,6 +9,8 @@ use App\Models\Customer;
 use DB;
 use Auth;
 use App\Models\Common;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CustomerImport;
 
 class CustomerController extends Controller {
 
@@ -55,6 +57,7 @@ class CustomerController extends Controller {
         }
 
         $customer = new Customer();
+        $customer->customer_type = $request->customer_type;
         $customer->customer_name = $request->customer_name;
         $customer->location = $request->location;
         $customer->country = $request->country;
@@ -98,6 +101,7 @@ class CustomerController extends Controller {
         }
         
         $customer = Customer::find(base64_decode($request->customer_id));
+        $customer->customer_type = $request->customer_type;
         $customer->customer_name = $request->customer_name;
         $customer->location = $request->location;
         $customer->country = $request->country;
@@ -181,6 +185,27 @@ class CustomerController extends Controller {
             return response()->json(['status' => $status, 'message' => 'Something went Wrong.Please try again']);
         }
         exit;
+    }
+    
+    public function importCustomer(Request $request) {
+        $rules = [
+            'customer_file' => 'required|mimes:csv,txt,xlsx|max:2048'
+        ];
+
+        $messages = [
+            
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
+        }
+
+        Excel::import(new CustomerImport, $request->file('customer_file'));
+
+        return redirect()->route('customer')->with('success', 'Customers imported successfully!');
     }
 
 }

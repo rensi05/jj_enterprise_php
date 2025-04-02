@@ -26,6 +26,21 @@
 
                         <div class="card-body">
                             <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Customer Type*</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="customer_type" value="purchase" id="typePurchase" {{ $customer_detail->customer_type == "purchase" ? 'checked' : ''}}>
+                                                <label class="form-check-label" for="typePurchase">Purchase</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="customer_type" value="sales" id="typeSales" {{ $customer_detail->customer_type == "sales" ? 'checked' : ''}}>
+                                                <label class="form-check-label" for="typeSales">Sales</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Customer Name *</label>

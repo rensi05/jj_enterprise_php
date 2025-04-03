@@ -158,6 +158,37 @@
 @section('javascript')
 <script>
     $(document).ready(function () {
+        $("#customer_id").change(function () {
+            var customerId = $(this).val();
+            
+            if (customerId) {
+                $.ajax({
+                    url: "{{ route('getitemsbycustomer') }}",
+                    type: "GET",
+                    data: { customer_id: customerId },
+                    success: function (response) {
+                        $("#item_id").empty().append('<option value="">Select Item</option>');
+                        
+                        $.each(response, function (key, item) {
+                            $("#item_id").append(
+                                `<option value="${item.id}" 
+                                         data-category1="${item.category_1}" 
+                                         data-category2="${item.category_2}" 
+                                         data-category3="${item.category_3}">
+                                    ${item.item_name}
+                                </option>`
+                            );
+                        });
+                    }
+                });
+            } else {
+                $("#item_id").empty().append('<option value="">Select Item</option>');
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
         $("#item_id").select2({
             placeholder: "Select an item",
             allowClear: true,

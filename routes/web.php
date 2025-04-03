@@ -22,6 +22,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changepassword', 'ChangepasswordController@index')->name('changepassword');
     Route::post('/updatepassword', 'ChangepasswordController@updatepassword')->name('updatepassword');
     
+    //User
+    Route::get('/user', 'UserController@index')->name('user');
+    Route::get('/getuser', 'UserController@getUser')->name('getuser');
+    Route::get('/adduser', 'UserController@addUser')->name('adduser');
+    Route::post('/saveuser', 'UserController@saveUser')->name('saveuser');
+    Route::get('/edituser/{id}', 'UserController@editUser')->name('edituser');
+    Route::Post('/updateuser', 'UserController@updateUser')->name('updateuser');
+    Route::get('/userdeletemodal/{id}', 'UserController@userDeleteModal')->name('userdeletemodal');
+    Route::post('/deleteuser', 'UserController@deleteUser')->name('deleteuser');
+    Route::get('/changeuserstatus/{id}', 'UserController@changeUserStatus')->name('changeuserstatus');
+    Route::post('/updateuserstatus', 'UserController@updateUserStatus')->name('updateuserstatus');
+    Route::post('importuser', 'UserController@importUser')->name('importuser');
+    
     //Unit
     Route::get('/unit', 'UnitController@index')->name('unit');
     Route::get('/getunit', 'UnitController@getUnit')->name('getunit');
@@ -57,6 +70,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deleteorder', 'OrderController@deleteOrder')->name('deleteorder');
     Route::get('/changeorderstatus/{id}', 'OrderController@changeOrderStatus')->name('changeorderstatus');
     Route::post('/updateorderstatus', 'OrderController@updateOrderStatus')->name('updateorderstatus');
+    Route::get('/getitemsbycustomer', 'OrderController@getItemsByCustomer')->name('getitemsbycustomer');
     
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');

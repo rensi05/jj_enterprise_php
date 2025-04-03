@@ -167,5 +167,11 @@ class OrderController extends Controller {
         }
         exit;
     }
+    
+    public function getItemsByCustomer(Request $request) {
+        $items = Item::where('customer_id', $request->customer_id)->get();
+
+        return response()->json($items);
+    }
 
 }

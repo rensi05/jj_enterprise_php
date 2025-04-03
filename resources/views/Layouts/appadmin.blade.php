@@ -132,6 +132,21 @@
                                 </a>
                             </li>
                             <?php
+                            $user = '';
+                            if ($current_route == 'user' || 
+                                    $current_route == 'adduser' || 
+                                    $current_route == 'edituser'
+                            ) {
+                                $user = 'active';
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a href="{{route('user')}}" class="nav-link {{$user}} ">
+                                    <i class="fa fa-user nav-icon"></i>
+                                    <p>User Management</p>
+                                </a>
+                            </li>
+                            <?php
                             $unit = '';
                             if ($current_route == 'unit' || 
                                     $current_route == 'addunit' || 
@@ -142,7 +157,7 @@
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('unit')}}" class="nav-link {{$unit}} ">
-                                    <i class="fa fa-balance-scale nav-icon"></i>
+                                    <i class="fa fa-user nav-icon"></i>
                                     <p>Unit Management</p>
                                 </a>
                             </li>

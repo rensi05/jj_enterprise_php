@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deleteitem', 'ItemController@deleteItem')->name('deleteitem');
     Route::get('/changeitemstatus/{id}', 'ItemController@changeItemStatus')->name('changeitemstatus');
     Route::post('/updateitemstatus', 'ItemController@updateItemStatus')->name('updateitemstatus');
+    Route::post('importitem', 'ItemController@importItem')->name('importitem');
     
     //Order
     Route::get('/order', 'OrderController@index')->name('order');
@@ -71,6 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/changeorderstatus/{id}', 'OrderController@changeOrderStatus')->name('changeorderstatus');
     Route::post('/updateorderstatus', 'OrderController@updateOrderStatus')->name('updateorderstatus');
     Route::get('/getitemsbycustomer', 'OrderController@getItemsByCustomer')->name('getitemsbycustomer');
+    Route::post('importorder', 'OrderController@importOrder')->name('importorder');
     
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');

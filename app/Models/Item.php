@@ -9,6 +9,19 @@ use DB;
 
 class Item extends Model
 {
+    protected $fillable = [
+        'customer_id',
+        'item_name',
+        'category_1',
+        'category_2',
+        'category_3',
+        'quantity',
+        'unit',
+        'quantity_1',
+        'unit_1',
+        'remarks',
+        'location',
+    ];
     use HasFactory,SoftDeletes;
     protected $table = 'items'; 
 

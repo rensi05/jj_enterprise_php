@@ -10,6 +10,8 @@ use DB;
 use Auth;
 use App\Models\Common;
 use App\Models\Customer;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ItemImport;
 
 class ItemController extends Controller {
 
@@ -203,6 +205,27 @@ class ItemController extends Controller {
             return response()->json(['status' => $status, 'message' => 'Something went Wrong.Please try again']);
         }
         exit;
+    }
+    
+    public function importItem(Request $request) {
+        $rules = [
+            'item_file' => 'required|mimes:csv,txt,xlsx|max:2048'
+        ];
+
+        $messages = [
+            
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
+        }
+
+        Excel::import(new ItemImport, $request->file('item_file'));
+
+        return redirect()->route('item')->with('success', 'Items imported successfully!');
     }
 
 }

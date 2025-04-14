@@ -21,7 +21,7 @@ class CustomerImport implements ToModel, WithHeadingRow
 
         return new Customer([
             'customer_type' => $row['customertype'] ?? null,
-            'customer_name' => $row['companyname'] ?? null,
+            'customer_name' => $row['customer_name'] ?? null,
             'location'      => $row['location'] ?? null,
             'state'         => $row['state'] ?? null,
             'country'       => $row['country'] ?? null,

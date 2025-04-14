@@ -17,6 +17,9 @@
             <a class="" href="{{route('additem')}}" >
                 <button type="button" class="btn bg-gradient-primary" >Add Items</button>
             </a>
+            <a class="" href="javascript:void(0)" >
+                <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#importCustomersModal">Import Item</button>
+            </a>
         </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -63,6 +66,32 @@
     </div>
 </div>
 <!-- Delete Modal End -->
+<div id="importCustomersModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Import Customers</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('importitem') }}" id="itemImportForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label>Upload File</label>
+                        <input type="file" name="item_file" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ asset('public/sample/items_sample.xlsx') }}" download>Download Sample</a>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-success">Import</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Discard</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('javascript')
@@ -154,8 +183,25 @@
                 console.log("Delete AJAX error: " + textStatus + ' : ' + errorThrown);
             }
         });
-    }
+    }   
    
+    jQuery("#itemImportForm").validate({
+        ignore: [],
+        rules: {
+            item_file: {
+                required: true,
+            },
+        },
+        messages: {
+            item_file: {
+                required: 'Please select file',
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent().last());
+        }
+    });
     
 </script>
 @endsection

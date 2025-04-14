@@ -9,6 +9,19 @@ use DB;
 
 class Order extends Model
 {
+    protected $fillable = [
+        'order_no',
+        'customer_id',
+        'item_id',
+        'address',
+        'order_type',
+        'category_1',
+        'category_2',
+        'category_3',
+        'quantity',
+        'unit',
+        'order_date',
+    ];
     use HasFactory,SoftDeletes;
     protected $table = 'orders'; 
 

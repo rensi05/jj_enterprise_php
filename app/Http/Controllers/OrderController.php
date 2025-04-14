@@ -11,6 +11,8 @@ use Auth;
 use App\Models\Common;
 use App\Models\Customer;
 use App\Models\Item;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\OrderImport;
 
 class OrderController extends Controller {
 
@@ -172,6 +174,27 @@ class OrderController extends Controller {
         $items = Item::where('customer_id', $request->customer_id)->get();
 
         return response()->json($items);
+    }
+    
+    public function importOrder(Request $request) {
+        $rules = [
+            'order_file' => 'required|mimes:csv,txt,xlsx|max:2048'
+        ];
+
+        $messages = [
+            
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
+        }
+
+        Excel::import(new OrderImport, $request->file('order_file'));
+
+        return redirect()->route('order')->with('success', 'Orders imported successfully!');
     }
 
 }

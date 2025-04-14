@@ -76,11 +76,11 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('importcustomer') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('importcustomer') }}" id="customerImportForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>Upload File</label>
-                        <input type="file" name="customer_file" class="form-control" required>
+                        <input type="file" name="customer_file" class="form-control">
                     </div>
                     <div class="form-group">
                         <a href="{{ asset('public/sample/customers_sample.xlsx') }}" download>Download Sample</a>
@@ -186,6 +186,24 @@
             }
         });
     }
+   
+    jQuery("#customerImportForm").validate({
+        ignore: [],
+        rules: {
+            customer_file: {
+                required: true,
+            },
+        },
+        messages: {
+            customer_file: {
+                required: 'Please select file',
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent().last());
+        }
+    });
    
     
 </script>

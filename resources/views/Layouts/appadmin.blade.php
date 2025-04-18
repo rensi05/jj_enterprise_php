@@ -207,21 +207,6 @@
                                 </a>
                             </li>
                             <?php
-                            $stock = '';
-                            if ($current_route == 'stock' || 
-                                    $current_route == 'addstock' || 
-                                    $current_route == 'editstock'
-                            ) {
-                                $stock = 'active';
-                            }
-                            ?>
-                            <li class="nav-item">
-                                <a href="{{route('stock')}}" class="nav-link {{$stock}} ">
-                                    <i class="fa fa-box nav-icon"></i>
-                                    <p>Stock Management</p>
-                                </a>
-                            </li>
-                            <?php
                             $checkbook = '';
                             if ($current_route == 'checkbook' || 
                                     $current_route == 'addcheckbook' || 

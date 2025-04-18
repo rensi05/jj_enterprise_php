@@ -83,7 +83,7 @@
                         <input type="file" name="customer_file" class="form-control">
                     </div>
                     <div class="form-group">
-                        <a href="{{ asset('public/sample/customers_sample.xlsx') }}" download>Download Sample</a>
+                        <a href="{{ asset('public/Sample/customers_sample.xlsx') }}" download>Download Sample</a>
                     </div>
                     <div class="text-right">
                         <button type="submit" class="btn btn-success">Import</button>

@@ -1,4 +1,4 @@
-@extends('layouts.appadmin')
+@extends('Layouts.appadmin')
 @section('content')
 
 <div class="content-header">

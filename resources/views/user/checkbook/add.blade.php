@@ -51,25 +51,25 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Cheque Date *</label>
+                                        <label>Cheque Date</label>
                                         <input type="date" class="form-control" name="cheque_date">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Drop Date *</label>
+                                        <label>Drop Date</label>
                                         <input type="date" class="form-control" name="drop_date">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Clearing Date *</label>
+                                        <label>Clearing Date</label>
                                         <input type="date" class="form-control" name="clearing_date">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Return Date *</label>
+                                        <label>Return Date</label>
                                         <input type="date" class="form-control" name="return_date">
                                     </div>
                                 </div>
@@ -101,21 +101,13 @@
             rules: {
                 payee_name: {required: true, maxlength: 255},
                 cheque_number: {required: true, maxlength: 50},
-                cheque_date: {required: true, date: true},
                 amount: {required: true, number: true, min: 0},
-                drop_date: {required: true, date: true},
-                clearing_date: {required: true, date: true},
-                return_date: {required: true, date: true},
                 receiver_name: {required: true, maxlength: 255},
             },
             messages: {
                 payee_name: {required: "Payee Name is required", maxlength: "Maximum 255 characters"},
                 cheque_number: {required: "Cheque Number is required", maxlength: "Maximum 50 characters"},
-                cheque_date: {required: "Cheque Date is required"},
                 amount: {required: "Amount is required", number: "Enter a valid amount", min: "Amount cannot be negative"},
-                drop_date: {required: "Drop Date is required"},
-                clearing_date: {required: "Clearing Date is required"},
-                return_date: {required: "Return Date is required"},
                 receiver_name: {required: "Receiver Name is required", maxlength: "Maximum 255 characters"},
             },
             errorElement: "span",

@@ -55,29 +55,29 @@
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Cheque Date *</label>
-                                        <input type="date" class="form-control" name="cheque_date" value="{{$checkbook->cheque_date}}" required>
+                                        <label>Cheque Date</label>
+                                        <input type="date" class="form-control" name="cheque_date" value="{{$checkbook->cheque_date}}">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Drop Date *</label>
-                                        <input type="date" class="form-control" name="drop_date" value="{{$checkbook->drop_date}}" required>
+                                        <label>Drop Date</label>
+                                        <input type="date" class="form-control" name="drop_date" value="{{$checkbook->drop_date}}">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Clearing Date *</label>
-                                        <input type="date" class="form-control" name="clearing_date" value="{{$checkbook->clearing_date}}" required>
+                                        <label>Clearing Date</label>
+                                        <input type="date" class="form-control" name="clearing_date" value="{{$checkbook->clearing_date}}">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Return Date *</label>
-                                        <input type="date" class="form-control" name="return_date" value="{{$checkbook->return_date}}" required>
+                                        <label>Return Date</label>
+                                        <input type="date" class="form-control" name="return_date" value="{{$checkbook->return_date}}">
                                     </div>
                                 </div>
 
@@ -110,21 +110,13 @@
             rules: {
                 payee_name: {required: true},
                 cheque_number: {required: true},
-                cheque_date: {required: true},
                 amount: {required: true, number: true},
-                drop_date: {required: true},
-                clearing_date: {required: true},
-                return_date: {required: true},
                 receiver_name: {required: true}
             },
             messages: {
                 payee_name: {required: 'Please enter payee name'},
                 cheque_number: {required: 'Please enter cheque number'},
-                cheque_date: {required: 'Please enter cheque date'},
                 amount: {required: 'Please enter amount', number: 'Only numbers are allowed'},
-                drop_date: {required: 'Please enter drop date'},
-                clearing_date: {required: 'Please enter clearing date'},
-                return_date: {required: 'Please enter return date'},
                 receiver_name: {required: 'Please enter receiver name'}
             }
         });

@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/updateorderstatus', 'OrderController@updateOrderStatus')->name('updateorderstatus');
     Route::get('/getitemsbycustomer', 'OrderController@getItemsByCustomer')->name('getitemsbycustomer');
     Route::post('importorder', 'OrderController@importOrder')->name('importorder');
+    Route::get('/getitemcategories', 'OrderController@getItemCategories')->name('getitemcategories');
     
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');

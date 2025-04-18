@@ -35,38 +35,32 @@ class CheckBookController extends Controller {
     public function Savecheckbook(Request $request) {
         $rules = [
             'payee_name' => 'required|max:255',
-            'cheque_number' => 'required|max:50|unique:cheque_books,cheque_number',
-            'cheque_date' => 'required|date',
+            'cheque_number' => 'required|max:50',
             'amount' => 'required|numeric|min:0',
-            'drop_date' => 'required|date',
-            'clearing_date' => 'required|date',
-            'return_date' => 'required|date',
             'receiver_name' => 'required|string|max:255',
         ];
 
         $messages = [
             'payee_name.required' => 'Payee Name is required',
             'cheque_number.required' => 'Cheque Number is required',
-            'cheque_number.unique' => 'Cheque Number already exists',
-            'cheque_date.required' => 'Cheque Date is required',
+//            'cheque_number.unique' => 'Cheque Number already exists',
             'amount.required' => 'Amount is required',
             'amount.numeric' => 'Amount must be a valid number',
             'amount.min' => 'Amount cannot be negative',
-            'drop_date.required' => 'Drop Date is required',
-            'clearing_date.required' => 'Clearing Date is required',
-            'return_date.required' => 'Return Date is required',
             'receiver_name.required' => 'Receiver Name is required',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            foreach ($validator->messages()->getMessages() as $field_name => $messages) {
+                return redirect()->back()->with('error', $messages[0])->withInput();
+            }
         }
 
-        $existingCheque = CheckBook::where('cheque_number', $request->cheque_number)->first();
-        if ($existingCheque) {
-            return redirect()->back()->with('error', 'Cheque number already exists')->withInput();
-        }
+//        $existingCheque = CheckBook::where('cheque_number', $request->cheque_number)->first();
+//        if ($existingCheque) {
+//            return redirect()->back()->with('error', 'Cheque number already exists')->withInput();
+//        }
 
         $checkbook = new CheckBook();
         $checkbook->payee_name = $request->payee_name;
@@ -94,23 +88,15 @@ class CheckBookController extends Controller {
         $rules = [
             'payee_name' => 'required|string|max:255',
             'cheque_number' => 'required|string|max:100',
-            'cheque_date' => 'required|date',
             'amount' => 'required|numeric|min:0',
-            'drop_date' => 'required|date',
-            'clearing_date' => 'required|date',
-            'return_date' => 'required|date',
             'receiver_name' => 'required|string|max:255',
         ];
 
         $messages = [
             'payee_name.required' => 'Please enter payee name',
             'cheque_number.required' => 'Please enter cheque number',
-            'cheque_date.required' => 'Please enter cheque date',
             'amount.required' => 'Please enter amount',
             'amount.numeric' => 'Amount must be a valid number',
-            'drop_date.required' => 'Please enter drop date',
-            'clearing_date.required' => 'Please enter clearing date',
-            'return_date.required' => 'Please enter return date',
             'receiver_name.required' => 'Please enter receiver name',
         ];
 
@@ -121,10 +107,10 @@ class CheckBookController extends Controller {
             }
         }
 
-        $checkbooks = CheckBook::where('cheque_number', $request->cheque_number)->where('id', '!=', base64_decode($request->checkbook_id))->get();
-        if (!$checkbooks->isEmpty()) {
-            return redirect()->back()->with('error', 'CheckBook already exists');
-        }
+//        $checkbooks = CheckBook::where('cheque_number', $request->cheque_number)->where('id', '!=', base64_decode($request->checkbook_id))->get();
+//        if (!$checkbooks->isEmpty()) {
+//            return redirect()->back()->with('error', 'CheckBook already exists');
+//        }
 
         $checkbook = CheckBook::find(base64_decode($request->checkbook_id));
 

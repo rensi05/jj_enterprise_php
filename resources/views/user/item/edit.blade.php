@@ -29,20 +29,6 @@
                                 <!-- Customer -->
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Customer*</label>
-                                        <select class="form-control select2" id="customer_id" name="customer_id">
-                                            <option value="">Select Customer</option>
-                                            @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}" 
-                                                    {{ $item_detail->customer_id == $customer->id ? 'selected' : '' }}>
-                                                    {{ $customer->customer_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
                                         <label>Item Name*</label>
                                         <input type="text" class="form-control" name="item_name" value="{{ $item_detail->item_name }}" placeholder="Enter Item Name" />
                                     </div>
@@ -76,25 +62,33 @@
                                         <label>Location</label>
                                         <input type="text" class="form-control" name="location" value="{{ $item_detail->location }}" placeholder="Enter Location" />
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 1</label>
-                                        <input type="text" class="form-control" name="category_1" value="{{ $item_detail->category_1 }}" placeholder="Enter Category 1" />
+                                </div>                                
+                                <div class="col-lg-12">
+                                    <label>Categories</label>
+                                    <div id="category-wrapper">
+                                        @foreach($item_detail->categories as $index => $category)
+                                        <div class="row category-group mb-2">
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" name="category_1[]" value="{{ $category->category_1 }}" placeholder="Category 1">
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" name="category_2[]" value="{{ $category->category_2 }}" placeholder="Category 2">
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input type="text" class="form-control" name="category_3[]" value="{{ $category->category_3 }}" placeholder="Category 3">
+                                            </div>
+                                            <div class="col-lg-1">
+                                                @if ($index === 0)
+                                                    <button type="button" class="btn btn-success btn-sm add-category"><i class="fas fa-plus"></i></button>
+                                                @else
+                                                    <button type="button" class="btn btn-danger btn-sm remove-category"><i class="fas fa-minus"></i></button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 2</label>
-                                        <input type="text" class="form-control" name="category_2" value="{{ $item_detail->category_2 }}" placeholder="Enter Category 2" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 3</label>
-                                        <input type="text" class="form-control" name="category_3" value="{{ $item_detail->category_3 }}" placeholder="Enter Category 3" />
-                                    </div>
-                                </div>
+
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Remarks</label>
@@ -118,7 +112,7 @@
 @endsection
 
 @section('javascript')
-<script>
+<!--<script>
     $(document).ready(function () {                
         $("#customer_id").select2({
             placeholder: "Select an item",
@@ -137,14 +131,37 @@
             }
         });
     });
+</script>-->
+<script>
+$(document).ready(function () {
+    $('.add-category').click(function () {
+        $('#category-wrapper').append(`
+            <div class="row category-group mb-2">
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="category_1[]" placeholder="Category 1">
+                </div>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="category_2[]" placeholder="Category 2">
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="category_3[]" placeholder="Category 3">
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-category"><i class="fas fa-minus"></i></button>
+                </div>
+            </div>
+        `);
+    });
+
+    $(document).on('click', '.remove-category', function () {
+        $(this).closest('.category-group').remove();
+    });
+});
 </script>
 <script>
     jQuery("#edit_item").validate({
         ignore: [],
         rules: {
-            customer_id: {
-                required: true,
-            },
             item_name: {
                 required: true,
                 minlength: 2,
@@ -152,9 +169,6 @@
             },
         },
         messages: {
-            customer_id: {
-                required: 'Please select customer',
-            },
             item_name: {
                 required: 'Please enter name',
                 minlength: 'Name should be minimum 2 characters',

@@ -24,8 +24,7 @@ class OrderImport implements ToModel, WithHeadingRow
         );
 
         $item = Item::firstOrCreate(
-            ['item_name' => $row['item_name']],
-            ['customer_id' => $customer->id]
+            ['item_name' => $row['item_name']]
         );
 
         $timestamp = strtotime(date('Y-m-d H:i:s'));

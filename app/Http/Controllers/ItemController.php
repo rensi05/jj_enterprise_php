@@ -10,6 +10,7 @@ use DB;
 use Auth;
 use App\Models\Common;
 use App\Models\Customer;
+use App\Models\ItemCategory;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ItemImport;
 
@@ -38,12 +39,10 @@ class ItemController extends Controller {
 
     public function Saveitem(Request $request) {
         $rules = array(
-            'customer_id' => 'required',
             'item_name' => 'required|min:2|max:200',
         );
 
         $messages = array(
-            'customer_id.required' => 'Please select customer',
             'item_name.required' => 'Please enter item name',
             'item_name.min' => 'Item name should be minimum :min characters',
             'item_name.max' => 'Item name should be between 2 to 200 characters',
@@ -56,17 +55,13 @@ class ItemController extends Controller {
             }
         }
 
-        $items = Item::where('item_name', $request->item_name)->get();
-        if (!$items->isEmpty()) {
-            return redirect()->back()->with('error', 'Item already exists');
-        }
+//        $items = Item::where('item_name', $request->item_name)->get();
+//        if (!$items->isEmpty()) {
+//            return redirect()->back()->with('error', 'Item already exists');
+//        }
 
         $saveitems = new Item();
-        $saveitems->customer_id = $request->customer_id;
         $saveitems->item_name = $request->item_name;
-        $saveitems->category_1 = $request->category_1;
-        $saveitems->category_2 = $request->category_2;
-        $saveitems->category_3 = $request->category_3;
         $saveitems->quantity = $request->quantity;
         $saveitems->unit = $request->unit;
         $saveitems->quantity_1 = $request->quantity_1;
@@ -74,11 +69,24 @@ class ItemController extends Controller {
         $saveitems->remarks = $request->remarks;
         $saveitems->location = $request->location;
         $saveitems->save();
+        
+        $category_1 = $request->category_1 ?? [];
+        $category_2 = $request->category_2 ?? [];
+        $category_3 = $request->category_3 ?? [];
+
+        for ($i = 0; $i < count($category_1); $i++) {
+            $saveCitems = new ItemCategory();
+            $saveCitems->item_id = $saveitems->id;
+            $saveCitems->category_1 = $category_1[$i] ?? null;
+            $saveCitems->category_2 = $category_2[$i] ?? null;
+            $saveCitems->category_3 = $category_3[$i] ?? null;
+            $saveCitems->save();
+        }
         return redirect()->route('item')->with('success', 'Item added successfully');
     }
 
     public function editItem($id) {
-        $item_detail = Item::find($id);
+        $item_detail = Item::with('categories')->find($id);
         if (!$item_detail) {
             return redirect()->back()->with('error', 'Information not found');
         }
@@ -89,12 +97,10 @@ class ItemController extends Controller {
 
     public function UpdateItem(Request $request) {
         $rules = array(
-            'customer_id' => 'required',
             'item_name' => 'required|min:2|max:200',
         );
 
         $messages = array(
-            'customer_id.required' => 'Please select customer',
             'item_name.required' => 'Please enter item name',
             'item_name.min' => 'Item name should be minimum :min characters',
             'item_name.max' => 'Item name should be between 2 to 200 characters',
@@ -107,17 +113,11 @@ class ItemController extends Controller {
             }
         }
 
-        $items = Item::where('item_name', $request->item_name)->where('id', '!=', base64_decode($request->item_id))->get();
-        if (!$items->isEmpty()) {
-            return redirect()->back()->with('error', 'Item already exists');
-        }
-
         $edit_item = Item::find(base64_decode($request->item_id));
         if (!$edit_item) {
             return redirect()->back()->with('error', 'Information not found');
         }
 
-        $edit_item->customer_id = $request->customer_id;
         $edit_item->item_name = $request->item_name;
         $edit_item->category_1 = $request->category_1;
         $edit_item->category_2 = $request->category_2;
@@ -129,6 +129,20 @@ class ItemController extends Controller {
         $edit_item->remarks = $request->remarks;
         $edit_item->location = $request->location;
         $edit_item->save();
+        
+        $category_1 = $request->category_1 ?? [];
+        $category_2 = $request->category_2 ?? [];
+        $category_3 = $request->category_3 ?? [];
+
+        $edit_item->categories()->delete();
+        for ($i = 0; $i < count($category_1); $i++) {
+            $saveCitems = new ItemCategory();
+            $saveCitems->item_id = $edit_item->id;
+            $saveCitems->category_1 = $category_1[$i] ?? null;
+            $saveCitems->category_2 = $category_2[$i] ?? null;
+            $saveCitems->category_3 = $category_3[$i] ?? null;
+            $saveCitems->save();
+        }
 
         return redirect()->route('item')->with('success', 'Item updated successfully');
     }

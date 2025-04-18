@@ -11,6 +11,7 @@ use Auth;
 use App\Models\Common;
 use App\Models\Customer;
 use App\Models\Item;
+use App\Models\ItemCategory;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\OrderImport;
 
@@ -195,6 +196,20 @@ class OrderController extends Controller {
         Excel::import(new OrderImport, $request->file('order_file'));
 
         return redirect()->route('order')->with('success', 'Orders imported successfully!');
+    }
+
+    public function getItemCategories(Request $request) {
+        $itemId = $request->input('item_id');
+
+        $category1 = ItemCategory::where('item_id', $itemId)->pluck('category_1')->unique()->values();
+        $category2 = ItemCategory::where('item_id', $itemId)->pluck('category_2')->unique()->values();
+        $category3 = ItemCategory::where('item_id', $itemId)->pluck('category_3')->unique()->values();
+
+        return response()->json([
+                    'category1' => $category1,
+                    'category2' => $category2,
+                    'category3' => $category3,
+        ]);
     }
 
 }

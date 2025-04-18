@@ -10,7 +10,7 @@
     font-style: normal;
 }
 
-@font-face {
+@font-face {.layout-fixed .main-sidebar
     font-family: 'stolzlbook';
     src: url('../fonts/stolzl_book-webfont.woff2') format('woff2'), url('../fonts/stolzl_book-webfont.woff') format('woff');
     font-weight: normal;
@@ -68,7 +68,7 @@
 }
 
 .layout-fixed .main-sidebar {
-    background: #a8aeff;
+    background: #434242;
 }
 
 [class*=sidebar-dark-] .sidebar a {

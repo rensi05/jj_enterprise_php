@@ -4,54 +4,45 @@ namespace App\Imports;
 
 use App\Models\Customer;
 use App\Models\Item;
+use App\Models\ItemCategory;
 use Illuminate\Support\Carbon;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ItemImport implements ToModel, WithHeadingRow
+class ItemImport implements OnEachRow, WithHeadingRow
 {
-    public function model(array $row)
+    public function onRow(Row $row)
     {
-        if (!isset($row['customer_name']) || empty($row['customer_name'])) {
-            return null;
-        }
+        $data = $row->toArray();
 
-        $customer = Customer::where('customer_name', $row['customer_name'])->first();
+        $item = Item::firstOrCreate(
+            [
+                'item_name'     => $data['item_name'] ?? null,
+                'quantity'      => $data['quantity'] ?? null,
+                'unit'          => $data['unit'] ?? null,
+                'quantity_1'    => $data['quantity_1'] ?? null,
+                'unit_1'        => $data['unit_1'] ?? null,
+                'remarks'       => $data['remarks'] ?? null,
+                'location'      => $data['location'] ?? null,
+            ]
+        );
+
+        $existingCategory = ItemCategory::where('item_id', $item->id)
+            ->where(function ($query) use ($data) {
+                $query->where('category_1', $data['category_1'] ?? null)
+                      ->where('category_2', $data['category_2'] ?? null)
+                      ->where('category_3', $data['category_3'] ?? null);
+            })
+            ->first();
         
-        if(empty($customer)) {
-            $customer = new Customer();
-            $customer->customer_type = 'purchase';
-            $customer->customer_name = $row['customer_name'];
-            $customer->save();
-        }
-
-        return new Item([
-            'customer_id'   => $customer->id,
-            'item_name'     => $row['item_name'] ?? null,
-            'category_1'    => $row['category_1'] ?? null,
-            'category_2'    => $row['category_2'] ?? null,
-            'category_3'    => $row['category_3'] ?? null,
-            'quantity'      => $row['quantity'] ?? null,
-            'unit'          => $row['unit'] ?? null,
-            'quantity_1'    => $row['quantity_1'] ?? null,
-            'unit_1'        => $row['unit_1'] ?? null,
-            'remarks'       => $row['remarks'] ?? null,
-            'location'      => $row['location'] ?? null,
-        ]);
-    }
-
-    private function formatDate($value)
-    {
-        if (!$value) {
-            return null;
-        }
-
-        try {
-            return \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTimeFormatCode($value)
-                ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d')
-                : Carbon::parse($value)->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
+        if (!$existingCategory) {
+            ItemCategory::create([
+                'item_id' => $item->id,
+                'category_1' => $data['category_1'] ?? null,
+                'category_2' => $data['category_2'] ?? null,
+                'category_3' => $data['category_3'] ?? null,
+            ]);
         }
     }
 }

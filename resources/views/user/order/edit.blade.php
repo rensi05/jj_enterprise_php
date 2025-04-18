@@ -31,7 +31,7 @@
                                         <select class="form-control select2" id="customer_id" name="customer_id">
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}" {{ $customer->id == $order_detail->customer_id ? 'selected' : '' }}>
+                                            <option data-address="{{ $customer->location }}" value="{{ $customer->id }}" {{ $customer->id == $order_detail->customer_id ? 'selected' : '' }}>
                                                 {{ $customer->customer_name }}
                                             </option>
                                             @endforeach
@@ -100,19 +100,25 @@
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 1</label>
-                                        <input type="text" class="form-control" name="category_1" value="{{ $order_detail->category_1 }}" placeholder="Enter Category 1" />
+                                        <select name="category_1" id="category_1" class="form-control select2">
+                                            <option value="">Select Category 1</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 2</label>
-                                        <input type="text" class="form-control" name="category_2" value="{{ $order_detail->category_2 }}" placeholder="Enter Category 2" />
+                                        <select name="category_2" id="category_2" class="form-control select2">
+                                            <option value="">Select Category 2</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 3</label>
-                                        <input type="text" class="form-control" name="category_3" value="{{ $order_detail->category_3 }}" placeholder="Enter Category 3" />
+                                        <select name="category_3" id="category_3" class="form-control select2">
+                                            <option value="">Select Category 3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -157,38 +163,15 @@
 @endsection
 @section('javascript')
 <script>
-    $(document).ready(function () {
-        $("#customer_id").change(function () {
-            var customerId = $(this).val();
-            
-            if (customerId) {
-                $.ajax({
-                    url: "{{ route('getitemsbycustomer') }}",
-                    type: "GET",
-                    data: { customer_id: customerId },
-                    success: function (response) {
-                        $("#item_id").empty().append('<option value="">Select Item</option>');
-                        
-                        $.each(response, function (key, item) {
-                            $("#item_id").append(
-                                `<option value="${item.id}" 
-                                         data-category1="${item.category_1}" 
-                                         data-category2="${item.category_2}" 
-                                         data-category3="${item.category_3}">
-                                    ${item.item_name}
-                                </option>`
-                            );
-                        });
-                    }
-                });
-            } else {
-                $("#item_id").empty().append('<option value="">Select Item</option>');
-            }
-        });
+    $('#customer_id').change(function () {
+        let selectedOption = $(this).find('option:selected');
+        let address = selectedOption.data('address');
+        $('input[name="address"]').val(address);
     });
 </script>
 <script>
     $(document).ready(function () {
+        // Select2 for item selection
         $("#item_id").select2({
             placeholder: "Select an item",
             allowClear: true,
@@ -199,29 +182,51 @@
                 }
             }
         });
-        $("#item_id").on('select2:open', function () {
-            let input = $('.select2-search__field');
-            if (input.length) {
-                input[0].focus();
+        
+        // Handle the item category change
+        $('#item_id').change(function () {
+            let itemId = $(this).val();
+            
+            // Reset category dropdowns
+            $('#category_1').empty().append('<option value="">Select Category 1</option>');
+            $('#category_2').empty().append('<option value="">Select Category 2</option>');
+            $('#category_3').empty().append('<option value="">Select Category 3</option>');
+            
+            if (itemId) {
+                $.ajax({
+                    url: "{{ route('getitemcategories') }}",
+                    type: "GET",
+                    data: { item_id: itemId },
+                    success: function (res) {
+                        res.category1.forEach(cat => {
+                            $('#category_1').append(`<option value="${cat}">${cat}</option>`);
+                        });
+                        res.category2.forEach(cat => {
+                            $('#category_2').append(`<option value="${cat}">${cat}</option>`);
+                        });
+                        res.category3.forEach(cat => {
+                            $('#category_3').append(`<option value="${cat}">${cat}</option>`);
+                        });
+                        
+                        // Pre-select categories if the order has categories
+                        if ('{{ $order_detail->category_1 }}') {
+                            $('#category_1').val('{{ $order_detail->category_1 }}').trigger('change');
+                        }
+                        if ('{{ $order_detail->category_2 }}') {
+                            $('#category_2').val('{{ $order_detail->category_2 }}').trigger('change');
+                        }
+                        if ('{{ $order_detail->category_3 }}') {
+                            $('#category_3').val('{{ $order_detail->category_3 }}').trigger('change');
+                        }
+                    }
+                });
             }
         });
-                
-        $("#customer_id").select2({
-            placeholder: "Select an item",
-            allowClear: true,
-            minimumResultsForSearch: 0,
-            language: {
-                noResults: function () {
-                    return "No results found";
-                }
-            }
-        });
-        $("#customer_id").on('select2:open', function () {
-            let input = $('.select2-search__field');
-            if (input.length) {
-                input[0].focus();
-            }
-        });
+        
+        // Initialize the categories based on the selected item
+        if ("{{ $order_detail->item_id }}") {
+            $('#item_id').val("{{ $order_detail->item_id }}").trigger('change');
+        }
     });
 </script>
 <script>

@@ -26,17 +26,6 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label>Customer*</label>
-                                        <select class="form-control select2" id="customer_id" name="customer_id">
-                                            <option value="">Select Customer</option>
-                                            @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
                                         <label>Item Name*</label>
                                         <input type="text" class="form-control" name="item_name" placeholder="Enter Item Name" />
                                     </div>
@@ -72,22 +61,23 @@
                                         <input type="text" class="form-control" name="location" placeholder="Enter Location" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 1</label>
-                                        <input type="text" class="form-control" name="category_1" placeholder="Enter Category 1" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 2</label>
-                                        <input type="text" class="form-control" name="category_2" placeholder="Enter Category 2" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Category 3</label>
-                                        <input type="text" class="form-control" name="category_3" placeholder="Enter Category 3" />
+                                <div class="col-lg-12">
+                                    <label>Categories</label>
+                                    <div id="category-wrapper">
+                                        <div class="row category-row mb-2">
+                                            <div class="col-md-4">
+                                                <input type="text" name="category_1[]" class="form-control" placeholder="Enter Category 1" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" name="category_2[]" class="form-control" placeholder="Enter Category 2" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" name="category_3[]" class="form-control" placeholder="Enter Category 3" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button type="button" class="btn btn-success btn-sm add-category"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -113,7 +103,7 @@
 @endsection
 
 @section('javascript')
-<script>
+<!--<script>
     $(document).ready(function () {                
         $("#customer_id").select2({
             placeholder: "Select an item",
@@ -132,14 +122,37 @@
             }
         });
     });
+</script>-->
+<script>
+$(document).ready(function () {
+    $('#category-wrapper').on('click', '.add-category', function () {
+        let row = `<div class="row category-row mb-2">
+            <div class="col-md-4">
+                <input type="text" name="category_1[]" class="form-control" placeholder="Enter Category 1" />
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="category_2[]" class="form-control" placeholder="Enter Category 2" />
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="category_3[]" class="form-control" placeholder="Enter Category 3" />
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger btn-sm remove-category"><i class="fas fa-minus"></i></button>
+            </div>
+        </div>`;
+        $('#category-wrapper').append(row);
+    });
+
+    $('#category-wrapper').on('click', '.remove-category', function () {
+        $(this).closest('.category-row').remove();
+    });
+});
 </script>
+
 <script>
     jQuery("#add_item").validate({
         ignore: [],
         rules: {
-            customer_id: {
-                required: true,
-            },
             item_name: {
                 required: true,
                 minlength: 2,
@@ -147,9 +160,6 @@
             },
         },
         messages: {
-            customer_id: {
-                required: 'Please select customer',
-            },
             item_name: {
                 required: 'Please enter name',
                 minlength: 'Name should be minimum 2 characters',

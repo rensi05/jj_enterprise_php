@@ -36,7 +36,7 @@
                                         <select class="form-control select2" id="customer_id" name="customer_id">
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                            <option data-address="{{ $customer->location }}" value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -47,10 +47,10 @@
                                         <select class="form-control select2" name="item_id" id="item_id">
                                             <option value="">Select Item</option>
                                             @foreach($items as $item)
-                                            <option value="{{ $item->id }}" 
-                                                data-category1="{{ $item->category_1 }}" 
-                                                data-category2="{{ $item->category_2 }}" 
-                                                data-category3="{{ $item->category_3 }}">
+                                            <option value="{{ $item->id }}"
+                                                    data-category1="{{ $item->category_1 }}" 
+                                                    data-category2="{{ $item->category_2 }}" 
+                                                    data-category3="{{ $item->category_3 }}">
                                                 {{ $item->item_name }}
                                             </option>
                                             @endforeach
@@ -102,19 +102,25 @@
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 1</label>
-                                        <input type="text" class="form-control" name="category_1" placeholder="Enter Category 1" />
+                                        <select name="category_1" id="category_1" class="form-control select2">
+                                            <option value="">Select Category 1</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 2</label>
-                                        <input type="text" class="form-control" name="category_2" placeholder="Enter Category 2" />
+                                        <select name="category_2" id="category_2" class="form-control select2">
+                                            <option value="">Select Category 2</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Category 3</label>
-                                        <input type="text" class="form-control" name="category_3" placeholder="Enter Category 3" />
+                                        <select name="category_3" id="category_3" class="form-control select2">
+                                            <option value="">Select Category 3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -159,37 +165,11 @@
 
 @section('javascript')
 <script>
-    $(document).ready(function () {
-        $("#customer_id").change(function () {
-            var customerId = $(this).val();
-            
-            if (customerId) {
-                $.ajax({
-                    url: "{{ route('getitemsbycustomer') }}",
-                    type: "GET",
-                    data: { customer_id: customerId },
-                    success: function (response) {
-                        $("#item_id").empty().append('<option value="">Select Item</option>');
-                        
-                        $.each(response, function (key, item) {
-                            $("#item_id").append(
-                                `<option value="${item.id}" 
-                                         data-category1="${item.category_1}" 
-                                         data-category2="${item.category_2}" 
-                                         data-category3="${item.category_3}">
-                                    ${item.item_name}
-                                </option>`
-                            );
-                        });
-                    }
-                });
-            } else {
-                $("#item_id").empty().append('<option value="">Select Item</option>');
-            }
-        });
+    $('#customer_id').change(function () {
+        let selectedOption = $(this).find('option:selected');
+        let address = selectedOption.data('address');
+        $('input[name="address"]').val(address);
     });
-</script>
-<script>
     $(document).ready(function () {
         $("#item_id").select2({
             placeholder: "Select an item",
@@ -207,7 +187,7 @@
                 input[0].focus();
             }
         });
-                
+
         $("#customer_id").select2({
             placeholder: "Select an item",
             allowClear: true,
@@ -227,19 +207,35 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $("#item_id").change(function () {
-            var selectedItem = $(this).find(":selected");
+    $('#item_id').change(function () {
+    let itemId = $(this).val();
 
-            var category1 = selectedItem.data("category1") || "";
-            var category2 = selectedItem.data("category2") || "";
-            var category3 = selectedItem.data("category3") || "";
+    // Reset all category dropdowns
+    $('#category_1').empty().append('<option value="">Select Category 1</option>');
+    $('#category_2').empty().append('<option value="">Select Category 2</option>');
+    $('#category_3').empty().append('<option value="">Select Category 3</option>');
 
-            $("input[name='category_1']").val(category1);
-            $("input[name='category_2']").val(category2);
-            $("input[name='category_3']").val(category3);
+    if (itemId) {
+        $.ajax({
+            url: "{{ route('getitemcategories') }}",
+            type: "GET",
+            data: { item_id: itemId },
+            success: function (res) {
+                res.category1.forEach(cat => {
+                    $('#category_1').append(`<option value="${cat}">${cat}</option>`);
+                });
+                res.category2.forEach(cat => {
+                    $('#category_2').append(`<option value="${cat}">${cat}</option>`);
+                });
+                res.category3.forEach(cat => {
+                    $('#category_3').append(`<option value="${cat}">${cat}</option>`);
+                });
+            }
         });
-    });
+    }
+});
+
+
 </script>
 <script>
     jQuery("#add_order").validate({

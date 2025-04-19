@@ -119,9 +119,6 @@ class ItemController extends Controller {
         }
 
         $edit_item->item_name = $request->item_name;
-        $edit_item->category_1 = $request->category_1;
-        $edit_item->category_2 = $request->category_2;
-        $edit_item->category_3 = $request->category_3;
         $edit_item->quantity = $request->quantity;
         $edit_item->unit = $request->unit;
         $edit_item->quantity_1 = $request->quantity_1;

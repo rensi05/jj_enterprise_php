@@ -12,6 +12,7 @@ use App\Models\Common;
 use App\Models\Customer;
 use App\Models\Item;
 use App\Models\ItemCategory;
+use App\Models\Unit;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\OrderImport;
 
@@ -25,17 +26,24 @@ class OrderController extends Controller {
 
     public function getorder(Request $request) {
 
-        $columns = array('id', 'order_no', 'created_at');
-        $getfiled = array('id', 'order_no', 'created_at');
+        $columns = array('o.id', 'o.order_no', 'c.customer_name', 'o.created_at');
+        $getfiled = array('o.id', 'o.order_no', 'c.customer_name', 'o.created_at');
         $condition = array();
         $join_str = array();
-        echo Order::OrderModel('orders', $columns, $condition, $getfiled, $request, $join_str);
+        $join_str[0] = array(
+            'join_type' => 'left',
+            'table' => 'customers as c',
+            'join_table_id' => 'c.id',
+            'from_table_id' => 'o.customer_id'
+        );
+        echo Order::OrderModel('orders as o', $columns, $condition, $getfiled, $request, $join_str);
         exit;
     }
 
     public function AddOrder() {
         $this->data['customers'] = Customer::where('status', 'active')->get();
         $this->data['items'] = Item::where('status', 'active')->get();
+        $this->data['units'] = Unit::where('status', 'active')->get();
         return view('user.order.add', $this->data);
     }
 
@@ -43,11 +51,13 @@ class OrderController extends Controller {
         $rules = array(
             'customer_id' => 'required',
             'item_id' => 'required',
+            'order_date' => 'required',
         );
 
         $messages = array(
             'customer_id.required' => 'Please select customer',
             'item_id.required' => 'Please select item',
+            'order_date.required' => 'Please select order date',
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -71,7 +81,7 @@ class OrderController extends Controller {
         $order->category_2 = $request->category_2;
         $order->category_3 = $request->category_3;
         $order->quantity = $request->quantity;
-        $order->unit = $request->unit;
+        $order->unit_id = $request->unit_id;
         $order->order_date = $request->order_date;
         $order->delivery_date = $request->delivery_date;
         $order->close_date = $request->close_date;
@@ -91,6 +101,7 @@ class OrderController extends Controller {
         $this->data['order_detail'] = $order_detail;
         $this->data['customers'] = Customer::where('status', 'active')->get();
         $this->data['items'] = Item::where('status', 'active')->get();
+        $this->data['units'] = Unit::where('status', 'active')->get();
         return view('user.order.edit', $this->data);
     }
 
@@ -98,11 +109,13 @@ class OrderController extends Controller {
         $rules = array(
             'customer_id' => 'required',
             'item_id' => 'required',
+            'order_date' => 'required',
         );
 
         $messages = array(
             'customer_id.required' => 'Please select customer',
             'item_id.required' => 'Please select item',
+            'order_date.required' => 'Please select order date',
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -125,7 +138,7 @@ class OrderController extends Controller {
         $edit_order->category_2 = $request->category_2;
         $edit_order->category_3 = $request->category_3;
         $edit_order->quantity = $request->quantity;
-        $edit_order->unit = $request->unit;
+        $edit_order->unit_id = $request->unit_id;
         $edit_order->order_date = $request->order_date;
         $edit_order->delivery_date = $request->delivery_date;
         $edit_order->close_date = $request->close_date;
@@ -201,9 +214,9 @@ class OrderController extends Controller {
     public function getItemCategories(Request $request) {
         $itemId = $request->input('item_id');
 
-        $category1 = ItemCategory::where('item_id', $itemId)->pluck('category_1')->unique()->values();
-        $category2 = ItemCategory::where('item_id', $itemId)->pluck('category_2')->unique()->values();
-        $category3 = ItemCategory::where('item_id', $itemId)->pluck('category_3')->unique()->values();
+        $category1 = ItemCategory::where('item_id', $itemId)->pluck('category_1')->filter()->unique()->values();
+        $category2 = ItemCategory::where('item_id', $itemId)->pluck('category_2')->filter()->unique()->values();
+        $category3 = ItemCategory::where('item_id', $itemId)->pluck('category_3')->filter()->unique()->values();
 
         return response()->json([
                     'category1' => $category1,

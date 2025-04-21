@@ -94,7 +94,12 @@
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
                                         <label>Unit</label>
-                                        <input type="text" class="form-control" name="unit" value="{{ $order_detail->unit }}" placeholder="Enter Unit" />
+                                        <select class="form-control select2" id="unit_id" name="unit_id">
+                                            <option value="">Select Unit</option>
+                                            @foreach($units as $key => $unit)
+                                            <option value="{{ $unit->id }}" {{ $unit->id == $order_detail->unit_id ? 'selected' : '' }}>{{ $unit->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -123,7 +128,7 @@
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
                                     <div class="form-group">
-                                        <label>Order Date</label>
+                                        <label>Order Date*</label>
                                         <input type="date" class="form-control" name="order_date" value="{{ $order_detail->order_date }}" />
                                     </div>
                                 </div>
@@ -260,6 +265,9 @@
             item_id: {
                 required: true,
             },
+            order_date: {
+                required: true,
+            },
         },
         messages: {
             customer_id: {
@@ -267,6 +275,9 @@
             },
             item_id: {
                 required: 'Please enter name',
+            },
+            order_date: {
+                required: 'Please select order date',
             },
         },
         errorElement: 'span',

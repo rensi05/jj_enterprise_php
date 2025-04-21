@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>Sr No</th>
                                     <th>Order No.</th>
+                                    <th>Customer Name</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -117,9 +118,11 @@
                 },
                 {"taregts": 1, 'data': 'order_no'
                 },
-                {"taregts": 2, 'data': 'created_at'
+                {"taregts": 2, 'data': 'customer_name'
                 },
-                {"taregts": 3, "searchable": false, "orderable": false,
+                {"taregts": 3, 'data': 'created_at'
+                },
+                {"taregts": 4, "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var id = row.id;
                         var out = '';

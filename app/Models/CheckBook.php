@@ -32,7 +32,8 @@ class CheckBook extends Model
             $data->where(function($query) use ($request, $datatable_fields) {
                 for ($i = 0; $i < count($datatable_fields); $i++) {
                     if ($request['columns'][$i]['searchable'] == true) {
-                        $query->orWhere($datatable_fields[$i], 'like', '%' . $request['search']['value'] . '%');
+                        $search = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request['search']['value']));
+                        $query->orWhereRaw("LOWER(REPLACE(REPLACE(REPLACE($datatable_fields[$i], '.', ''), ' ', ''), '-', '')) LIKE ?", ["%$search%"]);
                     }
                 }
             });

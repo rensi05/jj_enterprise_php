@@ -85,12 +85,12 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="{{ route('dashboard') }}" class="brand-link big">
-                    <!--<img src="{{ asset('public/admin/images/logo.png') }}" alt="" class="brand-image" style="opacity: .8">-->
-                     <span class="brand-text font-weight-light">JJ Enterprise</span> 
+                    <img src="{{ asset('public/admin/images/logo.png') }}" alt="" class="brand-image" style="opacity: .8">
+                     <!--<span class="brand-text font-weight-light">JJ Enterprise</span>--> 
                 </a>
                 <a href="{{ route('dashboard') }}" class="brand-link smail">
-                    <!--<img src="{{ asset('public/admin/images/logo.png') }}" alt="" class="brand-image" style="opacity: .8">-->
-                     <span class="brand-text font-weight-light">JJ Enterprise</span> 
+                    <img src="{{ asset('public/admin/images/logo.png') }}" alt="" class="brand-image" style="opacity: .8">
+                     <!--<span class="brand-text font-weight-light">JJ Enterprise</span>--> 
                 </a>
 
                 <!-- Sidebar -->

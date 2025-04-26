@@ -170,77 +170,112 @@
 
 @section('javascript')
 <script>
+$(document).ready(function () {
+    function customMatcher(params, data) {
+        if ($.trim(params.term) === '') {
+            return data;
+        }
+
+        let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
+        let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+
+        if (text.indexOf(term) > -1) {
+            return data;
+        }
+
+        return null;
+    }
+
+    // Initialize Customer select2
+    $("#customer_id").select2({
+        placeholder: "Select a customer",
+        allowClear: true,
+        minimumResultsForSearch: 0,
+        matcher: customMatcher,
+        language: {
+            noResults: function () {
+                return "No results found";
+            }
+        }
+    }).on('select2:open', function () {
+        let input = $('.select2-search__field');
+        if (input.length) {
+            input[0].focus();
+        }
+    });
+
+    // Initialize Item select2
+    $("#item_id").select2({
+        placeholder: "Select an item",
+        allowClear: true,
+        minimumResultsForSearch: 0,
+        matcher: customMatcher,
+        language: {
+            noResults: function () {
+                return "No results found";
+            }
+        }
+    }).on('select2:open', function () {
+        let input = $('.select2-search__field');
+        if (input.length) {
+            input[0].focus();
+        }
+    });
+
+    // Auto-fill address when customer changes
     $('#customer_id').change(function () {
         let selectedOption = $(this).find('option:selected');
         let address = selectedOption.data('address');
         $('input[name="address"]').val(address);
     });
-    $(document).ready(function () {
-        $("#item_id").select2({
-            placeholder: "Select an item",
-            allowClear: true,
-            minimumResultsForSearch: 0,
-            language: {
-                noResults: function () {
-                    return "No results found";
-                }
-            }
-        });
-        $("#item_id").on('select2:open', function () {
-            let input = $('.select2-search__field');
-            if (input.length) {
-                input[0].focus();
-            }
-        });
 
-        $("#customer_id").select2({
-            placeholder: "Select an item",
-            allowClear: true,
-            minimumResultsForSearch: 0,
-            language: {
-                noResults: function () {
-                    return "No results found";
-                }
-            }
-        });
-        $("#customer_id").on('select2:open', function () {
-            let input = $('.select2-search__field');
-            if (input.length) {
-                input[0].focus();
-            }
-        });
-    });
-</script>
-<script>
+    // Fetch categories when item changes
     $('#item_id').change(function () {
-    let itemId = $(this).val();
+        let itemId = $(this).val();
 
-    // Reset all category dropdowns
-    $('#category_1').empty().append('<option value="">Select Category 1</option>');
-    $('#category_2').empty().append('<option value="">Select Category 2</option>');
-    $('#category_3').empty().append('<option value="">Select Category 3</option>');
+        $('#category_1').empty().append('<option value="">Select Category 1</option>');
+        $('#category_2').empty().append('<option value="">Select Category 2</option>');
+        $('#category_3').empty().append('<option value="">Select Category 3</option>');
 
-    if (itemId) {
-        $.ajax({
-            url: "{{ route('getitemcategories') }}",
-            type: "GET",
-            data: { item_id: itemId },
-            success: function (res) {
-                res.category1.forEach(cat => {
-                    $('#category_1').append(`<option value="${cat}">${cat}</option>`);
-                });
-                res.category2.forEach(cat => {
-                    $('#category_2').append(`<option value="${cat}">${cat}</option>`);
-                });
-                res.category3.forEach(cat => {
-                    $('#category_3').append(`<option value="${cat}">${cat}</option>`);
-                });
-            }
-        });
-    }
+        if (itemId) {
+            $.ajax({
+                url: "{{ route('getitemcategory1') }}", // New route
+                type: "GET",
+                data: { item_id: itemId },
+                success: function (res) {
+                    res.category1.forEach(cat => {
+                        $('#category_1').append(`<option value="${cat}">${cat}</option>`);
+                    });
+                }
+            });
+        }
+    });
+
+    $('#category_1').change(function () {
+    let itemId = $('#item_id').val();
+        let category1 = $(this).val();
+
+        $('#category_2').empty().append('<option value="">Select Category 2</option>');
+        $('#category_3').empty().append('<option value="">Select Category 3</option>');
+
+        if (itemId && category1) {
+            $.ajax({
+                url: "{{ route('getitemcategory2and3') }}",
+                type: "GET",
+                data: { item_id: itemId, category_1: category1 },
+                success: function (res) {
+                    res.category2.forEach(cat => {
+                        $('#category_2').append(`<option value="${cat}">${cat}</option>`);
+                    });
+                    res.category3.forEach(cat => {
+                        $('#category_3').append(`<option value="${cat}">${cat}</option>`);
+                    });
+                }
+            });
+        }
+    });
+
 });
-
-
 </script>
 <script>
     jQuery("#add_order").validate({

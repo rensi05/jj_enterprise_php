@@ -24,11 +24,41 @@ class ItemController extends Controller {
 
     public function getitem(Request $request) {
 
-        $columns = array('id', 'item_name', 'created_at', 'status');
-        $getfiled = array('id', 'item_name', 'created_at', 'status');
+        $columns = array(
+            'i.id', 
+            'i.item_name', 
+            'c.customer_name', 
+            'i.quantity', 
+            'i.unit', 
+            'i.quantity_1', 
+            'i.unit_1', 
+            'i.remarks', 
+            'i.location', 
+            'i.created_at', 
+            'i.status'
+        );
+        $getfiled = array(
+            'i.id', 
+            'i.item_name', 
+            'c.customer_name', 
+            'i.quantity', 
+            'i.unit', 
+            'i.quantity_1', 
+            'i.unit_1', 
+            'i.remarks', 
+            'i.location', 
+            'i.created_at', 
+            'i.status'
+        );
         $condition = array();
         $join_str = array();
-        echo Item::ItemModel('items', $columns, $condition, $getfiled, $request, $join_str);
+        $join_str[0] = array(
+            'join_type' => 'left',
+            'table' => 'customers as c',
+            'join_table_id' => 'c.id',
+            'from_table_id' => 'i.customer_id'
+        );
+        echo Item::ItemModel('items as i', $columns, $condition, $getfiled, $request, $join_str);
         exit;
     }
 

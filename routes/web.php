@@ -63,6 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Order
     Route::get('/order', 'OrderController@index')->name('order');
     Route::get('/getorder', 'OrderController@getOrder')->name('getorder');
+    Route::get('/pastorder', 'OrderController@pastOrder')->name('pastorder');
+    Route::get('/getpastorder', 'OrderController@getPastOrder')->name('getpastorder');
     Route::get('/addorder', 'OrderController@addOrder')->name('addorder');
     Route::post('/saveorder', 'OrderController@saveOrder')->name('saveorder');
     Route::get('/editorder/{id}', 'OrderController@editOrder')->name('editorder');
@@ -73,8 +75,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/updateorderstatus', 'OrderController@updateOrderStatus')->name('updateorderstatus');
     Route::get('/getitemsbycustomer', 'OrderController@getItemsByCustomer')->name('getitemsbycustomer');
     Route::post('importorder', 'OrderController@importOrder')->name('importorder');
-    Route::get('/getitemcategories', 'OrderController@getItemCategories')->name('getitemcategories');
-    
+//    Route::get('/getitemcategories', 'OrderController@getItemCategories')->name('getitemcategories');
+    Route::get('/getitemcategory1', 'OrderController@getItemCategory1')->name('getitemcategory1');
+    Route::get('/getitemcategory2and3', 'OrderController@getItemCategory2And3')->name('getitemcategory2and3');
+
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');
     Route::get('/getcustomer', 'CustomerController@getCustomer')->name('getcustomer');

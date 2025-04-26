@@ -24,10 +24,51 @@ class OrderController extends Controller {
         return view('user.order.order');
     }
 
-    public function getorder(Request $request) {
-
-        $columns = array('o.id', 'o.order_no', 'c.customer_name', 'o.created_at');
-        $getfiled = array('o.id', 'o.order_no', 'c.customer_name', 'o.created_at');
+    public function getOrder(Request $request) {
+        $columns = array(
+            'o.id', 
+            'o.order_no', 
+            'c.customer_name', 
+            'i.item_name', 
+            'o.address', 
+            'o.order_type', 
+            'o.category_1', 
+            'o.category_2', 
+            'o.category_3', 
+            'o.quantity', 
+            'um.name', 
+            'o.order_date', 
+            'o.delivery_date', 
+            'o.close_date', 
+            'o.remarks', 
+            'o.location', 
+            'o.bill_no', 
+            'o.vehicle_no', 
+            'o.status', 
+            'o.created_at'
+        );
+        $getfiled = array(
+            'o.id', 
+            'o.order_no', 
+            'c.customer_name', 
+            'i.item_name', 
+            'o.address', 
+            'o.order_type', 
+            'o.category_1', 
+            'o.category_2', 
+            'o.category_3', 
+            'o.quantity', 
+            'um.name', 
+            'o.order_date', 
+            'o.delivery_date', 
+            'o.close_date', 
+            'o.remarks', 
+            'o.location', 
+            'o.bill_no', 
+            'o.vehicle_no', 
+            'o.status', 
+            'o.created_at'
+        );
         $condition = array();
         $join_str = array();
         $join_str[0] = array(
@@ -36,7 +77,92 @@ class OrderController extends Controller {
             'join_table_id' => 'c.id',
             'from_table_id' => 'o.customer_id'
         );
+        $join_str[1] = array(
+            'join_type' => 'left',
+            'table' => 'items as i',
+            'join_table_id' => 'i.id',
+            'from_table_id' => 'o.item_id'
+        );
+        $join_str[3] = array(
+            'join_type' => 'left',
+            'table' => 'unit_masters as um',
+            'join_table_id' => 'um.id',
+            'from_table_id' => 'o.unit_id'
+        );
         echo Order::OrderModel('orders as o', $columns, $condition, $getfiled, $request, $join_str);
+        exit;
+    }
+
+    public function pastOrder() {
+        return view('user.order.pastorder');
+    }
+
+    public function getPastOrder(Request $request) {
+        $columns = array(
+            'o.id', 
+            'o.order_no', 
+            'c.customer_name', 
+            'i.item_name', 
+            'o.address', 
+            'o.order_type', 
+            'o.category_1', 
+            'o.category_2', 
+            'o.category_3', 
+            'o.quantity', 
+            'um.name', 
+            'o.order_date', 
+            'o.delivery_date', 
+            'o.close_date', 
+            'o.remarks', 
+            'o.location', 
+            'o.bill_no', 
+            'o.vehicle_no', 
+            'o.status', 
+            'o.created_at'
+        );
+        $getfiled = array(
+            'o.id', 
+            'o.order_no', 
+            'c.customer_name', 
+            'i.item_name', 
+            'o.address', 
+            'o.order_type', 
+            'o.category_1', 
+            'o.category_2', 
+            'o.category_3', 
+            'o.quantity', 
+            'um.name', 
+            'o.order_date', 
+            'o.delivery_date', 
+            'o.close_date', 
+            'o.remarks', 
+            'o.location', 
+            'o.bill_no', 
+            'o.vehicle_no', 
+            'o.status', 
+            'o.created_at'
+        );
+        $condition = array();
+        $join_str = array();
+        $join_str[0] = array(
+            'join_type' => 'left',
+            'table' => 'customers as c',
+            'join_table_id' => 'c.id',
+            'from_table_id' => 'o.customer_id'
+        );
+        $join_str[1] = array(
+            'join_type' => 'left',
+            'table' => 'items as i',
+            'join_table_id' => 'i.id',
+            'from_table_id' => 'o.item_id'
+        );
+        $join_str[3] = array(
+            'join_type' => 'left',
+            'table' => 'unit_masters as um',
+            'join_table_id' => 'um.id',
+            'from_table_id' => 'o.unit_id'
+        );
+        echo Order::PastOrderModel('orders as o', $columns, $condition, $getfiled, $request, $join_str);
         exit;
     }
 
@@ -88,7 +214,10 @@ class OrderController extends Controller {
         $order->location = $request->location;
         $order->remarks = $request->remarks;
         $order->bill_no = $request->bill_no;
-        $order->vehicle_no = $request->vehicle_no;
+        $order->vehicle_no = $request->vehicle_no;        
+        if(!empty($order->bill_no) && !empty($order->delivery_date) && !empty($order->close_date)) {
+            $order->status = 'completed';
+        }        
         $order->save();
         return redirect()->route('order')->with('success', 'Order added successfully');
     }
@@ -145,7 +274,10 @@ class OrderController extends Controller {
         $edit_order->location = $request->location;
         $edit_order->remarks = $request->remarks;
         $edit_order->bill_no = $request->bill_no;
-        $edit_order->vehicle_no = $request->vehicle_no;
+        $edit_order->vehicle_no = $request->vehicle_no;        
+        if(!empty($edit_order->bill_no) && !empty($edit_order->delivery_date) && !empty($edit_order->close_date)) {
+            $edit_order->status = 'completed';
+        }
         $edit_order->save();
         
         return redirect()->route('order')->with('success', 'Order updated successfully');
@@ -223,6 +355,42 @@ class OrderController extends Controller {
                     'category2' => $category2,
                     'category3' => $category3,
         ]);
+    }
+
+    public function getItemCategory1(Request $request) {
+        $itemId = $request->input('item_id');
+
+        $category1 = ItemCategory::where('item_id', $itemId)
+                ->orderBy('id', 'DESC')
+                ->pluck('category_1')
+                ->filter()
+                ->unique()
+                ->values();
+
+        return response()->json(['category1' => $category1]);
+    }
+
+    public function getItemCategory2And3(Request $request) {
+        $itemId = $request->input('item_id');
+        $category1Name = $request->input('category_1');
+
+        $category2 = ItemCategory::where('item_id', $itemId)
+                ->where('category_1', $category1Name)
+                ->orderBy('id', 'DESC')
+                ->pluck('category_2')
+                ->filter()
+                ->unique()
+                ->values();
+
+        $category3 = ItemCategory::where('item_id', $itemId)
+                ->where('category_1', $category1Name)
+                ->orderBy('id', 'DESC')
+                ->pluck('category_3')
+                ->filter()
+                ->unique()
+                ->values();
+
+        return response()->json(['category2' => $category2, 'category3' => $category3]);
     }
 
 }

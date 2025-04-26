@@ -43,7 +43,7 @@ class Item extends Model
                 }
             }
         }
-        $data->whereNull('deleted_at');
+        $data->whereNull('i.deleted_at');
 
         if ($request['search']['value'] != '') {
             $data->where(function($query) use ($request, $datatable_fields) {

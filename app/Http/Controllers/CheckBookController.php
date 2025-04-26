@@ -20,8 +20,8 @@ class CheckBookController extends Controller {
 
     public function getcheckbook(Request $request) {
 
-        $columns = array('id', 'payee_name', 'cheque_number', 'created_at');
-        $getfiled = array('id', 'payee_name', 'cheque_number', 'created_at');
+        $columns = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'receiver_name', 'created_at');
+        $getfiled = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'receiver_name','created_at');
         $condition = array();
         $join_str = array();
         echo CheckBook::CheckBookModel('cheque_books', $columns, $condition, $getfiled, $request, $join_str);

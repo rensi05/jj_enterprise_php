@@ -27,14 +27,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">                    
+                <div class="card">
                     @php($current_route = Route::currentRouteName())
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="{{ ( $current_route == 'order' ) ? 'active' : '' }}">
-                            <a href="{{route('order')}}" class="nav-link active">Current Order</a>
+                            <a href="{{route('order')}}" class="nav-link">Current Order</a>
                         </li>
                         <li class="{{ ( $current_route == 'pastorder' ) ? 'active' : '' }}">
-                            <a href="{{route('pastorder')}}" class="nav-link">Past Order</a>
+                            <a href="{{route('pastorder')}}" class="nav-link active">Past Order</a>
                         </li>
                     </ul>
                     <div class="card-body">
@@ -128,7 +128,7 @@
             "responsive": true,
             "order": [[0, "DESC"]],
             "ajax": {
-                url: user_path + 'getorder',
+                url: user_path + 'getpastorder',
                 type: "GET",
             },
             "columns": [

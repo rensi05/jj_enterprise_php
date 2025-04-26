@@ -36,6 +36,12 @@
                                     <th>Sr No</th>
                                     <th>Payee Name</th>
                                     <th>Checkbook No.</th>
+                                    <th>Checkbook Date</th>
+                                    <th>Amount</th>
+                                    <th>Drop Date</th>
+                                    <th>Clearing Date</th>
+                                    <th>Return Date</th>
+                                    <th>Receiver Name</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -91,9 +97,69 @@
                 },
                 {"taregts": 2, 'data': 'cheque_number'
                 },
-                {"taregts": 3, 'data': 'created_at'
+                {"taregts": 3, 'data': 'cheque_date',
+                    "render": function (data, type, row) {
+                        var cheque_date = row.cheque_date;
+                        if(cheque_date != null){
+                            return cheque_date;
+                        } else {
+                            return '-';                            
+                        }
+                    }
                 },
-                {"taregts": 4, "searchable": false, "orderable": false,
+                {"taregts": 4, 'data': 'amount',
+                    "render": function (data, type, row) {
+                        var amount = row.amount;
+                        if(amount != null){
+                            return amount;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 5, 'data': 'drop_date',
+                    "render": function (data, type, row) {
+                        var drop_date = row.drop_date;
+                        if(drop_date != null){
+                            return drop_date;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 6, 'data': 'clearing_date',
+                    "render": function (data, type, row) {
+                        var clearing_date = row.clearing_date;
+                        if(clearing_date != null){
+                            return clearing_date;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 7, 'data': 'return_date',
+                    "render": function (data, type, row) {
+                        var return_date = row.return_date;
+                        if(return_date != null){
+                            return return_date;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 8, 'data': 'receiver_name',
+                    "render": function (data, type, row) {
+                        var receiver_name = row.receiver_name;
+                        if(receiver_name != null){
+                            return receiver_name;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 9, 'data': 'created_at'
+                },
+                {"taregts": 10, "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var id = row.id;
                         var out = '';

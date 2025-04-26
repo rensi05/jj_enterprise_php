@@ -37,7 +37,14 @@
                             <thead>
                                 <tr>
                                     <th>Sr No</th>
-                                    <th>Name</th>
+                                    <th>Item Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Quantity 1</th>
+                                    <th>Unit 1</th>
+                                    <th>Remarks</th>
+                                    <th>Location</th>
                                     <th>Created Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -118,9 +125,79 @@
                 },
                 {"taregts": 1, 'data': 'item_name'
                 },
-                {"taregts": 2, 'data': 'created_at'
+                {"taregts": 2, 'data': 'customer_name',
+                    "render": function (data, type, row) {
+                        var customer_name = row.customer_name;
+                        if(customer_name != null){
+                            return customer_name;
+                        } else {
+                            return '-';                            
+                        }
+                    }
                 },
-                {"taregts": 3, 'data': 'status', "searchable": false, "orderable": false,
+                {"taregts": 3, 'data': 'quantity',
+                    "render": function (data, type, row) {
+                        var quantity = row.quantity;
+                        if(quantity != null){
+                            return quantity;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 4, 'data': 'unit',
+                    "render": function (data, type, row) {
+                        var unit = row.unit;
+                        if(unit != null){
+                            return unit;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 5, 'data': 'quantity_1',
+                    "render": function (data, type, row) {
+                        var quantity_1 = row.quantity_1;
+                        if(quantity_1 != null){
+                            return quantity_1;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 6, 'data': 'unit_1',
+                    "render": function (data, type, row) {
+                        var unit_1 = row.unit_1;
+                        if(unit_1 != null){
+                            return unit_1;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 7, 'data': 'remarks',
+                    "render": function (data, type, row) {
+                        var remarks = row.remarks;
+                        if(remarks != null){
+                            return remarks;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 8, 'data': 'location',
+                    "render": function (data, type, row) {
+                        var location = row.location;
+                        if(location != null){
+                            return location;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 9, 'data': 'created_at'
+                },
+                {"taregts": 10, 'data': 'status', "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var status = row.status;
                         var id = row.id;
@@ -133,7 +210,7 @@
                         return out;
                     }
                 },
-                {"taregts": 4, "searchable": false, "orderable": false,
+                {"taregts": 11, "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var id = row.id;
                         var out = '';

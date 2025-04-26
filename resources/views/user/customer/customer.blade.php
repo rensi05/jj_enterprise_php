@@ -37,7 +37,13 @@
                             <thead>
                                 <tr>
                                     <th>Sr No</th>
+                                    <th>Customer Type</th>
                                     <th>Customer Name</th>
+                                    <th>Location</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>Type</th>
+                                    <th>GST No</th>
                                     <th>Created Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -118,11 +124,71 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'customer_name'
+                {"taregts": 1, 'data': 'customer_type'
                 },
-                {"taregts": 2, 'data': 'created_at'
+                {"taregts": 2, 'data': 'customer_name',
+                    "render": function (data, type, row) {
+                        var customer_name = row.customer_name;
+                        if(customer_name != null){
+                            return customer_name;
+                        } else {
+                            return '-';                            
+                        }
+                    }
                 },
-                {"taregts": 3, 'data': 'status', "searchable": false, "orderable": false,
+                {"taregts": 3, 'data': 'location',
+                    "render": function (data, type, row) {
+                        var location = row.location;
+                        if(location != null){
+                            return location;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 4, 'data': 'country',
+                    "render": function (data, type, row) {
+                        var country = row.country;
+                        if(country != null){
+                            return country;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 5, 'data': 'state',
+                    "render": function (data, type, row) {
+                        var state = row.state;
+                        if(state != null){
+                            return state;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 6, 'data': 'type',
+                    "render": function (data, type, row) {
+                        var type = row.type;
+                        if(type != null){
+                            return type;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 7, 'data': 'gst_no',
+                    "render": function (data, type, row) {
+                        var gst_no = row.gst_no;
+                        if(gst_no != null){
+                            return gst_no;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 8, 'data': 'created_at'
+                },
+                {"taregts": 9, 'data': 'status', "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var status = row.status;
                         var id = row.id;
@@ -135,7 +201,7 @@
                         return out;
                     }
                 },
-                {"taregts": 4, "searchable": false, "orderable": false,
+                {"taregts": 10, "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         var id = row.id;
                         var out = '';

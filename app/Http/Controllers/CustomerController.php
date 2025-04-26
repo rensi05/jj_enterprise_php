@@ -22,8 +22,8 @@ class CustomerController extends Controller {
 
     public function getcustomer(Request $request) {
 
-        $columns = array('id', 'customer_name', 'created_at', 'status');
-        $getfiled = array('id', 'customer_name', 'created_at', 'status');
+        $columns = array('id', 'customer_type', 'customer_name', 'location', 'country', 'state', 'type', 'gst_no', 'created_at', 'status');
+        $getfiled = array('id', 'customer_type', 'customer_name', 'location', 'country', 'state', 'type', 'gst_no', 'created_at', 'status');
         $condition = array();
         $join_str = array();
         echo Customer::CustomerModel('customers', $columns, $condition, $getfiled, $request, $join_str);

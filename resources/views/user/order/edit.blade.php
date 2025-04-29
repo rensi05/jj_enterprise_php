@@ -175,85 +175,112 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        // Select2 for item selection
-        $("#item_id").select2({
-            placeholder: "Select an item",
-            allowClear: true,
-            minimumResultsForSearch: 0,
-            language: {
-                noResults: function () {
-                    return "No results found";
+$(document).ready(function () {
+    function customMatcher(params, data) {
+        if ($.trim(params.term) === '') {
+            return data;
+        }
+
+        let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
+        let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+
+        if (text.indexOf(term) > -1) {
+            return data;
+        }
+
+        return null;
+    }
+
+    // Initialize Customer select2
+    $("#customer_id").select2({
+        placeholder: "Select a customer",
+        allowClear: true,
+        minimumResultsForSearch: 0,
+        matcher: customMatcher,
+        language: {
+            noResults: function () {
+                return "No results found";
+            }
+        }
+    }).on('select2:open', function () {
+        let input = $('.select2-search__field');
+        if (input.length) {
+            input[0].focus();
+        }
+    });
+
+    // Initialize Item select2
+    $("#item_id").select2({
+        placeholder: "Select an item",
+        allowClear: true,
+        minimumResultsForSearch: 0,
+        matcher: customMatcher,
+        language: {
+            noResults: function () {
+                return "No results found";
+            }
+        }
+    }).on('select2:open', function () {
+        let input = $('.select2-search__field');
+        if (input.length) {
+            input[0].focus();
+        }
+    });
+
+    // Auto-fill address when customer changes
+    $('#customer_id').change(function () {
+        let selectedOption = $(this).find('option:selected');
+        let address = selectedOption.data('address');
+        $('input[name="address"]').val(address);
+    });
+
+    // Fetch categories when item changes
+    $('#item_id').change(function () {
+        let itemId = $(this).val();
+
+        $('#category_1').empty().append('<option value="">Select Category 1</option>');
+        $('#category_2').empty().append('<option value="">Select Category 2</option>');
+        $('#category_3').empty().append('<option value="">Select Category 3</option>');
+
+        if (itemId) {
+            $.ajax({
+                url: "{{ route('getitemcategory1') }}", // New route
+                type: "GET",
+                data: { item_id: itemId },
+                success: function (res) {
+                    res.category1.forEach(cat => {
+                        $('#category_1').append(`<option value="${cat}">${cat}</option>`);
+                    });
                 }
-            }
-        });
-        
-        // Handle the item category change
-        $('#item_id').change(function () {
-            let itemId = $(this).val();
-            
-            // Reset category dropdowns
-            $('#category_1').empty().append('<option value="">Select Category 1</option>');
-            $('#category_2').empty().append('<option value="">Select Category 2</option>');
-            $('#category_3').empty().append('<option value="">Select Category 3</option>');
-            
-            if (itemId) {
-                $.ajax({
-                    url: "{{ route('getitemcategories') }}",
-                    type: "GET",
-                    data: { item_id: itemId },
-                    success: function (res) {
-                        res.category1.forEach(cat => {
-                            $('#category_1').append(`<option value="${cat}">${cat}</option>`);
-                        });
-                        res.category2.forEach(cat => {
-                            $('#category_2').append(`<option value="${cat}">${cat}</option>`);
-                        });
-                        res.category3.forEach(cat => {
-                            $('#category_3').append(`<option value="${cat}">${cat}</option>`);
-                        });
-                        
-                        // Pre-select categories if the order has categories
-                        if ('{{ $order_detail->category_1 }}') {
-                            $('#category_1').val('{{ $order_detail->category_1 }}').trigger('change');
-                        }
-                        if ('{{ $order_detail->category_2 }}') {
-                            $('#category_2').val('{{ $order_detail->category_2 }}').trigger('change');
-                        }
-                        if ('{{ $order_detail->category_3 }}') {
-                            $('#category_3').val('{{ $order_detail->category_3 }}').trigger('change');
-                        }
-                    }
-                });
-            }
-        });
-        
-        // Initialize the categories based on the selected item
-        if ("{{ $order_detail->item_id }}") {
-            $('#item_id').val("{{ $order_detail->item_id }}").trigger('change');
+            });
         }
     });
-</script>
-<script>
-    $(document).ready(function () {
-        function updateCategoryFields() {
-            var selectedItem = $("#item_id").find(":selected");
 
-            var category1 = selectedItem.data("category1") || "";
-            var category2 = selectedItem.data("category2") || "";
-            var category3 = selectedItem.data("category3") || "";
+    $('#category_1').change(function () {
+    let itemId = $('#item_id').val();
+        let category1 = $(this).val();
 
-            $("input[name='category_1']").val(category1);
-            $("input[name='category_2']").val(category2);
-            $("input[name='category_3']").val(category3);
+        $('#category_2').empty().append('<option value="">Select Category 2</option>');
+        $('#category_3').empty().append('<option value="">Select Category 3</option>');
+
+        if (itemId && category1) {
+            $.ajax({
+                url: "{{ route('getitemcategory2and3') }}",
+                type: "GET",
+                data: { item_id: itemId, category_1: category1 },
+                success: function (res) {
+                    res.category2.forEach(cat => {
+                        $('#category_2').append(`<option value="${cat}">${cat}</option>`);
+                    });
+                    res.category3.forEach(cat => {
+                        $('#category_3').append(`<option value="${cat}">${cat}</option>`);
+                    });
+                }
+            });
         }
-
-        updateCategoryFields();
-
-        $("#item_id").change(function () {
-            updateCategoryFields();
-        });
     });
+
+});
 </script>
 <script>
     jQuery("#edit_order").validate({

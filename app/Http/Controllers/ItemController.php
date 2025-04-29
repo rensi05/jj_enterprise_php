@@ -27,7 +27,7 @@ class ItemController extends Controller {
         $columns = array(
             'i.id', 
             'i.item_name', 
-            'c.customer_name', 
+//            'c.customer_name', 
             'i.quantity', 
             'i.unit', 
             'i.quantity_1', 
@@ -40,7 +40,7 @@ class ItemController extends Controller {
         $getfiled = array(
             'i.id', 
             'i.item_name', 
-            'c.customer_name', 
+//            'c.customer_name', 
             'i.quantity', 
             'i.unit', 
             'i.quantity_1', 

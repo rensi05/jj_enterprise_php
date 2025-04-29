@@ -47,19 +47,19 @@
                                     <th>Item Name</th>
                                     <th>Address</th>
                                     <th>Order Type</th>
-                                    <th>Location</th>
-                                    <th>Bill No</th>
-                                    <th>Vehicle No</th>
-                                    <th>Address</th>
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
                                     <th>Category 1</th>
                                     <th>Category 2</th>
                                     <th>Category 3</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
                                     <th>Order Date</th>
                                     <th>Delivery Date</th>
                                     <th>Close Date</th>
                                     <th>Remarks</th>
+                                    <th>Location</th>
+                                    <th>Bill No</th>
+                                    <th>Vehicle No</th>
+                                    <th>Status</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
                                 </tr>

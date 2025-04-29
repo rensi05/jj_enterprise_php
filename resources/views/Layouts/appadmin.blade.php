@@ -116,7 +116,13 @@
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">                            
+                            <li class="nav-item">
+                              <a href="{{route('dashboard')}}" class="nav-link  {{ (request()->is('admincp/dashboard')) ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>Dashboard</p>
+                              </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{route('profile')}}" class="nav-link {{ (request()->is('admincp/profile')) ? 'active' : '' }} ">
                                     <i class="far fas fa-user-tie nav-icon"></i>
@@ -157,7 +163,7 @@
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('unit')}}" class="nav-link {{$unit}} ">
-                                    <i class="fa fa-user nav-icon"></i>
+                                    <i class="fa fa-balance-scale nav-icon"></i>
                                     <p>Unit Management</p>
                                 </a>
                             </li>
@@ -172,7 +178,7 @@
                             ?>
                             <li class="nav-item">
                                 <a href="{{route('customer')}}" class="nav-link {{$customer}} ">
-                                    <i class="fa fa-user nav-icon"></i>
+                                    <i class="fa fa-user-tie nav-icon"></i>
                                     <p>Customer Management</p>
                                 </a>
                             </li>
@@ -219,6 +225,20 @@
                                 <a href="{{route('checkbook')}}" class="nav-link {{$checkbook}} ">
                                     <i class="fa fa-book nav-icon"></i>
                                     <p>CheckBook Management</p>
+                                </a>
+                            </li>
+                            <?php
+                            $report = '';
+                            if ($current_route == 'customerreport' || 
+                                    $current_route == 'viewwcustomerreport'
+                            ) {
+                                $report = 'active';
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a href="{{route('customerreport')}}" class="nav-link {{$report}} ">
+                                    <i class="fa fa-file nav-icon"></i>
+                                    <p>JJ Report</p>
                                 </a>
                             </li>
                             <li class="nav-item">

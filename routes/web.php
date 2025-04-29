@@ -13,6 +13,8 @@ Route::group(['middleware' => ['auth']], function () {
         
     Route::match(['get', 'post'], '/logout', 'LoginController@logout')->name('logout');
     Route::get('/dashboard', 'DashboardConroller@index')->name('dashboard');    
+    Route::get('/getfirstitem/{item_name}', 'DashboardConroller@getFirstItem')->name('getfirstitem')->where('item_name', '.*');
+    Route::get('/getotheritem', 'DashboardConroller@getOtherItem')->name('getotheritem');
 
     //Update profile
     Route::get('/profile', 'Profilecontroller@index')->name('profile');
@@ -115,4 +117,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/deletestock', 'StockController@deleteStock')->name('deletestock');
     Route::get('/changestockstatus/{id}', 'StockController@changeStockStatus')->name('changestockstatus');
     Route::post('/updatestockstatus', 'StockController@updateStockStatus')->name('updatestockstatus');
+    
+    //Stock
+    Route::get('/customerreport', 'ReportController@customerReport')->name('customerreport');
+    Route::get('/getcustomerreport', 'ReportController@getCustomerReport')->name('getcustomerreport');
+    Route::get('/viewcustomerreport/{customer_id}', 'ReportController@viewCustomerReport')->name('viewcustomerreport');
+    Route::get('/getcustomerorder/{customer_id}', 'ReportController@getCustomerOrder')->name('getcustomerorder');
+    
 });

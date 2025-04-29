@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>Sr No</th>
                                     <th>Item Name</th>
-                                    <th>Customer Name</th>
+                                    <!--<th>Customer Name</th>-->
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Quantity 1</th>
@@ -125,16 +125,16 @@
                 },
                 {"taregts": 1, 'data': 'item_name'
                 },
-                {"taregts": 2, 'data': 'customer_name',
-                    "render": function (data, type, row) {
-                        var customer_name = row.customer_name;
-                        if(customer_name != null){
-                            return customer_name;
-                        } else {
-                            return '-';                            
-                        }
-                    }
-                },
+//                {"taregts": 2, 'data': 'customer_name',
+//                    "render": function (data, type, row) {
+//                        var customer_name = row.customer_name;
+//                        if(customer_name != null){
+//                            return customer_name;
+//                        } else {
+//                            return '-';                            
+//                        }
+//                    }
+//                },
                 {"taregts": 3, 'data': 'quantity',
                     "render": function (data, type, row) {
                         var quantity = row.quantity;

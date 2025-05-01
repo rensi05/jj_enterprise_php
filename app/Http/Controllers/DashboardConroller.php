@@ -20,17 +20,17 @@ class DashboardConroller extends Controller
         $columns = [
             'o.category_1',
             'o.category_2',
-            DB::raw("COUNT(CASE WHEN o.status = 'pending' THEN 1 END) as pending_order"),
-            DB::raw("COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_order"),
-            DB::raw("COUNT(o.id) as total_order")
+            DB::raw("SUM(CASE WHEN o.status = 'pending' THEN o.quantity ELSE 0 END) as pending_order"),
+            DB::raw("SUM(CASE WHEN o.status = 'completed' THEN o.quantity ELSE 0 END) as completed_order"),
+            DB::raw("SUM(o.quantity) as total_order")
         ];
 
         $getfiled = [
             'o.category_1',
             'o.category_2',
-            DB::raw("COUNT(CASE WHEN o.status = 'pending' THEN 1 END) as pending_order"),
-            DB::raw("COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_order"),
-            DB::raw("COUNT(o.id) as total_order")
+            DB::raw("SUM(CASE WHEN o.status = 'pending' THEN o.quantity ELSE 0 END) as pending_order"),
+            DB::raw("SUM(CASE WHEN o.status = 'completed' THEN o.quantity ELSE 0 END) as completed_order"),
+            DB::raw("SUM(o.quantity) as total_order")
         ];
 
         $condition = [];
@@ -51,18 +51,18 @@ class DashboardConroller extends Controller
             'i.item_name',
             'o.category_1',
             'o.category_2',
-            DB::raw("COUNT(CASE WHEN o.status = 'pending' THEN 1 END) as pending_order"),
-            DB::raw("COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_order"),
-            DB::raw("COUNT(o.id) as total_order")
+            DB::raw("SUM(CASE WHEN o.status = 'pending' THEN o.quantity ELSE 0 END) as pending_order"),
+            DB::raw("SUM(CASE WHEN o.status = 'completed' THEN o.quantity ELSE 0 END) as completed_order"),
+            DB::raw("SUM(o.quantity) as total_order")
         ];
 
         $getfiled = [
             'i.item_name',
             'o.category_1',
             'o.category_2',
-            DB::raw("COUNT(CASE WHEN o.status = 'pending' THEN 1 END) as pending_order"),
-            DB::raw("COUNT(CASE WHEN o.status = 'completed' THEN 1 END) as completed_order"),
-            DB::raw("COUNT(o.id) as total_order")
+            DB::raw("SUM(CASE WHEN o.status = 'pending' THEN o.quantity ELSE 0 END) as pending_order"),
+            DB::raw("SUM(CASE WHEN o.status = 'completed' THEN o.quantity ELSE 0 END) as completed_order"),
+            DB::raw("SUM(o.quantity) as total_order")
         ];
 
         $condition = [];

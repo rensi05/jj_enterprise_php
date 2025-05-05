@@ -81,7 +81,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: user_path + 'getcheckbook',

@@ -94,7 +94,7 @@ class Item extends Model {
             $data->where(function ($query) use ($request, $datatable_fields) {
                 for ($i = 0; $i < count($datatable_fields); $i++) {
                     if ($request['columns'][$i]['searchable'] == true) {
-                        $search = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request['search']['value']));
+            $search = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $request['search']['value']));
                         $query->orWhereRaw("LOWER(REPLACE(REPLACE(REPLACE($datatable_fields[$i], '.', ''), ' ', ''), '-', '')) LIKE ?", ["%$search%"]);
                     }
                 }
@@ -107,31 +107,30 @@ class Item extends Model {
                 }
             }
         }
-        
+
         if (!empty($request['item_name'])) {
             $data->where('i.item_name', $request['item_name']);
         }
 //        $data->where('i.item_name', 'AIR BUBBLE ROLL 1 MTR');
-        $data->groupBy('o.category_1', 'o.category_2');
-        $data->orderByDesc(DB::raw('SUM(o.quantity)'));
+        $data->groupBy('oi.category_1', 'oi.category_2');
+        $data->orderByDesc(DB::raw('SUM(oi.quantity)'));
 
-//        $data->limit(10);
-        $count = $data->count();
+        // Count manually from grouped result
+        $countData = clone $data;
+        $count = $countData->get()->count();
+
+        // Pagination
         $data->skip($request['start'])->take(10);
+
+        // Final output
         $output['recordsTotal'] = $count;
         $output['recordsFiltered'] = $count;
         $output['draw'] = $request['draw'];
-        $data_d = $data->get();
+        $output['data'] = $data->get();
 
-//        if (!$data_d->isEmpty()) {
-//            foreach ($data_d as $key => $d) {
-//                $data_d[$key]->created_at = Common::adminconvertTimezone($d->created_at, 'm-d-Y h:i A');
-//            }
-//        }
-        $output['data'] = $data_d;
         return json_encode($output);
     }
-    
+
     public static function OtherItemModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
         DB::enableQueryLog();
         $output = array();
@@ -165,10 +164,10 @@ class Item extends Model {
             }
         }
         
-            $data->whereNotIn('i.item_name', ['AIR BUBBLE ROLL 1 MTR', 'BOPP TAP', 'STRETCH FILM ROLL', 'EPE FOAM ROLL']);
+        $data->whereNotIn('i.item_name', ['AIR BUBBLE ROLL 1 MTR', 'BOPP TAP', 'STRETCH FILM ROLL', 'EPE FOAM ROLL']);
 
-        $data->groupBy('o.category_1', 'o.category_2');
-        $data->orderByDesc(DB::raw('SUM(o.quantity)'));
+        $data->groupBy('oi.category_1', 'oi.category_2');
+        $data->orderByDesc(DB::raw('SUM(oi.quantity)'));
 
         $count = $data->count();
         $data->skip($request['start'])->take($request['length']);

@@ -15,6 +15,8 @@ use App\Models\ItemCategory;
 use App\Models\Unit;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\OrderImport;
+use Illuminate\Support\Str;
+use App\Models\orderItems;
 
 class OrderController extends Controller {
 
@@ -102,14 +104,14 @@ class OrderController extends Controller {
             'o.id', 
             'o.order_no', 
             'c.customer_name', 
-            'i.item_name', 
+//            'i.item_name', 
             'o.address', 
             'o.order_type', 
-            'o.category_1', 
-            'o.category_2', 
-            'o.category_3', 
-            'o.quantity', 
-            'um.name', 
+//            'o.category_1', 
+//            'o.category_2', 
+//            'o.category_3', 
+//            'o.quantity', 
+//            'um.name', 
             'o.order_date', 
             'o.delivery_date', 
             'o.close_date', 
@@ -124,14 +126,14 @@ class OrderController extends Controller {
             'o.id', 
             'o.order_no', 
             'c.customer_name', 
-            'i.item_name', 
+//            'i.item_name', 
             'o.address', 
             'o.order_type', 
-            'o.category_1', 
-            'o.category_2', 
-            'o.category_3', 
-            'o.quantity', 
-            'um.name', 
+//            'o.category_1', 
+//            'o.category_2', 
+//            'o.category_3', 
+//            'o.quantity', 
+//            'um.name', 
             'o.order_date', 
             'o.delivery_date', 
             'o.close_date', 
@@ -176,13 +178,15 @@ class OrderController extends Controller {
     public function Saveorder(Request $request) {
         $rules = array(
             'customer_id' => 'required',
-            'item_id' => 'required',
+//            'item_id' => 'required',
             'order_date' => 'required',
+            'item_id.*' => 'required|exists:items,id',
         );
 
         $messages = array(
             'customer_id.required' => 'Please select customer',
-            'item_id.required' => 'Please select item',
+//            'item_id.required' => 'Please select item',
+            'item_id.required' => 'Please select at least one item',
             'order_date.required' => 'Please select order date',
         );
 
@@ -192,22 +196,28 @@ class OrderController extends Controller {
                 return redirect()->back()->with('error', $messages[0])->withInput();
             }
         }
-        
-        $timestamp = strtotime(date('Y-m-d H:i:s'));
-        $six_digit_random_number = substr($timestamp, strlen($timestamp) - 6, strlen($timestamp));
-        $order_no = 'ORD-' . $six_digit_random_number;
+        $lastOrder = Order::withTrashed()->orderBy('id', 'desc')->first();
+
+        if ($lastOrder && $lastOrder->order_no) {
+            $lastNumber = (int) str_replace('JJ-', '', $lastOrder->order_no);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        $order_no = 'JJ-' . str_pad($newNumber, 9, '0', STR_PAD_LEFT);
 
         $order = new Order();
         $order->order_no = $order_no;
         $order->customer_id = $request->customer_id;
-        $order->item_id = $request->item_id;
+//        $order->item_id = $request->item_id;
         $order->address = $request->address;
         $order->order_type = $request->order_type;
-        $order->category_1 = $request->category_1;
-        $order->category_2 = $request->category_2;
-        $order->category_3 = $request->category_3;
-        $order->quantity = $request->quantity;
-        $order->unit_id = $request->unit_id;
+//        $order->category_1 = $request->category_1;
+//        $order->category_2 = $request->category_2;
+//        $order->category_3 = $request->category_3;
+//        $order->quantity = $request->quantity;
+//        $order->unit_id = $request->unit_id;
         $order->order_date = $request->order_date;
         $order->delivery_date = $request->delivery_date;
         $order->close_date = $request->close_date;
@@ -219,6 +229,18 @@ class OrderController extends Controller {
             $order->status = 'completed';
         }        
         $order->save();
+        
+        foreach ($request->item_id as $index => $itemId) {
+            orderItems::create([
+                'order_id' => $order->id,
+                'item_id' => $itemId,
+                'quantity' => $request->quantity[$index],
+                'unit_id' => $request->unit_id[$index],
+                'category_1' => $request->category_1[$index] ?? null,
+                'category_2' => $request->category_2[$index] ?? null,
+                'category_3' => $request->category_3[$index] ?? null,
+            ]);
+        }
         return redirect()->route('order')->with('success', 'Order added successfully');
     }
 
@@ -260,14 +282,14 @@ class OrderController extends Controller {
             return redirect()->back()->with('error', 'Information not found');
         }
         $edit_order->customer_id = $request->customer_id;
-        $edit_order->item_id = $request->item_id;
+//        $edit_order->item_id = $request->item_id;
         $edit_order->address = $request->address;
         $edit_order->order_type = $request->order_type;
-        $edit_order->category_1 = $request->category_1;
-        $edit_order->category_2 = $request->category_2;
-        $edit_order->category_3 = $request->category_3;
-        $edit_order->quantity = $request->quantity;
-        $edit_order->unit_id = $request->unit_id;
+//        $edit_order->category_1 = $request->category_1;
+//        $edit_order->category_2 = $request->category_2;
+//        $edit_order->category_3 = $request->category_3;
+//        $edit_order->quantity = $request->quantity;
+//        $edit_order->unit_id = $request->unit_id;
         $edit_order->order_date = $request->order_date;
         $edit_order->delivery_date = $request->delivery_date;
         $edit_order->close_date = $request->close_date;
@@ -280,6 +302,21 @@ class OrderController extends Controller {
         }
         $edit_order->save();
         
+        OrderItems::where('order_id', $edit_order->id)->delete();
+
+        foreach ($request->item_id as $key => $item_id) {
+            if ($item_id != '') {
+                OrderItems::create([
+                    'order_id' => $edit_order->id,
+                    'item_id' => $item_id,
+                    'quantity' => $request->quantity[$key],
+                    'unit_id' => $request->unit_id[$key],
+                    'category_1' => $request->category_1[$key] ?? null,
+                    'category_2' => $request->category_2[$key] ?? null,
+                    'category_3' => $request->category_3[$key] ?? null,
+                ]);
+            }
+        }
         return redirect()->route('order')->with('success', 'Order updated successfully');
     }
 
@@ -391,6 +428,46 @@ class OrderController extends Controller {
                 ->values();
 
         return response()->json(['category2' => $category2, 'category3' => $category3]);
+    }
+    
+    public function saveOrderCustomer(Request $request) {
+        $rules = [
+            'customer_name' => 'required|min:2|max:200',
+        ];
+
+        $messages = [
+            'customer_name.required' => 'Please enter customer name',
+            'customer_name.min' => 'Customer name should be at least :min characters',
+            'customer_name.max' => 'Customer name should not exceed :max characters',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+        }
+
+        $existingCustomer = Customer::where('customer_name', $request->customer_name)->first();
+        if ($existingCustomer) {
+            return response()->json(['status' => 'error', 'message' => 'Customer already exists'], 409);
+        }
+
+        $customer = new Customer();
+        $customer->customer_type = $request->customer_type;
+        $customer->customer_name = $request->customer_name;
+        $customer->location = $request->location;
+        $customer->country = $request->country;
+        $customer->state = $request->state;
+        $customer->type = $request->type;
+        $customer->gst_no = $request->gst_no;
+        $customer->save();
+        return response()->json(['status' => 'success', 'message' => 'Customer added successfully',
+            'data' => [
+                'id' => $customer->id,
+                'customer_name' => $customer->customer_name,
+                'location' => $customer->location
+            ]
+        ]);
     }
 
 }

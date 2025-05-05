@@ -111,7 +111,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: user_path + 'getitem',
@@ -123,7 +125,17 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'item_name'
+                {"taregts": 1, 'data': 'item_name',
+                    "render": function (data, type, row) {
+                        var item_name = row.item_name;
+                        var id = row.id;
+                        if(item_name != null){
+                            return `<a title="Edit" href="{{ url('edititem') }}/${id}" class="">${item_name}</a>&nbsp;&nbsp;&nbsp;`;
+//                            return item_name;
+                        } else {
+                            return '-';
+                        }
+                    }
                 },
 //                {"taregts": 2, 'data': 'customer_name',
 //                    "render": function (data, type, row) {

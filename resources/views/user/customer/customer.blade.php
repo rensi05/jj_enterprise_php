@@ -112,7 +112,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: user_path + 'getcustomer',
@@ -129,8 +131,10 @@
                 {"taregts": 2, 'data': 'customer_name',
                     "render": function (data, type, row) {
                         var customer_name = row.customer_name;
+                        var id = row.id;
                         if(customer_name != null){
-                            return customer_name;
+                            return `<a title="Edit" href="{{ url('editcustomer') }}/${id}" class="">${customer_name}</a>&nbsp;&nbsp;&nbsp;`;
+//                            return customer_name;
                         } else {
                             return '-';                            
                         }

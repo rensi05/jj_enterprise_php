@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Customers Management</h1>
+                <h1>JJ Report</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Customers Management</li>
+                    <li class="breadcrumb-item active">JJ Report</li>
                 </ol>
             </div>
         </div>
@@ -51,7 +51,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: user_path + 'getcustomerreport',

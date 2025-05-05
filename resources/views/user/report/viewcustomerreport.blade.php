@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('customerreport')}}">Customer Report</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('customerreport')}}">JJ Report</a></li>
                     <li class="breadcrumb-item active">View Customer Orders</li>
                 </ol>
             </div>
@@ -38,14 +38,14 @@
                                             <tr>
                                                 <th>Sr No</th>
                                                 <th>Order No.</th>
-                                                <th>Item Name</th>
+                                                <!--<th>Item Name</th>-->
                                                 <th>Address</th>
                                                 <th>Order Type</th>
-                                                <th>Category 1</th>
+<!--                                                <th>Category 1</th>
                                                 <th>Category 2</th>
                                                 <th>Category 3</th>
                                                 <th>Quantity</th>
-                                                <th>Unit</th>
+                                                <th>Unit</th>-->
                                                 <th>Order Date</th>
                                                 <th>Delivery Date</th>
                                                 <th>Close Date</th>
@@ -80,7 +80,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "<?php echo route('getcustomerorder', !empty($customer_detail->id) ? $customer_detail->id : 0); ?>",
@@ -92,18 +94,28 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'order_no'
-                },
-                {"taregts": 2, 'data': 'item_name',
+                {"taregts": 1, 'data': 'order_no',
                     "render": function (data, type, row) {
-                        var item_name = row.item_name;
-                        if (item_name != null) {
-                            return item_name;
+                        var order_no = row.order_no;
+                        var id = row.id;
+                        if(order_no != null){
+                            return `<a title="Edit" href="{{ url('editorder') }}/${id}" class="">${order_no}</a>&nbsp;&nbsp;&nbsp;`;
+//                            return order_no;
                         } else {
-                            return '-';
+                            return '-';                            
                         }
                     }
                 },
+//                {"taregts": 2, 'data': 'item_name',
+//                    "render": function (data, type, row) {
+//                        var item_name = row.item_name;
+//                        if (item_name != null) {
+//                            return item_name;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
                 {"taregts": 3, 'data': 'address',
                     "render": function (data, type, row) {
                         var address = row.address;
@@ -124,56 +136,56 @@
                         }
                     }
                 },
-                {"taregts": 5, 'data': 'category_1',
-                    "render": function (data, type, row) {
-                        var category_1 = row.category_1;
-                        if (category_1 != null) {
-                            return category_1;
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                {"taregts": 6, 'data': 'category_2',
-                    "render": function (data, type, row) {
-                        var category_2 = row.category_2;
-                        if (category_2 != null) {
-                            return category_2;
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                {"taregts": 7, 'data': 'category_3',
-                    "render": function (data, type, row) {
-                        var category_3 = row.category_3;
-                        if (category_3 != null) {
-                            return category_3;
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                {"taregts": 8, 'data': 'quantity',
-                    "render": function (data, type, row) {
-                        var quantity = row.quantity;
-                        if (quantity != null) {
-                            return quantity;
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
-                {"taregts": 9, 'data': 'name',
-                    "render": function (data, type, row) {
-                        var name = row.name;
-                        if (name != null) {
-                            return name;
-                        } else {
-                            return '-';
-                        }
-                    }
-                },
+//                {"taregts": 5, 'data': 'category_1',
+//                    "render": function (data, type, row) {
+//                        var category_1 = row.category_1;
+//                        if (category_1 != null) {
+//                            return category_1;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
+//                {"taregts": 6, 'data': 'category_2',
+//                    "render": function (data, type, row) {
+//                        var category_2 = row.category_2;
+//                        if (category_2 != null) {
+//                            return category_2;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
+//                {"taregts": 7, 'data': 'category_3',
+//                    "render": function (data, type, row) {
+//                        var category_3 = row.category_3;
+//                        if (category_3 != null) {
+//                            return category_3;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
+//                {"taregts": 8, 'data': 'quantity',
+//                    "render": function (data, type, row) {
+//                        var quantity = row.quantity;
+//                        if (quantity != null) {
+//                            return quantity;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
+//                {"taregts": 9, 'data': 'name',
+//                    "render": function (data, type, row) {
+//                        var name = row.name;
+//                        if (name != null) {
+//                            return name;
+//                        } else {
+//                            return '-';
+//                        }
+//                    }
+//                },
                 {"taregts": 10, 'data': 'order_date',
                     "render": function (data, type, row) {
                         var order_date = row.order_date;

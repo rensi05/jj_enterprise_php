@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
 //    Route::get('/getitemcategories', 'OrderController@getItemCategories')->name('getitemcategories');
     Route::get('/getitemcategory1', 'OrderController@getItemCategory1')->name('getitemcategory1');
     Route::get('/getitemcategory2and3', 'OrderController@getItemCategory2And3')->name('getitemcategory2and3');
+    Route::post('/saveordercustomer', 'OrderController@saveOrderCustomer')->name('saveordercustomer');
 
     //Customer
     Route::get('/customer', 'CustomerController@index')->name('customer');

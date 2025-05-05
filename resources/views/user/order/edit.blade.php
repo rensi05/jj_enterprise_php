@@ -38,23 +38,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Item</label>
-                                        <select class="form-control select2" id="item_id" name="item_id">
-                                            <option value="">Select Item</option>
-                                            @foreach($items as $item)
-                                            <option value="{{ $item->id }}"
-                                                data-category1="{{ $item->category_1 }}" 
-                                                data-category2="{{ $item->category_2 }}" 
-                                                data-category3="{{ $item->category_3 }}"
-                                                {{ $item->id == $order_detail->item_id ? 'selected' : '' }}>
-                                                {{ $item->item_name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Order Type</label>
@@ -79,51 +62,10 @@
                                         <input type="text" class="form-control" name="vehicle_no" value="{{ $order_detail->vehicle_no }}" placeholder="Enter Vehicle No" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-4">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Address</label>
                                         <input type="text" class="form-control" name="address" value="{{ $order_detail->address }}" placeholder="Enter Address" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input type="number" class="form-control" name="quantity" value="{{ $order_detail->quantity }}" placeholder="Enter Quantity" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Unit</label>
-                                        <select class="form-control select2" id="unit_id" name="unit_id">
-                                            <option value="">Select Unit</option>
-                                            @foreach($units as $key => $unit)
-                                            <option value="{{ $unit->id }}" {{ $unit->id == $order_detail->unit_id ? 'selected' : '' }}>{{ $unit->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Category 1</label>
-                                        <select name="category_1" id="category_1" class="form-control select2">
-                                            <option value="">Select Category 1</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Category 2</label>
-                                        <select name="category_2" id="category_2" class="form-control select2">
-                                            <option value="">Select Category 2</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-4">
-                                    <div class="form-group">
-                                        <label>Category 3</label>
-                                        <select name="category_3" id="category_3" class="form-control select2">
-                                            <option value="">Select Category 3</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-4">
@@ -150,20 +92,165 @@
                                         <textarea class="form-control" name="remarks" placeholder="Enter Remarks">{{ $order_detail->remarks }}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary"> Update </button>
-                                        <a href="{{route('order')}}" class="btn btn-default"> Cancel </a>
+                            </div>
+                            <div id="item-section-wrapper">
+                                @if(!$order_detail->items->isEmpty())
+                                    @foreach($order_detail->items as $key => $orderItem)
+                                    <div class="item-section row border rounded p-3 mb-3 bg-light">
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Item*</label>
+                                                <select class="form-control select2 item_id" name="item_id[]">
+                                                    <option value="">Select Item</option>
+                                                    @foreach($items as $item)
+                                                    <option value="{{ $item->id }}"
+                                                            data-category1="{{ $item->category_1 }}"
+                                                            data-category2="{{ $item->category_2 }}"
+                                                            data-category3="{{ $item->category_3 }}"
+                                                            {{ $item->id == $orderItem->item_id ? 'selected' : '' }}>
+                                                        {{ $item->item_name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Quantity</label>
+                                                <input type="number" class="form-control" name="quantity[]" value="{{ $orderItem->quantity }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Unit</label>
+                                                <select class="form-control select2" name="unit_id[]">
+                                                    <option value="">Select Unit</option>
+                                                    @foreach($units as $unit)
+                                                    <option value="{{ $unit->id }}" {{ $unit->id == $orderItem->unit_id ? 'selected' : '' }}>
+                                                        {{ $unit->name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 1</label>
+                                                <select class="form-control select2 category_1" name="category_1[]">
+                                                    @if($orderItem->category_1)
+                                                    <option selected value="{{ $orderItem->category_1 }}">{{ $orderItem->category_1 }}</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 2</label>
+                                                <select class="form-control select2 category_2" name="category_2[]">
+                                                    @if($orderItem->category_2)
+                                                    <option selected value="{{ $orderItem->category_2 }}">{{ $orderItem->category_2 }}</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 3</label>
+                                                <select class="form-control select2 category_3" name="category_3[]">
+                                                    @if($orderItem->category_3)
+                                                    <option selected value="{{ $orderItem->category_3 }}">{{ $orderItem->category_3 }}</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-sm-2 mt-2">
+                                            <div class="form-group">
+                                                <label></label>
+                                                @if($key == 0)
+                                                    <button type="button" class="btn btn-success add-more"><i class="fas fa-plus"></i></button>
+                                                @else
+                                                    <button type="button" class="btn btn-danger remove-section"><i class="fas fa-minus"></i></button>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
+                                    @endforeach
+                                @else
+                                <div id="item-section-wrapper">
+                                    <div class="item-section row border rounded p-3 mb-3 bg-light">
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Item*</label>
+                                                <select class="form-control select2 item_id" name="item_id[]">
+                                                    <option value="">Select Item</option>
+                                                    @foreach($items as $item)
+                                                    <option value="{{ $item->id }}"
+                                                            data-category1="{{ $item->category_1 }}"
+                                                            data-category2="{{ $item->category_2 }}"
+                                                            data-category3="{{ $item->category_3 }}">
+                                                        {{ $item->item_name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Quantity</label>
+                                                <input type="number" class="form-control" name="quantity[]">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Unit</label>
+                                                <select class="form-control select2" name="unit_id[]">
+                                                    <option value="">Select Unit</option>
+                                                    @foreach($units as $unit)
+                                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 1</label>
+                                                <select class="form-control select2 category_1" name="category_1[]"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 2</label>
+                                                <select class="form-control select2 category_2" name="category_2[]"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-4">
+                                            <div class="form-group">
+                                                <label>Category 3</label>
+                                                <select class="form-control select2 category_3" name="category_3[]"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-sm-2 mt-2">
+                                            <div class="form-group">
+                                                <label></label>
+                                                <button type="button" class="btn btn-success add-more"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"> Update </button>
+                                    <a href="{{route('order')}}" class="btn btn-default"> Cancel </a>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 </section>
 @endsection
 @section('javascript')
@@ -175,112 +262,152 @@
     });
 </script>
 <script>
-$(document).ready(function () {
-    function customMatcher(params, data) {
-        if ($.trim(params.term) === '') {
-            return data;
-        }
+    $(document).on('click', '.add-more', function () {
+        let wrapper = $('#item-section-wrapper');
+        let clone = wrapper.find('.item-section').first().clone();
 
-        let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
-        let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+        // Clear inputs
+        clone.find('input').val('');
+        clone.find('select').val('');
 
-        if (text.indexOf(term) > -1) {
-            return data;
-        }
-
-        return null;
-    }
-
-    // Initialize Customer select2
-    $("#customer_id").select2({
-        placeholder: "Select a customer",
-        allowClear: true,
-        minimumResultsForSearch: 0,
-        matcher: customMatcher,
-        language: {
-            noResults: function () {
-                return "No results found";
+        // Remove any existing Select2 containers
+        clone.find('select').each(function () {
+            if ($(this).hasClass("select2-hidden-accessible")) {
+                $(this).select2('destroy');
             }
-        }
-    }).on('select2:open', function () {
-        let input = $('.select2-search__field');
-        if (input.length) {
-            input[0].focus();
-        }
+        });
+
+        // Change '+' to '-' and class
+        clone.find('.add-more')
+                .removeClass('btn-success add-more')
+                .addClass('btn-danger remove-section')
+                .html('<i class="fas fa-minus"></i>');
+
+        // Append the clone
+        wrapper.append(clone);
+
+        // Initialize Select2 only on the newly appended selects
+        clone.find('select.select2').select2();
     });
 
-    // Initialize Item select2
-    $("#item_id").select2({
-        placeholder: "Select an item",
-        allowClear: true,
-        minimumResultsForSearch: 0,
-        matcher: customMatcher,
-        language: {
-            noResults: function () {
-                return "No results found";
+    $(document).on('click', '.remove-section', function () {
+        $(this).closest('.item-section').remove();
+    });
+
+    $(document).ready(function () {
+        function customMatcher(params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
             }
+
+            let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
+            let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+
+            if (text.indexOf(term) > -1) {
+                return data;
+            }
+
+            return null;
         }
-    }).on('select2:open', function () {
-        let input = $('.select2-search__field');
-        if (input.length) {
-            input[0].focus();
-        }
-    });
 
-    // Auto-fill address when customer changes
-    $('#customer_id').change(function () {
-        let selectedOption = $(this).find('option:selected');
-        let address = selectedOption.data('address');
-        $('input[name="address"]').val(address);
-    });
-
-    // Fetch categories when item changes
-    $('#item_id').change(function () {
-        let itemId = $(this).val();
-
-        $('#category_1').empty().append('<option value="">Select Category 1</option>');
-        $('#category_2').empty().append('<option value="">Select Category 2</option>');
-        $('#category_3').empty().append('<option value="">Select Category 3</option>');
-
-        if (itemId) {
-            $.ajax({
-                url: "{{ route('getitemcategory1') }}", // New route
-                type: "GET",
-                data: { item_id: itemId },
-                success: function (res) {
-                    res.category1.forEach(cat => {
-                        $('#category_1').append(`<option value="${cat}">${cat}</option>`);
-                    });
+        // Initialize Customer select2
+        $("#customer_id").select2({
+            placeholder: "Select a customer",
+            allowClear: true,
+            minimumResultsForSearch: 0,
+            matcher: customMatcher,
+            language: {
+                noResults: function () {
+                    return "No results found";
                 }
-            });
-        }
-    });
+            }
+        }).on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) {
+                input[0].focus();
+            }
+        });
 
-    $('#category_1').change(function () {
-    let itemId = $('#item_id').val();
-        let category1 = $(this).val();
-
-        $('#category_2').empty().append('<option value="">Select Category 2</option>');
-        $('#category_3').empty().append('<option value="">Select Category 3</option>');
-
-        if (itemId && category1) {
-            $.ajax({
-                url: "{{ route('getitemcategory2and3') }}",
-                type: "GET",
-                data: { item_id: itemId, category_1: category1 },
-                success: function (res) {
-                    res.category2.forEach(cat => {
-                        $('#category_2').append(`<option value="${cat}">${cat}</option>`);
-                    });
-                    res.category3.forEach(cat => {
-                        $('#category_3').append(`<option value="${cat}">${cat}</option>`);
-                    });
+        // Initialize Item select2
+        $("#item_id").select2({
+            placeholder: "Select an item",
+            allowClear: true,
+            minimumResultsForSearch: 0,
+            matcher: customMatcher,
+            language: {
+                noResults: function () {
+                    return "No results found";
                 }
-            });
-        }
-    });
+            }
+        }).on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) {
+                input[0].focus();
+            }
+        });
 
-});
+        // Auto-fill address when customer changes
+        $('#customer_id').change(function () {
+            let selectedOption = $(this).find('option:selected');
+            let address = selectedOption.data('address');
+            $('input[name="address"]').val(address);
+        });
+
+        // Fetch categories when item changes
+        $(document).on('change', '.item_id', function () {
+            let itemId = $(this).val();
+            let section = $(this).closest('.item-section');
+
+            let cat1Select = section.find('.category_1');
+            let cat2Select = section.find('.category_2');
+            let cat3Select = section.find('.category_3');
+
+            cat1Select.empty().append('<option value="">Select Category 1</option>');
+            cat2Select.empty().append('<option value="">Select Category 2</option>');
+            cat3Select.empty().append('<option value="">Select Category 3</option>');
+
+            if (itemId) {
+                $.ajax({
+                    url: "{{ route('getitemcategory1') }}",
+                    type: "GET",
+                    data: { item_id: itemId },
+                    success: function (res) {
+                        res.category1.forEach(function (cat) {
+                            cat1Select.append(`<option value="${cat}">${cat}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $(document).on('change', '.category_1', function () {
+            let category1 = $(this).val();
+            let section = $(this).closest('.item-section');
+            let itemId = section.find('.item_id').val();
+
+            let cat2Select = section.find('.category_2');
+            let cat3Select = section.find('.category_3');
+
+            cat2Select.empty().append('<option value="">Select Category 2</option>');
+            cat3Select.empty().append('<option value="">Select Category 3</option>');
+
+            if (itemId && category1) {
+                $.ajax({
+                    url: "{{ route('getitemcategory2and3') }}",
+                    type: "GET",
+                    data: { item_id: itemId, category_1: category1 },
+                    success: function (res) {
+                        res.category2.forEach(function (cat) {
+                            cat2Select.append(`<option value="${cat}">${cat}</option>`);
+                        });
+                        res.category3.forEach(function (cat) {
+                            cat3Select.append(`<option value="${cat}">${cat}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+    });
 </script>
 <script>
     jQuery("#edit_order").validate({

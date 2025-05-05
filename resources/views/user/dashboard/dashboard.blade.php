@@ -140,7 +140,9 @@
         table = jQuery('#email_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "{{ route('getfirstitem', ['item_name' => 'AIR BUBBLE ROLL 1 MTR']) }}",
@@ -171,7 +173,9 @@
         table2 = jQuery('#second_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "{{ route('getfirstitem', ['item_name' => 'BOPP TAP']) }}",
@@ -202,7 +206,9 @@
         table3 = jQuery('#third_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "{{ route('getfirstitem', ['item_name' => 'STRETCH FILM ROLL']) }}",
@@ -233,7 +239,9 @@
         table4 = jQuery('#fourth_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "{{ route('getfirstitem', ['item_name' => 'EPE FOAM ROLL']) }}",
@@ -264,7 +272,9 @@
         table5 = jQuery('#other_datatable').DataTable({
             "processing": true,
             "serverSide": true,
-            "responsive": true,
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
                 url: "{{ route('getotheritem') }}",

@@ -24,6 +24,10 @@ class Order extends Model
     ];
     use HasFactory,SoftDeletes;
     protected $table = 'orders'; 
+    
+    public function items() {
+        return $this->hasMany(OrderItems::class, 'order_id');
+    }
 
     public static function OrderModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
         DB::enableQueryLog();

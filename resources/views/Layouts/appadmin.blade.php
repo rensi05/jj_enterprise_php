@@ -200,6 +200,7 @@
                             <?php
                             $order = '';
                             if ($current_route == 'order' || 
+                                    $current_route == 'pastorder' || 
                                     $current_route == 'addorder' || 
                                     $current_route == 'editorder'
                             ) {
@@ -230,7 +231,7 @@
                             <?php
                             $report = '';
                             if ($current_route == 'customerreport' || 
-                                    $current_route == 'viewwcustomerreport'
+                                    $current_route == 'viewcustomerreport'
                             ) {
                                 $report = 'active';
                             }

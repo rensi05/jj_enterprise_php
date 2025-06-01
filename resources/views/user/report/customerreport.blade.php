@@ -75,7 +75,7 @@
                         }
                     }
                 },
-                {"targets": 2, 'data': 'total_orders',
+                {"targets": 2, 'data': 'total_orders', "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
                         return row.total_orders ? row.total_orders : 0;
                     }

@@ -44,19 +44,19 @@
                                     <th>Sr No</th>
                                     <th>Order No.</th>
                                     <th>Customer Name</th>
-                                    <!--<th>Item Name</th>-->
-                                    <th>Address</th>
+                                    <th>Item Name</th>
+                                    <!--<th>Address</th>-->
                                     <th>Order Type</th>
-<!--                                    <th>Category 1</th>
+                                    <th>Category 1</th>
                                     <th>Category 2</th>
                                     <th>Category 3</th>
                                     <th>Quantity</th>
-                                    <th>Unit</th>-->
+                                    <th>Unit</th>
                                     <th>Order Date</th>
                                     <th>Delivery Date</th>
                                     <th>Close Date</th>
                                     <th>Remarks</th>
-                                    <th>Location</th>
+                                    <!--<th>Address</th>-->
                                     <th>Bill No</th>
                                     <th>Vehicle No</th>
                                     <th>Status</th>
@@ -161,26 +161,26 @@
                         }
                     }
                 },
-//                {"taregts": 3, 'data': 'item_name',
-//                    "render": function (data, type, row) {
-//                        var item_name = row.item_name;
-//                        if(item_name != null){
-//                            return item_name;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
-                {"taregts": 4, 'data': 'address',
+                {"taregts": 3, 'data': 'item_name',
                     "render": function (data, type, row) {
-                        var address = row.address;
-                        if(address != null){
-                            return address;
+                        var item_name = row.item_name;
+                        if(item_name != null){
+                            return item_name;
                         } else {
                             return '-';                            
                         }
                     }
                 },
+//                {"taregts": 4, 'data': 'address',
+//                    "render": function (data, type, row) {
+//                        var address = row.address;
+//                        if(address != null){
+//                            return address;
+//                        } else {
+//                            return '-';                            
+//                        }
+//                    }
+//                },
                 {"taregts": 5, 'data': 'order_type',
                     "render": function (data, type, row) {
                         var order_type = row.order_type;
@@ -191,56 +191,56 @@
                         }
                     }
                 },
-//                {"taregts": 6, 'data': 'category_1',
-//                    "render": function (data, type, row) {
-//                        var category_1 = row.category_1;
-//                        if(category_1 != null){
-//                            return category_1;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
-//                {"taregts": 7, 'data': 'category_2',
-//                    "render": function (data, type, row) {
-//                        var category_2 = row.category_2;
-//                        if(category_2 != null){
-//                            return category_2;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
-//                {"taregts": 8, 'data': 'category_3',
-//                    "render": function (data, type, row) {
-//                        var category_3 = row.category_3;
-//                        if(category_3 != null){
-//                            return category_3;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
-//                {"taregts": 9, 'data': 'quantity',
-//                    "render": function (data, type, row) {
-//                        var quantity = row.quantity;
-//                        if(quantity != null){
-//                            return quantity;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
-//                {"taregts": 10, 'data': 'name',
-//                    "render": function (data, type, row) {
-//                        var name = row.name;
-//                        if(name != null){
-//                            return name;
-//                        } else {
-//                            return '-';                            
-//                        }
-//                    }
-//                },
+                {"taregts": 6, 'data': 'category_1',
+                    "render": function (data, type, row) {
+                        var category_1 = row.category_1;
+                        if(category_1 != null){
+                            return category_1;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 7, 'data': 'category_2',
+                    "render": function (data, type, row) {
+                        var category_2 = row.category_2;
+                        if(category_2 != null){
+                            return category_2;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 8, 'data': 'category_3',
+                    "render": function (data, type, row) {
+                        var category_3 = row.category_3;
+                        if(category_3 != null){
+                            return category_3;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 9, 'data': 'quantity',
+                    "render": function (data, type, row) {
+                        var quantity = row.quantity;
+                        if(quantity != null){
+                            return quantity;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
+                {"taregts": 10, 'data': 'name',
+                    "render": function (data, type, row) {
+                        var name = row.name;
+                        if(name != null){
+                            return name;
+                        } else {
+                            return '-';                            
+                        }
+                    }
+                },
                 {"taregts": 11, 'data': 'order_date',
                     "render": function (data, type, row) {
                         var order_date = row.order_date;
@@ -281,16 +281,16 @@
                         }
                     }
                 },
-                {"taregts": 15, 'data': 'location',
-                    "render": function (data, type, row) {
-                        var location = row.location;
-                        if(location != null){
-                            return location;
-                        } else {
-                            return '-';                            
-                        }
-                    }
-                },
+//                {"taregts": 15, 'data': 'location',
+//                    "render": function (data, type, row) {
+//                        var location = row.location;
+//                        if(location != null){
+//                            return location;
+//                        } else {
+//                            return '-';                            
+//                        }
+//                    }
+//                },
                 {"taregts": 16, 'data': 'bill_no',
                     "render": function (data, type, row) {
                         var bill_no = row.bill_no;
@@ -334,6 +334,9 @@
                 },
                 
             ]
+        });
+        table.on('draw', function () {
+            table.columns.adjust().responsive.recalc();
         });
         $('#search').on('click', function () {
             table.draw();

@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>Location</label>
+                                        <label>Address</label>
                                         <input type="text" class="form-control" name="location" value="{{ $order_detail->location }}" placeholder="Enter Location" />
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                             <div id="item-section-wrapper">
                                 @if(!$order_detail->items->isEmpty())
                                     @foreach($order_detail->items as $key => $orderItem)
-                                    <div class="item-section row border rounded p-3 mb-3 bg-light">
+                                    <div class="item-section row p-3 mb-3 border rounded bg-light">
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Item*</label>
@@ -114,13 +114,25 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-sm-4">
+                                        <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
-                                                <label>Quantity</label>
-                                                <input type="number" class="form-control" name="quantity[]" value="{{ $orderItem->quantity }}">
+                                                <label>Total Qty</label>
+                                                <input type="text" class="form-control qty-field total-qty" name="quantity[]" value="{{ $orderItem->quantity }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-sm-4">
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Used Qty</label>
+                                                <input type="text" class="form-control qty-field used-qty" name="used_qty[]" value="{{ $orderItem->used_qty }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Remaining Qty</label>
+                                                <input type="text" class="form-control qty-field remaining-qty" name="remaining_qty[]" value="{{ $orderItem->remaining_qty }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Unit</label>
                                                 <select class="form-control select2" name="unit_id[]">
@@ -133,7 +145,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-sm-4">
+                                        <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 1</label>
                                                 <select class="form-control select2 category_1" name="category_1[]">
@@ -143,7 +155,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-sm-4">
+                                        <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 2</label>
                                                 <select class="form-control select2 category_2" name="category_2[]">
@@ -153,7 +165,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-sm-4">
+                                        <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 3</label>
                                                 <select class="form-control select2 category_3" name="category_3[]">
@@ -163,9 +175,8 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-1 col-sm-2 mt-2">
+                                        <div class="col-lg-1 col-sm-2">
                                             <div class="form-group">
-                                                <label></label>
                                                 @if($key == 0)
                                                     <button type="button" class="btn btn-success add-more"><i class="fas fa-plus"></i></button>
                                                 @else
@@ -262,32 +273,105 @@
     });
 </script>
 <script>
+    $(document).on('input', '.qty-field', function () {
+        let val = $(this).val();
+        val = val.replace(/[^0-9]/g, '');
+        $(this).val(val);
+
+//        let section = $(this).closest('.row');
+        let section = $(this).closest('.item-section');
+
+        let total = parseFloat(section.find('.total-qty').val()) || 0;
+        let used = parseFloat(section.find('.used-qty').val()) || 0;
+        let remaining = parseFloat(section.find('.remaining-qty').val()) || 0;
+
+        let changedField = $(this).hasClass('total-qty') ? 'total' :
+                           $(this).hasClass('used-qty') ? 'used' : 'remaining';
+
+        if (changedField === 'total') {
+            // Adjust remaining based on current used
+            section.find('.remaining-qty').val((total - used));
+        } else if (changedField === 'used') {
+            section.find('.remaining-qty').val((total - used));
+        } else if (changedField === 'remaining') {
+            section.find('.used-qty').val((total - remaining));
+        }
+    });
+</script>
+<script>    
+    function customMatcher(params, data) {
+        if ($.trim(params.term) === '') {
+            return data;
+        }
+
+        let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
+        let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+
+        if (text.indexOf(term) > -1) {
+            return data;
+        }
+
+        return null;
+    }
+
+    // Initialize Item select2
+    function initializeSelect2($element) {
+        $element.select2({
+            placeholder: "Select an item",
+            allowClear: true,
+            width: '100%',
+            minimumResultsForSearch: 0,
+            matcher: function(params, data) {
+                if ($.trim(params.term) === '') return data;
+                let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
+                let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
+                return text.indexOf(term) > -1 ? data : null;
+            },
+            language: {
+                noResults: () => "No results found"
+            }
+        }).on('select2:open', function () {
+            let input = $('.select2-search__field');
+            if (input.length) input[0].focus();
+        });
+    }
+
+    initializeSelect2($('.item_id'));
+    initializeSelect2($('.category_1'));
+    initializeSelect2($('.category_2'));
+    initializeSelect2($('.category_3'));
+    initializeSelect2($('.unit_id'));
+    
     $(document).on('click', '.add-more', function () {
         let wrapper = $('#item-section-wrapper');
-        let clone = wrapper.find('.item-section').first().clone();
+        let firstSection = wrapper.find('.item-section').first();
+        let clone = firstSection.clone();
 
         // Clear inputs
         clone.find('input').val('');
-        clone.find('select').val('');
+        clone.find('select').val('').trigger('change');
 
-        // Remove any existing Select2 containers
-        clone.find('select').each(function () {
-            if ($(this).hasClass("select2-hidden-accessible")) {
-                $(this).select2('destroy');
-            }
-        });
+        // Remove previous Select2 DOM wrappers
+        clone.find('.select2-container').remove();
+
+        // Remove select2 from cloned selects to reapply later
+        clone.find('select').removeClass('select2-hidden-accessible').removeAttr('data-select2-id').show();
 
         // Change '+' to '-' and class
         clone.find('.add-more')
-                .removeClass('btn-success add-more')
-                .addClass('btn-danger remove-section')
-                .html('<i class="fas fa-minus"></i>');
+            .removeClass('btn-success add-more')
+            .addClass('btn-danger remove-section')
+            .html('<i class="fas fa-minus"></i>');
 
         // Append the clone
         wrapper.append(clone);
 
-        // Initialize Select2 only on the newly appended selects
-        clone.find('select.select2').select2();
+        // Reinitialize Select2 on new selects
+        initializeSelect2(clone.find('.item_id'));
+        initializeSelect2(clone.find('.category_1'));
+        initializeSelect2(clone.find('.category_2'));
+        initializeSelect2(clone.find('.category_3'));
+        initializeSelect2(clone.find('.unit_id'));
     });
 
     $(document).on('click', '.remove-section', function () {
@@ -295,42 +379,9 @@
     });
 
     $(document).ready(function () {
-        function customMatcher(params, data) {
-            if ($.trim(params.term) === '') {
-                return data;
-            }
-
-            let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
-            let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
-
-            if (text.indexOf(term) > -1) {
-                return data;
-            }
-
-            return null;
-        }
-
         // Initialize Customer select2
         $("#customer_id").select2({
             placeholder: "Select a customer",
-            allowClear: true,
-            minimumResultsForSearch: 0,
-            matcher: customMatcher,
-            language: {
-                noResults: function () {
-                    return "No results found";
-                }
-            }
-        }).on('select2:open', function () {
-            let input = $('.select2-search__field');
-            if (input.length) {
-                input[0].focus();
-            }
-        });
-
-        // Initialize Item select2
-        $("#item_id").select2({
-            placeholder: "Select an item",
             allowClear: true,
             minimumResultsForSearch: 0,
             matcher: customMatcher,

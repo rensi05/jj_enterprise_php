@@ -39,7 +39,7 @@
                                     <th>Sr No</th>
                                     <th>Customer Type</th>
                                     <th>Customer Name</th>
-                                    <th>Location</th>
+                                    <th>Address</th>
                                     <th>Country</th>
                                     <th>State</th>
                                     <th>Type</th>
@@ -216,6 +216,9 @@
                 },
                 
             ]
+        });
+        table.on('draw', function () {
+            table.columns.adjust().responsive.recalc();
         });
         $('#search').on('click', function () {
             table.draw();

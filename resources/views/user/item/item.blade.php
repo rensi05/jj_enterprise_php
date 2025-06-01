@@ -44,7 +44,7 @@
                                     <th>Quantity 1</th>
                                     <th>Unit 1</th>
                                     <th>Remarks</th>
-                                    <th>Location</th>
+                                    <th>Address</th>
                                     <th>Created Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -233,6 +233,9 @@
                 },
                 
             ]
+        });        
+        table.on('draw', function () {
+            table.columns.adjust().responsive.recalc();
         });
         $('#search').on('click', function () {
             table.draw();

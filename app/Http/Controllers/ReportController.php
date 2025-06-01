@@ -22,7 +22,7 @@ class ReportController extends Controller {
 
     public function getCustomerReport(Request $request) {
 
-        $columns = array('id', 'customeplayer_team_coder_name');
+        $columns = array('id', 'customer_name');
         $getfiled = array('id', 'customer_name');
         $condition = array();
         $join_str = array();
@@ -39,20 +39,19 @@ class ReportController extends Controller {
     public function getCustomerOrder(Request $request, $id) {
         $columns = array(
             'o.id', 
-            'o.order_no',
-//            'i.item_name', 
-            'o.address', 
+            'o.order_no', 
+            'i.item_name', 
             'o.order_type', 
-//            'o.category_1', 
-//            'o.category_2', 
-//            'o.category_3', 
-//            'o.quantity', 
-//            'um.name', 
+            'oi.category_1', 
+            'oi.category_2', 
+            'oi.category_3', 
+            'oi.quantity', 
+            'um.name', 
             'o.order_date', 
             'o.delivery_date', 
             'o.close_date', 
             'o.remarks', 
-            'o.location', 
+//            'o.address', 
             'o.bill_no', 
             'o.vehicle_no', 
             'o.status', 
@@ -61,19 +60,19 @@ class ReportController extends Controller {
         $getfiled = array(
             'o.id', 
             'o.order_no', 
-//            'i.item_name', 
-            'o.address', 
+            'i.item_name', 
+//            'o.address', 
             'o.order_type', 
-//            'o.category_1', 
-//            'o.category_2', 
-//            'o.category_3', 
-//            'o.quantity', 
-//            'um.name', 
+            'oi.category_1', 
+            'oi.category_2', 
+            'oi.category_3', 
+            'oi.quantity', 
+            'um.name', 
             'o.order_date', 
             'o.delivery_date', 
             'o.close_date', 
             'o.remarks', 
-            'o.location', 
+//            'o.address', 
             'o.bill_no', 
             'o.vehicle_no', 
             'o.status', 
@@ -89,9 +88,15 @@ class ReportController extends Controller {
         );
         $join_str[1] = array(
             'join_type' => 'left',
+            'table' => 'order_items as oi',
+            'join_table_id' => 'oi.order_id',
+            'from_table_id' => 'o.id'
+        );
+        $join_str[2] = array(
+            'join_type' => 'left',
             'table' => 'items as i',
             'join_table_id' => 'i.id',
-            'from_table_id' => 'o.item_id'
+            'from_table_id' => 'oi.item_id'
         );
         $join_str[3] = array(
             'join_type' => 'left',

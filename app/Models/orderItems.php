@@ -17,6 +17,8 @@ class orderItems extends Model
         'item_id',
         'unit_id',
         'quantity',
+        'used_qty',
+        'remaining_qty',
         'category_1',
         'category_2',
         'category_3',

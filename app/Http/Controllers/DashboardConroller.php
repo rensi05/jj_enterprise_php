@@ -13,6 +13,10 @@ class DashboardConroller extends Controller
     
     public function index(Request $request) {
                 
+        $excludedItems = ['AIR BUBBLE ROLL 1 MTR', 'AIR BUBBLE ROLL 1.5 MTR', 'AIR BUBBLE ROLL 2 MTR', 'BOPP TAP', 'STRETCH FILM ROLL', 'EPE FOAM ROLL'];
+
+        $this->data['otherItems'] = Item::whereNotIn('item_name', $excludedItems)
+            ->pluck('item_name');
         return view('user.dashboard.dashboard', $this->data);
     }
     
@@ -20,6 +24,7 @@ class DashboardConroller extends Controller
         $columns = [
             'oi.category_1',
             'oi.category_2',
+            'oi.category_3',
             DB::raw("SUM(CASE WHEN o.status = 'pending' THEN oi.quantity ELSE 0 END) as pending_order"),
             DB::raw("SUM(CASE WHEN o.status = 'completed' THEN oi.quantity ELSE 0 END) as completed_order"),
             DB::raw("SUM(oi.quantity) as total_order")
@@ -28,6 +33,7 @@ class DashboardConroller extends Controller
         $getfiled = [
             'oi.category_1',
             'oi.category_2',
+            'oi.category_3',
             DB::raw("SUM(CASE WHEN o.status = 'pending' THEN oi.quantity ELSE 0 END) as pending_order"),
             DB::raw("SUM(CASE WHEN o.status = 'completed' THEN oi.quantity ELSE 0 END) as completed_order"),
             DB::raw("SUM(oi.quantity) as total_order")
@@ -59,6 +65,7 @@ class DashboardConroller extends Controller
             'i.item_name',
             'oi.category_1',
             'oi.category_2',
+            'oi.category_3',
             DB::raw("SUM(CASE WHEN o.status = 'pending' THEN oi.quantity ELSE 0 END) as pending_order"),
             DB::raw("SUM(CASE WHEN o.status = 'completed' THEN oi.quantity ELSE 0 END) as completed_order"),
             DB::raw("SUM(oi.quantity) as total_order")
@@ -68,6 +75,7 @@ class DashboardConroller extends Controller
             'i.item_name',
             'oi.category_1',
             'oi.category_2',
+            'oi.category_3',
             DB::raw("SUM(CASE WHEN o.status = 'pending' THEN oi.quantity ELSE 0 END) as pending_order"),
             DB::raw("SUM(CASE WHEN o.status = 'completed' THEN oi.quantity ELSE 0 END) as completed_order"),
             DB::raw("SUM(oi.quantity) as total_order")
@@ -89,6 +97,9 @@ class DashboardConroller extends Controller
             ]
         ];
 
+        if ($request->has('item_name')) {
+            $request['item_name'] = $request->input('item_name');
+        }
         echo Item::OtherItemModel('items as i', $columns, $condition, $getfiled, $request, $join_str);
         exit;
     }

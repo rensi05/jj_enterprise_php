@@ -173,6 +173,9 @@
                 
             ]
         });
+        table.on('draw', function () {
+            table.columns.adjust().responsive.recalc();
+        });
         $('#search').on('click', function () {
             table.draw();
         });

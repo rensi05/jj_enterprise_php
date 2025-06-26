@@ -326,6 +326,11 @@
         clone.find('select').val('').trigger('change');
 
         // Remove previous Select2 DOM wrappers
+        clone.find('.select2').each(function () {
+            if ($(this).hasClass('select2-hidden-accessible')) {
+                $(this).select2('destroy');
+            }
+        });
         clone.find('.select2-container').remove();
 
         // Remove select2 from cloned selects to reapply later
@@ -353,21 +358,6 @@
     });
 
     $(document).ready(function () {
-        function customMatcher(params, data) {
-            if ($.trim(params.term) === '') {
-                return data;
-            }
-
-            let term = params.term.toLowerCase().replace(/[\s.\-]/g, '');
-            let text = (data.text || '').toLowerCase().replace(/[\s.\-]/g, '');
-
-            if (text.indexOf(term) > -1) {
-                return data;
-            }
-
-            return null;
-        }
-
         // Initialize Customer select2
         $("#customer_id").select2({
             placeholder: "Select a customer",

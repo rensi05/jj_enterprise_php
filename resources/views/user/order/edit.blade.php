@@ -352,6 +352,11 @@
         clone.find('select').val('').trigger('change');
 
         // Remove previous Select2 DOM wrappers
+        clone.find('.select2').each(function () {
+            if ($(this).hasClass('select2-hidden-accessible')) {
+                $(this).select2('destroy');
+            }
+        });
         clone.find('.select2-container').remove();
 
         // Remove select2 from cloned selects to reapply later

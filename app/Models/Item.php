@@ -90,6 +90,7 @@ class Item extends Model {
             }
         }
 
+        $data->whereNull('o.deleted_at');
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {
                 for ($i = 0; $i < count($datatable_fields); $i++) {
@@ -176,6 +177,7 @@ class Item extends Model {
             }
         }
 
+        $data->whereNull('o.deleted_at');
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {
                 for ($i = 0; $i < count($datatable_fields); $i++) {

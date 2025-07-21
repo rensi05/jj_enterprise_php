@@ -80,6 +80,12 @@
                                         <input type="date" class="form-control" name="return_date" value="{{$checkbook->return_date}}">
                                     </div>
                                 </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Due Date *</label>
+                                        <input type="date" class="form-control" name="due_date" value="{{$checkbook->due_date}}">
+                                    </div>
+                                </div>
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -111,13 +117,15 @@
                 payee_name: {required: true},
                 cheque_number: {required: true},
                 amount: {required: true, number: true},
-                receiver_name: {required: true}
+                receiver_name: {required: true},
+                due_date: {required: true},
             },
             messages: {
                 payee_name: {required: 'Please enter payee name'},
                 cheque_number: {required: 'Please enter cheque number'},
                 amount: {required: 'Please enter amount', number: 'Only numbers are allowed'},
-                receiver_name: {required: 'Please enter receiver name'}
+                receiver_name: {required: 'Please enter receiver name'},
+                due_date: {required: "Due date is required"},
             }
         });
     });

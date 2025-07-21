@@ -20,11 +20,26 @@ class CheckBookController extends Controller {
 
     public function getcheckbook(Request $request) {
 
-        $columns = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'receiver_name', 'created_at');
-        $getfiled = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'receiver_name','created_at');
+        $columns = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'due_date', 'receiver_name', 'created_at');
+        $getfiled = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'due_date', 'receiver_name','created_at');
+        
         $condition = array();
         $join_str = array();
         echo CheckBook::CheckBookModel('cheque_books', $columns, $condition, $getfiled, $request, $join_str);
+        exit;
+    }
+
+    public function pastCheckBook() {
+        return view('user.checkbook.pastcheckbook');
+    }
+
+    public function getPastCheckBook(Request $request) {
+
+        $columns = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'due_date', 'receiver_name', 'created_at');
+        $getfiled = array('id', 'payee_name', 'cheque_number', 'cheque_date', 'amount', 'drop_date', 'clearing_date', 'return_date', 'due_date', 'receiver_name','created_at');
+        $condition = array();
+        $join_str = array();
+        echo CheckBook::pastCheckBookModel('cheque_books', $columns, $condition, $getfiled, $request, $join_str);
         exit;
     }
 
@@ -38,6 +53,7 @@ class CheckBookController extends Controller {
             'cheque_number' => 'required|max:50',
             'amount' => 'required|numeric|min:0',
             'receiver_name' => 'required|string|max:255',
+            'due_date' => 'required',
         ];
 
         $messages = [
@@ -48,6 +64,7 @@ class CheckBookController extends Controller {
             'amount.numeric' => 'Amount must be a valid number',
             'amount.min' => 'Amount cannot be negative',
             'receiver_name.required' => 'Receiver Name is required',
+            'due_date' => 'Due Date is required',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -70,6 +87,7 @@ class CheckBookController extends Controller {
         $checkbook->drop_date = $request->drop_date;
         $checkbook->clearing_date = $request->clearing_date;
         $checkbook->return_date = $request->return_date;
+        $checkbook->due_date = $request->due_date;
         $checkbook->receiver_name = $request->receiver_name;
         $checkbook->save();
         return redirect()->route('checkbook')->with('success', 'CheckBook added successfully');
@@ -90,6 +108,7 @@ class CheckBookController extends Controller {
             'cheque_number' => 'required|string|max:100',
             'amount' => 'required|numeric|min:0',
             'receiver_name' => 'required|string|max:255',
+            'due_date' => 'required',
         ];
 
         $messages = [
@@ -98,6 +117,7 @@ class CheckBookController extends Controller {
             'amount.required' => 'Please enter amount',
             'amount.numeric' => 'Amount must be a valid number',
             'receiver_name.required' => 'Please enter receiver name',
+            'due_date' => 'Due Date is required',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -124,6 +144,7 @@ class CheckBookController extends Controller {
         $checkbook->drop_date = $request->drop_date;
         $checkbook->clearing_date = $request->clearing_date;
         $checkbook->return_date = $request->return_date;
+        $checkbook->due_date = $request->due_date;
         $checkbook->receiver_name = $request->receiver_name;
         $checkbook->save();
         

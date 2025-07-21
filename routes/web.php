@@ -98,6 +98,8 @@ Route::group(['middleware' => ['auth']], function () {
     //CheckBook
     Route::get('/checkbook', 'CheckBookController@index')->name('checkbook');
     Route::get('/getcheckbook', 'CheckBookController@getCheckBook')->name('getcheckbook');
+    Route::get('/pastcheckbook', 'CheckBookController@pastCheckBook')->name('pastcheckbook');
+    Route::get('/getpastcheckbook', 'CheckBookController@getPastCheckBook')->name('getpastcheckbook');
     Route::get('/addcheckbook', 'CheckBookController@addCheckBook')->name('addcheckbook');
     Route::post('/savecheckbook', 'CheckBookController@saveCheckBook')->name('savecheckbook');
     Route::get('/editcheckbook/{id}', 'CheckBookController@editCheckBook')->name('editcheckbook');

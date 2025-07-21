@@ -73,6 +73,12 @@
                                         <input type="date" class="form-control" name="return_date">
                                     </div>
                                 </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Due Date *</label>
+                                        <input type="date" class="form-control" name="due_date">
+                                    </div>
+                                </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Add</button>
@@ -103,12 +109,14 @@
                 cheque_number: {required: true, maxlength: 50},
                 amount: {required: true, number: true, min: 0},
                 receiver_name: {required: true, maxlength: 255},
+                due_date: {required: true},
             },
             messages: {
                 payee_name: {required: "Payee Name is required", maxlength: "Maximum 255 characters"},
                 cheque_number: {required: "Cheque Number is required", maxlength: "Maximum 50 characters"},
                 amount: {required: "Amount is required", number: "Enter a valid amount", min: "Amount cannot be negative"},
                 receiver_name: {required: "Receiver Name is required", maxlength: "Maximum 255 characters"},
+                due_date: {required: "Due date is required"},
             },
             errorElement: "span",
             errorPlacement: function (error, element) {

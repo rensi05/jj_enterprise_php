@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">                    
+                <div class="card">
                     @php($current_route = Route::currentRouteName())
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="{{ ( $current_route == 'order' ) ? 'active' : '' }}">

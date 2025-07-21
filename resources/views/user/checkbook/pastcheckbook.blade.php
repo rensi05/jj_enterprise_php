@@ -28,10 +28,10 @@
                     @php($current_route = Route::currentRouteName())
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="{{ ( $current_route == 'checkbook' ) ? 'active' : '' }}">
-                            <a href="{{route('checkbook')}}" class="nav-link active">Current Check Book</a>
+                            <a href="{{route('checkbook')}}" class="nav-link">Current Check Book</a>
                         </li>
                         <li class="{{ ( $current_route == 'pastcheckbook' ) ? 'active' : '' }}">
-                            <a href="{{route('pastcheckbook')}}" class="nav-link">Past Check Book</a>
+                            <a href="{{route('pastcheckbook')}}" class="nav-link active">Past Check Book</a>
                         </li>
                     </ul>
                     <div class="card-body">
@@ -54,7 +54,6 @@
                             </thead>
                             <tbody></tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -92,7 +91,7 @@
             "autoWidth": false,
             "order": [[0, "DESC"]],
             "ajax": {
-                url: user_path + 'getcheckbook',
+                url: user_path + 'getpastcheckbook',
                 type: "GET",
             },
             "columns": [

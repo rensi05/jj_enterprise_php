@@ -166,6 +166,40 @@
 @section('javascript')
 <script>
     var getFirstItemBaseUrl = "{{ url('getfirstitem') }}";
+    var orderListUrl = "{{ url('order') }}";
+    var pastOrderListUrl = "{{ url('pastorder') }}";
+
+    function escapeHtml(value) {
+        return $('<div>').text(value == null ? '' : value).html();
+    }
+
+    function buildOrderListUrl(itemName, row, listType, clickedField) {
+        var params = new URLSearchParams();
+        var resolvedItem = itemName || row.item_name || '';
+        if (resolvedItem) {
+            params.set('item_name', resolvedItem);
+        }
+        if (clickedField === 'category_1') {
+            if (row.category_1) params.set('category_1', row.category_1);
+        } else if (clickedField === 'category_2') {
+            if (row.category_1) params.set('category_1', row.category_1);
+            if (row.category_2) params.set('category_2', row.category_2);
+        } else {
+            if (row.category_1) params.set('category_1', row.category_1);
+            if (row.category_2) params.set('category_2', row.category_2);
+            if (row.category_3) params.set('category_3', row.category_3);
+        }
+        var path = listType === 'completed' ? pastOrderListUrl : orderListUrl;
+        var query = params.toString();
+        return query ? path + '?' + query : path;
+    }
+
+    function categoryLink(value, itemName, row, clickedField, listType) {
+        if (value === null || value === undefined || value === '') {
+            return '-';
+        }
+        return '<a href="' + buildOrderListUrl(itemName, row, listType || 'pending', clickedField) + '">' + escapeHtml(value) + '</a>';
+    }
 </script>
 <script>
     var user_path = "{{ env('APP_URL') }}";
@@ -198,11 +232,21 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    { targets: 1, data: 'category_1' },
-                    { targets: 2, data: 'category_2' },
-                    { targets: 3, data: 'category_3' },
-                    { targets: 4, data: 'pending_order' },
-                    { targets: 5, data: 'completed_order' },
+                    { targets: 1, data: 'category_1', render: function (data, type, row) {
+                        return categoryLink(data, $('#air_bubble_filter').val(), row, 'category_1');
+                    }},
+                    { targets: 2, data: 'category_2', render: function (data, type, row) {
+                        return categoryLink(data, $('#air_bubble_filter').val(), row, 'category_2');
+                    }},
+                    { targets: 3, data: 'category_3', render: function (data, type, row) {
+                        return categoryLink(data, $('#air_bubble_filter').val(), row, 'category_3');
+                    }},
+                    { targets: 4, data: 'pending_order', render: function (data, type, row) {
+                        return categoryLink(data, $('#air_bubble_filter').val(), row, 'pending');
+                    }},
+                    { targets: 5, data: 'completed_order', render: function (data, type, row) {
+                        return categoryLink(data, $('#air_bubble_filter').val(), row, 'completed', 'completed');
+                    }},
                     { targets: 6, data: 'total_order' }
                 ]
             });
@@ -244,16 +288,21 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'category_1'
-                },
-                {"taregts": 2, 'data': 'category_2'
-                },
-                {"taregts": 3, 'data': 'category_3'
-                },
-                {"taregts": 4, 'data': 'pending_order'
-                },
-                {"taregts": 5, 'data': 'completed_order'
-                },
+                {"taregts": 1, 'data': 'category_1', render: function (data, type, row) {
+                    return categoryLink(data, 'BOPP TAP', row, 'category_1');
+                }},
+                {"taregts": 2, 'data': 'category_2', render: function (data, type, row) {
+                    return categoryLink(data, 'BOPP TAP', row, 'category_2');
+                }},
+                {"taregts": 3, 'data': 'category_3', render: function (data, type, row) {
+                    return categoryLink(data, 'BOPP TAP', row, 'category_3');
+                }},
+                {"taregts": 4, 'data': 'pending_order', render: function (data, type, row) {
+                    return categoryLink(data, 'BOPP TAP', row, 'pending');
+                }},
+                {"taregts": 5, 'data': 'completed_order', render: function (data, type, row) {
+                    return categoryLink(data, 'BOPP TAP', row, 'completed', 'completed');
+                }},
                 {"taregts": 6, 'data': 'total_order'
                 },
             ]
@@ -279,16 +328,21 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'category_1'
-                },
-                {"taregts": 2, 'data': 'category_2'
-                },
-                {"taregts": 3, 'data': 'category_3'
-                },
-                {"taregts": 4, 'data': 'pending_order'
-                },
-                {"taregts": 5, 'data': 'completed_order'
-                },
+                {"taregts": 1, 'data': 'category_1', render: function (data, type, row) {
+                    return categoryLink(data, 'STRETCH FILM ROLL', row, 'category_1');
+                }},
+                {"taregts": 2, 'data': 'category_2', render: function (data, type, row) {
+                    return categoryLink(data, 'STRETCH FILM ROLL', row, 'category_2');
+                }},
+                {"taregts": 3, 'data': 'category_3', render: function (data, type, row) {
+                    return categoryLink(data, 'STRETCH FILM ROLL', row, 'category_3');
+                }},
+                {"taregts": 4, 'data': 'pending_order', render: function (data, type, row) {
+                    return categoryLink(data, 'STRETCH FILM ROLL', row, 'pending');
+                }},
+                {"taregts": 5, 'data': 'completed_order', render: function (data, type, row) {
+                    return categoryLink(data, 'STRETCH FILM ROLL', row, 'completed', 'completed');
+                }},
                 {"taregts": 6, 'data': 'total_order'
                 },
             ]
@@ -314,16 +368,21 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'category_1'
-                },
-                {"taregts": 2, 'data': 'category_2'
-                },
-                {"taregts": 3, 'data': 'category_3'
-                },
-                {"taregts": 4, 'data': 'pending_order'
-                },
-                {"taregts": 5, 'data': 'completed_order'
-                },
+                {"taregts": 1, 'data': 'category_1', render: function (data, type, row) {
+                    return categoryLink(data, 'EPE FOAM ROLL', row, 'category_1');
+                }},
+                {"taregts": 2, 'data': 'category_2', render: function (data, type, row) {
+                    return categoryLink(data, 'EPE FOAM ROLL', row, 'category_2');
+                }},
+                {"taregts": 3, 'data': 'category_3', render: function (data, type, row) {
+                    return categoryLink(data, 'EPE FOAM ROLL', row, 'category_3');
+                }},
+                {"taregts": 4, 'data': 'pending_order', render: function (data, type, row) {
+                    return categoryLink(data, 'EPE FOAM ROLL', row, 'pending');
+                }},
+                {"taregts": 5, 'data': 'completed_order', render: function (data, type, row) {
+                    return categoryLink(data, 'EPE FOAM ROLL', row, 'completed', 'completed');
+                }},
                 {"taregts": 6, 'data': 'total_order'
                 },
             ]
@@ -352,18 +411,24 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'item_name'
-                },
-                {"taregts": 2, 'data': 'category_1'
-                },
-                {"taregts": 3, 'data': 'category_2'
-                },
-                {"taregts": 4, 'data': 'category_3'
-                },
-                {"taregts": 5, 'data': 'pending_order'
-                },
-                {"taregts": 6, 'data': 'completed_order'
-                },
+                {"taregts": 1, 'data': 'item_name', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'item_name');
+                }},
+                {"taregts": 2, 'data': 'category_1', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'category_1');
+                }},
+                {"taregts": 3, 'data': 'category_2', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'category_2');
+                }},
+                {"taregts": 4, 'data': 'category_3', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'category_3');
+                }},
+                {"taregts": 5, 'data': 'pending_order', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'pending');
+                }},
+                {"taregts": 6, 'data': 'completed_order', render: function (data, type, row) {
+                    return categoryLink(data, row.item_name, row, 'completed', 'completed');
+                }},
                 {"taregts": 7, 'data': 'total_order'
                 },
             ]

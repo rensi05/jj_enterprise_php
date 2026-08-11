@@ -138,6 +138,9 @@ class Customer extends Model {
             }
         }
         $data->whereNull('o.deleted_at');
+        $data->where(function ($query) {
+            $query->whereNull('oi.deleted_at')->orWhereNull('oi.id');
+        });
         $data->where('o.status', 'pending');
 
         if ($request['search']['value'] != '') {
@@ -190,6 +193,9 @@ class Customer extends Model {
 
         $data->Where(function ($query) use ($id) {
             $query->where('o.customer_id',$id);
+        });
+        $data->where(function ($query) {
+            $query->whereNull('oi.deleted_at')->orWhereNull('oi.id');
         });
         
         if ($request['search']['value'] != '') {

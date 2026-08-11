@@ -22,8 +22,9 @@ class OrderController extends Controller {
 
     public $data = [];
 
-    public function index() {
-        return view('user.order.order');
+    public function index(Request $request) {
+        $this->data = array_merge($this->data, $this->orderFilterViewData($request));
+        return view('user.order.order', $this->data);
     }
 
     public function getOrder(Request $request) {
@@ -100,8 +101,9 @@ class OrderController extends Controller {
         exit;
     }
 
-    public function pastOrder() {
-        return view('user.order.pastorder');
+    public function pastOrder(Request $request) {
+        $this->data = array_merge($this->data, $this->orderFilterViewData($request));
+        return view('user.order.pastorder', $this->data);
     }
 
     public function getPastOrder(Request $request) {
@@ -314,12 +316,12 @@ class OrderController extends Controller {
             $edit_order->status = 'completed';
         }
         $edit_order->save();
-        
-        OrderItems::where('order_id', $edit_order->id)->delete();
+
+        orderItems::withTrashed()->where('order_id', $edit_order->id)->forceDelete();
 
         foreach ($request->item_id as $key => $item_id) {
             if ($item_id != '') {
-                OrderItems::create([
+                orderItems::create([
                     'order_id' => $edit_order->id,
                     'item_id' => $item_id,
                     'quantity' => $request->quantity[$key],
@@ -483,6 +485,39 @@ class OrderController extends Controller {
                 'location' => $customer->location
             ]
         ]);
+    }
+
+    private function orderFilterViewData(Request $request): array
+    {
+        $mergeCategories = function (string $column) {
+            $fromOrders = orderItems::whereNull('deleted_at')
+                ->whereNotNull($column)
+                ->where($column, '!=', '')
+                ->distinct()
+                ->pluck($column);
+            $fromMaster = ItemCategory::whereNull('deleted_at')
+                ->whereNotNull($column)
+                ->where($column, '!=', '')
+                ->distinct()
+                ->pluck($column);
+
+            return $fromOrders->merge($fromMaster)->unique()->sort()->values();
+        };
+
+        return [
+            'filterCustomers' => Customer::where('status', 'active')->orderBy('customer_name')->get(),
+            'filterItems' => Item::where('status', 'active')->orderBy('item_name')->get(),
+            'filterCategory1' => $mergeCategories('category_1'),
+            'filterCategory2' => $mergeCategories('category_2'),
+            'filterCategory3' => $mergeCategories('category_3'),
+            'selectedFilters' => [
+                'item_name' => $request->get('item_name', ''),
+                'customer_id' => $request->get('customer_id', ''),
+                'category_1' => $request->get('category_1', ''),
+                'category_2' => $request->get('category_2', ''),
+                'category_3' => $request->get('category_3', ''),
+            ],
+        ];
     }
 
 }

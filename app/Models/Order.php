@@ -29,6 +29,28 @@ class Order extends Model
         return $this->hasMany(orderItems::class, 'order_id');
     }
 
+    public static function applyListFilters($query, $request)
+    {
+        $itemName = trim((string) ($request['item_name'] ?? ''));
+        if ($itemName !== '') {
+            $query->where('i.item_name', $itemName);
+        }
+
+        $customerId = $request['customer_id'] ?? '';
+        if ($customerId !== '' && $customerId !== null) {
+            $query->where('o.customer_id', $customerId);
+        }
+
+        foreach (['category_1', 'category_2', 'category_3'] as $field) {
+            $value = trim((string) ($request[$field] ?? ''));
+            if ($value !== '') {
+                $query->where('oi.'.$field, $value);
+            }
+        }
+
+        return $query;
+    }
+
     public static function OrderModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
         DB::enableQueryLog();
         $output = array();
@@ -44,7 +66,11 @@ class Order extends Model
             }
         }
         $data->whereNull('o.deleted_at');
+        $data->where(function ($query) {
+            $query->whereNull('oi.deleted_at')->orWhereNull('oi.id');
+        });
         $data->where('o.status', 'pending');
+        self::applyListFilters($data, $request);
 
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {
@@ -94,7 +120,11 @@ class Order extends Model
             }
         }
         $data->whereNull('o.deleted_at');
+        $data->where(function ($query) {
+            $query->whereNull('oi.deleted_at')->orWhereNull('oi.id');
+        });
         $data->where('o.status', 'completed');
+        self::applyListFilters($data, $request);
 
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {

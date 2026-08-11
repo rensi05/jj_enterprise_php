@@ -840,3 +840,101 @@ span.pip .icon-remove svg {
 .select2-container--default .select2-selection--single .select2-selection__clear {
     display: none !important;
 }
+
+.card .nav-tabs.order-page-tabs {
+    padding: 12px 16px 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card .nav-tabs.order-page-tabs .nav-item {
+    margin-bottom: -1px;
+}
+
+.card .nav-tabs.order-page-tabs .nav-link {
+    color: #6c757d;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    padding: 10px 18px;
+}
+
+.card .nav-tabs.order-page-tabs .nav-link:hover {
+    color: #17a2b8;
+    border-color: transparent;
+}
+
+.card .nav-tabs.order-page-tabs .nav-link.active {
+    color: #17a2b8;
+    background: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.order-filters {
+    display: grid;
+    grid-template-columns: minmax(160px, 1.3fr) minmax(160px, 1.3fr) minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 16px;
+}
+
+.order-filter-field label {
+    display: block;
+    width: auto;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: visible;
+    font-size: 13px;
+    color: #495057;
+}
+
+.order-filters .select2-container {
+    width: 100% !important;
+    display: block;
+}
+
+.order-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 1px;
+}
+
+.order-filters .btn-primary,
+.order-filters .btn-default {
+    width: auto;
+    min-width: 88px;
+    height: 38px;
+    line-height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.order-filters .btn-default {
+    border: 1px solid #ced4da;
+    background: #fff;
+    color: #495057;
+}
+
+.order-filters .btn-default:hover {
+    background: #f4f6f9;
+    color: #1f272e;
+    text-decoration: none;
+}
+
+@media (max-width: 1199px) {
+    .order-filters {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .order-filter-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 767px) {
+    .order-filters {
+        grid-template-columns: 1fr;
+    }
+}

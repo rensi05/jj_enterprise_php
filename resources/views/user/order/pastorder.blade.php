@@ -29,15 +29,16 @@
             <div class="col-12">
                 <div class="card">
                     @php($current_route = Route::currentRouteName())
-                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                        <li class="{{ ( $current_route == 'order' ) ? 'active' : '' }}">
-                            <a href="{{route('order')}}" class="nav-link">Current Order</a>
+                    <ul class="nav nav-tabs order-page-tabs" id="custom-tabs-one-tab" role="tablist">
+                        <li class="nav-item">
+                            <a href="{{route('order')}}" class="nav-link {{ $current_route == 'order' ? 'active' : '' }}">Current Order</a>
                         </li>
-                        <li class="{{ ( $current_route == 'pastorder' ) ? 'active' : '' }}">
-                            <a href="{{route('pastorder')}}" class="nav-link active">Past Order</a>
+                        <li class="nav-item">
+                            <a href="{{route('pastorder')}}" class="nav-link {{ $current_route == 'pastorder' ? 'active' : '' }}">Past Order</a>
                         </li>
                     </ul>
                     <div class="card-body">
+                        @include('user.order.filters', ['resetRoute' => route('pastorder')])
                         <table id="email_datatable" class="table table-bordered table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
@@ -132,6 +133,13 @@
             "ajax": {
                 url: user_path + 'getpastorder',
                 type: "GET",
+                data: function (d) {
+                    d.customer_id = $('#filter_customer_id').val();
+                    d.item_name = $('#filter_item_name').val();
+                    d.category_1 = $('#filter_category_1').val();
+                    d.category_2 = $('#filter_category_2').val();
+                    d.category_3 = $('#filter_category_3').val();
+                }
             },
             "columns": [
                 {"taregts": 0, 'data': 'id', "searchable": false, "orderable": false,
@@ -340,6 +348,16 @@
         });
         $('#search').on('click', function () {
             table.draw();
+        });
+        $('#apply_order_filters').on('click', function () {
+            table.draw();
+        });
+        $('#filter_customer_id, #filter_item_name, #filter_category_1, #filter_category_2, #filter_category_3').on('change', function () {
+            table.draw();
+        });
+        $('.order-filters .select2').select2({
+            allowClear: true,
+            width: '100%'
         });
     });
     

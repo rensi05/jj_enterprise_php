@@ -335,8 +335,10 @@
                     "render": function (data, type, row) {
                         var id = row.id;
                         var out = '';
-                        out += '<a title="Edit " href="{{url("editorder")}}/' + id + '" class="btn btn-primary waves-effect waves-light">Edit</a>&nbsp;&nbsp;&nbsp;';
-                        out += '<button title="Delete Order" class="btn btn-danger waves-effect waves-light" onClick="deleteOrder(' + id + ');">Delete</button>';
+                        out += '<div style="display: flex; gap: 5px; flex-wrap: nowrap;">';
+                        out += '<a title="Edit" href="{{url("editorder")}}/' + id + '" class="btn btn-primary btn-sm waves-effect waves-light" style="white-space: nowrap;">Edit</a>';
+                        out += '<button title="Delete Order" class="btn btn-danger btn-sm waves-effect waves-light" onClick="deleteOrder(' + id + ');" style="white-space: nowrap;">Delete</button>';
+                        out += '</div>';
                         return out;
                     }
                 },

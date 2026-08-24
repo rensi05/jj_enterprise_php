@@ -199,19 +199,56 @@
                             </li>
                             <?php
                             $order = '';
-                            if ($current_route == 'order' || 
-                                    $current_route == 'pastorder' || 
-                                    $current_route == 'addorder' || 
+                            $addorder_active = '';
+                            $vieworder_active = '';
+                            $pastorder_active = '';
+
+                            if ($current_route == 'order' ||
+                                    $current_route == 'pastorder' ||
+                                    $current_route == 'addorder' ||
                                     $current_route == 'editorder'
                             ) {
                                 $order = 'active';
                             }
+
+                            if ($current_route == 'addorder') {
+                                $addorder_active = 'active';
+                            }
+                            if ($current_route == 'order' || $current_route == 'editorder') {
+                                $vieworder_active = 'active';
+                            }
+                            if ($current_route == 'pastorder') {
+                                $pastorder_active = 'active';
+                            }
                             ?>
-                            <li class="nav-item">
-                                <a href="{{route('order')}}" class="nav-link {{$order}} ">
+                            <li class="nav-item has-treeview {{$order}} {{ $order == 'active' ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{$order}} ">
                                     <i class="fa fa-shopping-basket nav-icon"></i>
-                                    <p>Order Management</p>
+                                    <p>
+                                        Order Management
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{route('addorder')}}" class="nav-link {{$addorder_active}}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Order</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('order')}}" class="nav-link {{$vieworder_active}}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>View Orders</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('pastorder')}}" class="nav-link {{$pastorder_active}}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Past Orders</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <?php
                             $checkbook = '';

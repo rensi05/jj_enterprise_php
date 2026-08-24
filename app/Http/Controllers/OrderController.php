@@ -183,7 +183,7 @@ class OrderController extends Controller {
 
     public function AddOrder() {
         $this->data['customers'] = Customer::where('status', 'active')->get();
-        $this->data['items'] = Item::where('status', 'active')->get();
+        $this->data['items'] = Item::where('status', 'active')->orderBy('item_name')->get();
         $this->data['units'] = Unit::where('status', 'active')->get();
         return view('user.order.add', $this->data);
     }
@@ -266,7 +266,7 @@ class OrderController extends Controller {
         }
         $this->data['order_detail'] = $order_detail;
         $this->data['customers'] = Customer::where('status', 'active')->get();
-        $this->data['items'] = Item::where('status', 'active')->get();
+        $this->data['items'] = Item::where('status', 'active')->orderBy('item_name')->get();
         $this->data['units'] = Unit::where('status', 'active')->get();
         return view('user.order.edit', $this->data);
     }

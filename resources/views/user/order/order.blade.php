@@ -39,35 +39,33 @@
                     </ul>
                     <div class="card-body">
                         @include('user.order.filters', ['resetRoute' => route('order')])
-                        <div style="direction: rtl; overflow-x: auto;">
-                            <table id="email_datatable" class="table table-bordered table-hover" cellspacing="0" width="100%" style="direction: ltr;">
-                                <thead>
-                                    <tr>
-                                        <th>Sr No</th>
-                                        <th>Order No.</th>
-                                        <th>Customer Name</th>
-                                        <th>Item Name</th>
-                                        <!--<th>Address</th>-->
-                                        <th>Order Type</th>
-                                        <th>Category 1</th>
-                                        <th>Category 2</th>
-                                        <th>Category 3</th>
-                                        <th>Quantity</th>
-                                        <th>Unit</th>
-                                        <th>Order Date</th>
-                                        <th>Delivery Date</th>
-                                        <th>Close Date</th>
-                                        <th>Remarks</th>
-                                        <th>Bill No</th>
-                                        <th>Vehicle No</th>
-                                        <th>Status</th>
-                                        <th>Created Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                        <table id="email_datatable" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Order No.</th>
+                                    <th>Customer Name</th>
+                                    <th>Item Name</th>
+                                    <!--<th>Address</th>-->
+                                    <th>Order Type</th>
+                                    <th>Category 1</th>
+                                    <th>Category 2</th>
+                                    <th>Category 3</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Order Date</th>
+                                    <th>Delivery Date</th>
+                                    <th>Close Date</th>
+                                    <th>Remarks</th>
+                                    <th>Bill No</th>
+                                    <th>Vehicle No</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
 
                     </div>
                 </div>

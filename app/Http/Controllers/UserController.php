@@ -22,8 +22,8 @@ class UserController extends Controller {
 
     public function getuser(Request $request) {
 
-        $columns = array('id', 'name', 'email', 'created_at');
-        $getfiled = array('id', 'name', 'email', 'created_at');
+        $columns = array('id', 'user_name', 'email', 'phone_number', 'created_at', 'status');
+        $getfiled = array('id', 'user_name', 'email', 'phone_number', 'created_at', 'status');
         $condition = array();
         $join_str = array();
         echo User::UserModel('users', $columns, $condition, $getfiled, $request, $join_str);
@@ -36,17 +36,18 @@ class UserController extends Controller {
 
     public function Saveuser(Request $request) {
         $rules = [
-            'name' => 'required|min:2|max:200',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'user_name' => 'required|min:2|max:200',
+            'email' => 'string|email|max:255|unique:users,email,NULL,NULL,deleted_at,NULL',
+            'phone_number' => 'required',
         ];
 
         $messages = [
-            'name.required' => 'Please enter user name',
-            'name.min' => 'User name should be at least :min characters',
-            'name.max' => 'User name should not exceed :max characters',
-            'email.required' => 'Please enter email address',
+            'user_name.required' => 'Please enter user name',
+            'user_name.min' => 'User name should be at least :min characters',
+            'user_name.max' => 'User name should not exceed :max characters',
             'email.email' => 'Please enter valid email address.',
             'email.unique' => 'Email already exists.',
+            'phone_number.required' => 'Please enter your phone number.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -55,12 +56,25 @@ class UserController extends Controller {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt('password123');
-        $user->save();
+        $existingUser = User::where('user_name', $request->user_name)->first();
+        if ($existingUser) {
+            return redirect()->back()->with('error', 'User already exists')->withInput();
+        }
+        
+        if (User::where('phone_number', '=', str_replace("-", "", $request->phone_number))->exists()) {
+            return redirect()->back()->with('error', 'Phone number is already registered')->withInput();
+        }
+        if(isset($request->email) && !empty($request->email)){
+            if (User::where('email', '=', $request->email)->exists()) {
+                return redirect()->back()->with('error', 'Email already exists')->withInput();
+            }
+        }
 
+        $user = new User();
+        $user->user_name = $request->user_name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->save();
         return redirect()->route('user')->with('success', 'User added successfully');
     }
 
@@ -76,14 +90,14 @@ class UserController extends Controller {
     public function UpdateUser(Request $request) {
         $userID = base64_decode($request->user_id);
         $rules = [
-            'name' => 'required|min:2|max:200',
+            'user_name' => 'required|min:2|max:200',
             'email' => 'required|string|email|max:250',
         ];
 
         $messages = [
-            'name.required' => 'Please enter user name',
-            'name.min' => 'User name should be at least :min characters',
-            'name.max' => 'User name should not exceed :max characters',
+            'user_name.required' => 'Please enter user name',
+            'user_name.min' => 'User name should be at least :min characters',
+            'user_name.max' => 'User name should not exceed :max characters',
             'email.required' => 'Please enter a email address.',
             'email.email' => 'Please enter valid email address.',
         ];
@@ -99,12 +113,13 @@ class UserController extends Controller {
         if (!$users->isEmpty()) {
             return redirect()->back()->with('error', 'Email is already registered');
         }
-
+        
         $user = User::find(base64_decode($request->user_id));
-        $user->name = $request->name;
+        $user->user_name = $request->user_name;
         $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
         $user->save();
-
+        
         return redirect()->route('user')->with('success', 'User updated successfully');
     }
 

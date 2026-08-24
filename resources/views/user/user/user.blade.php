@@ -36,7 +36,9 @@
                                     <th>Sr No</th>
                                     <th>User Name</th>
                                     <th>Email</th>
+                                    <th>Phone Number</th>
                                     <th>Created Date</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -89,11 +91,26 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {"taregts": 1, 'data': 'name'
+                {"taregts": 1, 'data': 'user_name'
                 },
-                {"taregts": 2, 'data': 'email'
+                {"taregts": 1, 'data': 'email'
                 },
-                {"taregts": 3, 'data': 'created_at'
+                {"taregts": 1, 'data': 'phone_number'
+                },
+                {"taregts": 2, 'data': 'created_at'
+                },
+                {"taregts": 3, 'data': 'status', "searchable": false, "orderable": false,
+                    "render": function (data, type, row) {
+                        var status = row.status;
+                        var id = row.id;
+                        var out = '';
+                        if (status == "active") {
+                            out += '<button title="Active" class="btn btn-success waves-effect waves-light" onClick="changeuserStatusModal(' + id + ')">Active</button>&nbsp;&nbsp;&nbsp;';
+                        } else {
+                            out += '<button title="Inactive" class="btn btn-danger waves-effect waves-light" onClick="changeuserStatusModal(' + id + ')">Inactive</button>';
+                        }
+                        return out;
+                    }
                 },
                 {"taregts": 4, "searchable": false, "orderable": false,
                     "render": function (data, type, row) {
@@ -103,7 +120,8 @@
                         out += '<button title="Delete User" class="btn btn-danger waves-effect waves-light" onClick="deleteUser(' + id + ');">Delete</button>';
                         return out;
                     }
-                }
+                },
+                
             ]
         });
         $('#search').on('click', function () {

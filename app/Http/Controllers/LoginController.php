@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Common;
 use App\Models\Admin;
+use App\Models\UserSession;
 use Auth;
 use Hash;
 use Session;
@@ -55,14 +56,56 @@ class LoginController extends Controller
         }
         
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+
+            UserSession::create([
+                'user_id' => $user->id,
+                'device_name' => $this->getDeviceName($request),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'login_at' => now(),
+                'status' => 'active',
+            ]);
+
             return redirect()->route('dashboard');
         }
         return redirect()->back()->with('error', 'Email and password does not match')->withInput($request->all);
     }
     
     public function logout(Request $request) {
+        $user = Auth::user();
+
+        if ($user) {
+            $userAgent = $request->userAgent();
+            UserSession::where('user_id', $user->id)
+                ->where('user_agent', $userAgent)
+                ->where('status', 'active')
+                ->latest()
+                ->first()
+                ?->markLogout();
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         return redirect()->route('login');
+    }
+
+    private function getDeviceName($request)
+    {
+        $userAgent = $request->userAgent();
+
+        if (strpos($userAgent, 'Windows') !== false) {
+            return 'Windows';
+        } elseif (strpos($userAgent, 'Mac') !== false) {
+            return 'Mac';
+        } elseif (strpos($userAgent, 'iPhone') !== false) {
+            return 'iPhone';
+        } elseif (strpos($userAgent, 'Android') !== false) {
+            return 'Android';
+        } elseif (strpos($userAgent, 'Linux') !== false) {
+            return 'Linux';
+        }
+
+        return 'Unknown';
     }
 }

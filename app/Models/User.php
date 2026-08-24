@@ -45,6 +45,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function sessions()
+    {
+        return $this->hasMany(UserSession::class);
+    }
+
+    public function activeSessions()
+    {
+        return $this->sessions()->where('status', 'active')->whereNull('logout_at');
+    }
     
      public static function UserModel($table_name, $datatable_fields, $conditions_array, $getfiled, $request, $join_str = array()) {
         DB::enableQueryLog();

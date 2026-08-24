@@ -126,5 +126,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/getcustomerreport', 'ReportController@getCustomerReport')->name('getcustomerreport');
     Route::get('/viewcustomerreport/{customer_id}', 'ReportController@viewCustomerReport')->name('viewcustomerreport');
     Route::get('/getcustomerorder/{customer_id}', 'ReportController@getCustomerOrder')->name('getcustomerorder');
-    
+
+    //Session Management
+    Route::get('/active-sessions', 'SessionManagementController@activeSessions')->name('active-sessions');
+    Route::post('/logout-session/{sessionId}', 'SessionManagementController@logoutSession')->name('logout-session');
+    Route::post('/logout-other-sessions', 'SessionManagementController@logoutAllOtherSessions')->name('logout-other-sessions');
+
 });

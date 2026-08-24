@@ -58,14 +58,19 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
-            UserSession::create([
-                'user_id' => $user->id,
-                'device_name' => $this->getDeviceName($request),
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
-                'login_at' => now(),
-                'status' => 'active',
-            ]);
+            try {
+                UserSession::create([
+                    'user_id' => $user->id,
+                    'device_name' => $this->getDeviceName($request),
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'login_at' => now(),
+                    'status' => 'active',
+                ]);
+            } catch (\Exception $e) {
+                // Skip session tracking if user doesn't exist in users table
+                // This can happen if Admin user is not in users table
+            }
 
             return redirect()->route('dashboard');
         }

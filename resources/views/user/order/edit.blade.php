@@ -148,31 +148,19 @@
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 1</label>
-                                                <select class="form-control select2 category_1" name="category_1[]">
-                                                    @if($orderItem->category_1)
-                                                    <option selected value="{{ $orderItem->category_1 }}">{{ $orderItem->category_1 }}</option>
-                                                    @endif
-                                                </select>
+                                                <select class="form-control select2 category_1" name="category_1[]" data-item-id="{{ $orderItem->item_id }}" data-selected="{{ $orderItem->category_1 }}"></select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 2</label>
-                                                <select class="form-control select2 category_2" name="category_2[]">
-                                                    @if($orderItem->category_2)
-                                                    <option selected value="{{ $orderItem->category_2 }}">{{ $orderItem->category_2 }}</option>
-                                                    @endif
-                                                </select>
+                                                <select class="form-control select2 category_2" name="category_2[]" data-item-id="{{ $orderItem->item_id }}" data-selected="{{ $orderItem->category_2 }}"></select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="form-group">
                                                 <label>Category 3</label>
-                                                <select class="form-control select2 category_3" name="category_3[]">
-                                                    @if($orderItem->category_3)
-                                                    <option selected value="{{ $orderItem->category_3 }}">{{ $orderItem->category_3 }}</option>
-                                                    @endif
-                                                </select>
+                                                <select class="form-control select2 category_3" name="category_3[]" data-item-id="{{ $orderItem->item_id }}" data-selected="{{ $orderItem->category_3 }}"></select>
                                             </div>
                                         </div>
                                         <div class="col-lg-1 col-sm-2">
@@ -383,6 +371,26 @@
         $(this).closest('.item-section').remove();
     });
 
+    function loadCategories1(section, itemId) {
+        let selectedCat1 = section.find('.category_1').data('selected');
+        let selectedCat2 = section.find('.category_2').data('selected');
+        let cat1Select = section.find('.category_1');
+
+        $.ajax({
+            url: "{{ route('getitemcategory1') }}",
+            type: "GET",
+            data: { item_id: itemId },
+            success: function (res) {
+                cat1Select.empty().append('<option value="">Select Category 1</option>');
+                res.category1.forEach(function (cat) {
+                    let selected = cat === selectedCat1 ? 'selected' : '';
+                    cat1Select.append(`<option value="${cat}" ${selected}>${cat}</option>`);
+                });
+                cat1Select.trigger('change');
+            }
+        });
+    }
+
     $(document).ready(function () {
         // Initialize Customer select2
         $("#customer_id").select2({
@@ -409,6 +417,16 @@
             $('input[name="address"]').val(address);
         });
 
+        // Load categories on page load for existing items
+        $('.item-section').each(function() {
+            let section = $(this);
+            let itemId = section.find('.item_id').val();
+
+            if (itemId) {
+                loadCategories1(section, itemId);
+            }
+        });
+
         // Fetch categories when item changes
         $(document).on('change', '.item_id', function () {
             let itemId = $(this).val();
@@ -423,16 +441,7 @@
             cat3Select.empty().append('<option value="">Select Category 3</option>');
 
             if (itemId) {
-                $.ajax({
-                    url: "{{ route('getitemcategory1') }}",
-                    type: "GET",
-                    data: { item_id: itemId },
-                    success: function (res) {
-                        res.category1.forEach(function (cat) {
-                            cat1Select.append(`<option value="${cat}">${cat}</option>`);
-                        });
-                    }
-                });
+                loadCategories1(section, itemId);
             }
         });
 
@@ -440,6 +449,8 @@
             let category1 = $(this).val();
             let section = $(this).closest('.item-section');
             let itemId = section.find('.item_id').val();
+            let selectedCat2 = section.find('.category_2').data('selected');
+            let selectedCat3 = section.find('.category_3').data('selected');
 
             let cat2Select = section.find('.category_2');
             let cat3Select = section.find('.category_3');
@@ -454,10 +465,12 @@
                     data: { item_id: itemId, category_1: category1 },
                     success: function (res) {
                         res.category2.forEach(function (cat) {
-                            cat2Select.append(`<option value="${cat}">${cat}</option>`);
+                            let selected = cat === selectedCat2 ? 'selected' : '';
+                            cat2Select.append(`<option value="${cat}" ${selected}>${cat}</option>`);
                         });
                         res.category3.forEach(function (cat) {
-                            cat3Select.append(`<option value="${cat}">${cat}</option>`);
+                            let selected = cat === selectedCat3 ? 'selected' : '';
+                            cat3Select.append(`<option value="${cat}" ${selected}>${cat}</option>`);
                         });
                     }
                 });

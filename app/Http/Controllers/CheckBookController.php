@@ -44,6 +44,7 @@ class CheckBookController extends Controller {
     }
 
     public function AddCheckBook() {
+        $this->data['customers'] = DB::table('customers')->where('deleted_at', null)->orderBy('customer_name', 'asc')->get();
         return view('user.checkbook.add', $this->data);
     }
 
@@ -99,6 +100,7 @@ class CheckBookController extends Controller {
             return redirect()->back()->with('error', 'Information not found');
         }
         $this->data['checkbook'] = $checkbook_detail;
+        $this->data['customers'] = DB::table('customers')->where('deleted_at', null)->orderBy('customer_name', 'asc')->get();
         return view('user.checkbook.edit', $this->data);
     }
 

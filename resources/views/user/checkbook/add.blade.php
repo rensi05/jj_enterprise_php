@@ -40,7 +40,14 @@
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
                                         <label>Payee Name *</label>
-                                        <input type="text" class="form-control" name="payee_name" placeholder="Enter Payee Name">
+                                        <select class="form-control select2" name="payee_name" id="payee_name">
+                                            <option value="">Select Customer</option>
+                                            @if(!empty($customers))
+                                                @foreach($customers as $customer)
+                                                <option value="{{ $customer->customer_name }}">{{ $customer->customer_name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
@@ -100,6 +107,12 @@
         $("#amount").on("keyup", function() {
             let val = $(this).val();
             $(this).val(val.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        });
+
+        $("#payee_name").select2({
+            placeholder: "Select Customer",
+            allowClear: true,
+            width: '100%'
         });
     });
     $(document).ready(function () {

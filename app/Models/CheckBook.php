@@ -27,7 +27,7 @@ class CheckBook extends Model
             }
         }
         $data->whereNull('deleted_at');
-        $data->whereDate('due_date', '>=', date('Y-m-d'));
+        $data->whereNull('clearing_date');
 
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {
@@ -77,7 +77,7 @@ class CheckBook extends Model
             }
         }
         $data->whereNull('deleted_at');
-        $data->whereDate('due_date', '<', date('Y-m-d'));
+        $data->whereNotNull('clearing_date');
 
         if ($request['search']['value'] != '') {
             $data->where(function ($query) use ($request, $datatable_fields) {
